@@ -1,0 +1,20 @@
+5 sections
+
+header = navbar
+
+- make it so if you click anywhere but the navbar the openSearch and searchState becomes false, but the value in the searchbar still remains
+- currently if searchState true going from xs to sm breaks the searchbar
+
+sidebar
+
+- press of button expands = persistent drawer
+
+channel banner
+
+channel header
+
+- buttons that switch the display of channel content
+
+channel content
+
+add a scroll bar to the website
