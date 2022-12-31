@@ -1,5 +1,4 @@
-5 sections
-
+General UI
 header = navbar
 
 - make it so if you click anywhere but the navbar the openSearch and searchState becomes false, but the value in the searchbar still remains
@@ -9,12 +8,17 @@ sidebar
 
 - press of button expands = persistent drawer
 
+Youtube Channel Page
 channel banner
 
 channel header
 
-- buttons that switch the display of channel content
-
 channel content
 
-add a scroll bar to the website
+Home Page
+
+big blank screen
+
+Sign In
+
+- using Google Sign In

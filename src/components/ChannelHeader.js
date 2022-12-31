@@ -6,6 +6,7 @@ import {
   Stack,
   Avatar,
   Typography,
+  Button,
 } from "@mui/material";
 import { colors } from "./ColorThemes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -116,17 +117,17 @@ const BtnContainer = styled(Stack)`
   flex-direction: row;
 `;
 
-// const theme = createTheme({
-//   breakpoints: {
-//     values: {
-//       xs: 0,
-//       sm: 686,
-//       md: 973,
-//       lg: 1186,
-//       xl: 1400,
-//     },
-//   },
-// });
+const JoinSubBtn = styled(Button)`
+  border-radius: 20px;
+  background-color: white;
+  color: black;
+  text-transform: none;
+  font-weight: 700;
+  margin-left: 8px;
+  :hover {
+    background-color: #dad9d9;
+  }
+`;
 
 export const ChannelHeader = () => {
   return (
@@ -148,8 +149,8 @@ export const ChannelHeader = () => {
               <Tag>1.0M Subscribers</Tag>
             </InfoContainer>
             <BtnContainer>
-              {/* <JoinBtn />
-              <SubBtn /> */}
+              <JoinSubBtn variant="contained">Join</JoinSubBtn>
+              <JoinSubBtn variant="contained">Subscribe</JoinSubBtn>
             </BtnContainer>
           </InnerContainer>
         </ChannelHeaderInner>
