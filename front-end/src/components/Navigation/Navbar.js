@@ -99,7 +99,7 @@ export const Navbar = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <NaviBar>
+      <NaviBar sx={{ zIndex: 0, position: "fixed" }}>
         {openSearch && windowWidth.width < 650 ? (
           <Toolbar>
             <IconButton

@@ -1,23 +1,24 @@
-General UI
-header = navbar
+Navbar
 
 - make it so if you click anywhere but the navbar the openSearch and searchState becomes false, but the value in the searchbar still remains
 - currently if searchState true going from xs to sm breaks the searchbar
 
-sidebar
+Sidebar
 
 - press of button expands = persistent drawer
 
-Youtube Channel Page
-channel banner
+General Page Container
 
-channel header
+Channel Page
 
-channel content
+- channel banner
+- channel header
+- channel content
 
 Home Page
 
-big blank screen
+- create video component
+- have the main homepage map through an array to display all the videos
 
 Sign In
 

@@ -8,13 +8,12 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { colors } from "./ColorThemes";
+import { colors } from "../ColorThemes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const ChannelHeaderExternal = styled("div")`
   display: flex;
   position: relative;
-  margin-left: 72px;
 `;
 
 const ChannelHeaderMiddle = styled(Box)`

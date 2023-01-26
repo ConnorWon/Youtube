@@ -1,21 +1,22 @@
 import { Stack, Button, styled, Typography } from "@mui/material";
-import { colors } from "./ColorThemes";
+import { colors } from "../ColorThemes";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
-import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+// import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
+import { useNavigate } from "react-router-dom";
 
 const SideMenu = styled(Stack)`
   height: 100%;
   width: 72px;
   position: fixed;
-  top: 56px;
+  top: 0px;
   left: 0;
-  z-index: 1;
+  z-index: 0;
   background-color: ${colors.bgColorDark};
   overflow-x: hidden;
-  padding-top: 20px;
+  margin-top: 56px;
 `;
 
 const SideButton = styled(Button)`
@@ -34,22 +35,23 @@ const Label = styled(Typography)`
 `;
 
 const icons = [
-  ["Home", <HomeOutlinedIcon />],
-  ["Explore", <ExploreOutlinedIcon />],
-  ["Shorts", <SlideshowIcon />],
-  ["Subscriptions", <SubscriptionsOutlinedIcon />],
-  ["Library", <VideoLibraryIcon />],
+  ["/", "Home", <HomeOutlinedIcon />],
+  ["/", "Shorts", <SlideshowIcon />],
+  ["/", "Subscriptions", <SubscriptionsOutlinedIcon />],
+  ["/channel", "Library", <VideoLibraryOutlinedIcon />],
 ];
 
 export const Sidebar = () => {
+  const navigate = useNavigate();
+
   return (
-    <SideMenu sx={{ padding: "0px" }}>
+    <SideMenu>
       {icons.map((icon) => {
         return (
-          <SideButton>
+          <SideButton onClick={() => navigate(icon[0])}>
             <Stack sx={{ alignItems: "center" }}>
-              {icon[1]}
-              <Label>{icon[0]}</Label>
+              {icon[2]}
+              <Label>{icon[1]}</Label>
             </Stack>
           </SideButton>
         );

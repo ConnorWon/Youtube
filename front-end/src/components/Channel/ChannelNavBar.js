@@ -1,7 +1,7 @@
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 import { Box, Tab, styled, ThemeProvider } from "@mui/material";
 import React, { useState } from "react";
-import { colors, theme } from "./ColorThemes";
+import { colors, theme } from "../ColorThemes";
 
 const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};
@@ -17,7 +17,6 @@ const ChannelTab = styled(Tab)`
 
 const ChannelTabPanel = styled(TabPanel)`
   background-color: ${colors.bgColorDark};
-  margin-left: 72px;
   color: white;
 `;
 
@@ -31,9 +30,7 @@ export const ChannelNavBar = () => {
     <ThemeProvider theme={theme}>
       <Box>
         <TabContext value={value}>
-          <TabContainer
-            sx={{ ml: "72px", borderBottom: 1, borderColor: "#393939" }}
-          >
+          <TabContainer sx={{ borderBottom: 1, borderColor: "#393939" }}>
             <TabList
               value={value}
               onChange={handleChange}

@@ -5,7 +5,6 @@ export const ChannelBanner = ({ banner }) => {
     background-image: url(${banner});
     height: calc(16.1290322581vw - 1px);
     background-position: center;
-    margin-left: 72px;
   `;
 
   return <BannerHolder />;
