@@ -18,6 +18,7 @@ Channel Page
 Home Page
 
 - create video component
+  - create details portion of video component
 - have the main homepage map through an array to display all the videos
 
 Sign In

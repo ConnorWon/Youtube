@@ -38,7 +38,6 @@ export const ChannelNavBar = () => {
               scrollButtons="auto"
               textColor="secondary"
               indicatorColor="primary"
-              disableRipple
               sx={{
                 ml: "25px",
                 "& .MuiTabScrollButton-root": {

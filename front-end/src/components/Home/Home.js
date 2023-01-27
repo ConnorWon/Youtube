@@ -7,9 +7,6 @@ export const Home = () => {
   return (
     <div>
       <HomeTabs />
-      <Box>
-        {/* take data from back-end then provide the necessary params for each individual video box */}
-      </Box>
     </div>
   );
 };

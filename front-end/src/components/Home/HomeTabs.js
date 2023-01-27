@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 import { Box, Tab, styled, ThemeProvider } from "@mui/material";
 import { colors, theme } from "../ColorThemes";
+import { VideoDisplay } from "./VideoDisplay";
 
 const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};
@@ -18,10 +19,11 @@ const HomeTab = styled(Tab)`
 const HomeTabPanel = styled(TabPanel)`
   background-color: ${colors.bgColorDark};
   color: white;
+  padding: 0px;
 `;
 
 export const HomeTabs = () => {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -56,7 +58,6 @@ export const HomeTabs = () => {
               scrollButtons="auto"
               textColor="secondary"
               indicatorColor="primary"
-              disableRipple
               sx={{
                 "& .MuiTabScrollButton-root": {
                   color: "#aaaaaa",
@@ -64,14 +65,17 @@ export const HomeTabs = () => {
               }}
             >
               {tabOptions.map((tab) => (
-                <HomeTab label={tab} value={tabCount++} />
+                <HomeTab label={tab} value={(tabCount++).toString()} />
               ))}
               {(tabCount = 0)}
             </TabList>
           </TabContainer>
-          <Box>
+          <Box sx={{ paddingTop: "24px", backgroundColor: colors.bgColorDark }}>
             {tabOptions.map((tab) => (
-              <HomeTabPanel value={tabCount++}>{tab}</HomeTabPanel>
+              <HomeTabPanel value={(tabCount++).toString()}>
+                <VideoDisplay />
+                {/* have to pass videos prop into components after performing a http request */}
+              </HomeTabPanel>
             ))}
           </Box>
         </TabContext>
