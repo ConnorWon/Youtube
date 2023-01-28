@@ -4,6 +4,7 @@ import { Channel } from "./components/Channel/Channel";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { Box, styled } from "@mui/material";
+import { colors } from "./components/ColorThemes";
 
 function App() {
   const PageContainer = styled(Box)`
@@ -12,6 +13,10 @@ function App() {
     position: fixed;
     margin-top: 56px;
     margin-left: 72px;
+    ${
+      "" /* background-color: ${colors.bgColorDark};
+    z-index: -10; */
+    }
   `;
 
   return (

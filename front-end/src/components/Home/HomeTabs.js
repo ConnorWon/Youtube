@@ -70,7 +70,15 @@ export const HomeTabs = () => {
               {(tabCount = 0)}
             </TabList>
           </TabContainer>
-          <Box sx={{ paddingTop: "24px", backgroundColor: colors.bgColorDark }}>
+          <Box
+            sx={{
+              paddingTop: "24px",
+              backgroundColor: colors.bgColorDark,
+              // position: "relative",
+              // top: "49px",
+              // zIndex: "-1",
+            }}
+          >
             {tabOptions.map((tab) => (
               <HomeTabPanel value={(tabCount++).toString()}>
                 <VideoDisplay />
