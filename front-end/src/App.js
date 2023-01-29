@@ -10,13 +10,11 @@ function App() {
   const PageContainer = styled(Box)`
     width: calc(100% - 72px);
     height: calc(100% - 56px);
-    position: fixed;
+    position: relative;
     margin-top: 56px;
     margin-left: 72px;
-    ${
-      "" /* background-color: ${colors.bgColorDark};
-    z-index: -10; */
-    }
+    overflow-x: clip;
+    max-width: 100%;
   `;
 
   return (

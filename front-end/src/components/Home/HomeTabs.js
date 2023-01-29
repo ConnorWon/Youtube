@@ -50,7 +50,16 @@ export const HomeTabs = () => {
     <ThemeProvider theme={theme}>
       <Box>
         <TabContext value={value}>
-          <TabContainer sx={{ borderBottom: 1, borderColor: "#393939" }}>
+          <TabContainer
+            sx={{
+              borderBottom: 1,
+              borderColor: "#393939",
+              paddingRight: "12px",
+              position: "fixed",
+              width: "1353px",
+              display: "flex",
+            }}
+          >
             <TabList
               value={value}
               onChange={handleChange}
@@ -74,9 +83,9 @@ export const HomeTabs = () => {
             sx={{
               paddingTop: "24px",
               backgroundColor: colors.bgColorDark,
-              // position: "relative",
-              // top: "49px",
-              // zIndex: "-1",
+              position: "relative",
+              zIndex: "-1",
+              top: "49px",
             }}
           >
             {tabOptions.map((tab) => (

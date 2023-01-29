@@ -2,10 +2,12 @@ Navbar
 
 - make it so if you click anywhere but the navbar the openSearch and searchState becomes false, but the value in the searchbar still remains
 - currently if searchState true going from xs to sm breaks the searchbar
+- drop down menu from clicking the avatar icon
 
 Sidebar
 
 - press of button expands = persistent drawer
+- expanded sidebar
 
 General Page Container
 
@@ -14,14 +16,20 @@ Channel Page
 - channel banner
 - channel header
 - channel content
+  - add channel content pages
 
 Home Page
 
 - Video Component => take data from backend
 - have the main homepage map through an array to display all the videos
-- make video display page scrollabe
-  - may require creating custom scroll area?
+- scrollbar-thumb overextending slightly
 
 Sign In
 
-- using Google Sign In
+- using Google Sign In API
+
+User Channel Dashboard
+
+Search Result Page
+
+Video Page
