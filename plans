@@ -23,6 +23,7 @@ Home Page
 - Video Component => take data from backend
 - have the main homepage map through an array to display all the videos
 - scrollbar-thumb overextending slightly
+- work on making the ui more dynamic (i.e. looks alright for all window sizes)
 
 Sign In
 

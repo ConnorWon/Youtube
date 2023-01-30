@@ -1,5 +1,5 @@
 import { Navbar } from "./components/Navigation/Navbar";
-import { Sidebar } from "./components/Navigation/Sidebar";
+import { SidebarMini } from "./components/Navigation/SidebarMini";
 import { Channel } from "./components/Channel/Channel";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Sidebar />
+      <SidebarMini />
       <PageContainer>
         <Routes>
           <Route path="/" element={<Home />} />

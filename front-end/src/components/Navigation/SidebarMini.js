@@ -2,7 +2,6 @@ import { Stack, Button, styled, Typography } from "@mui/material";
 import { colors } from "../ColorThemes";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
-// import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +40,7 @@ const icons = [
   ["/channel", "Library", <VideoLibraryOutlinedIcon />],
 ];
 
-export const Sidebar = () => {
+export const SidebarMini = () => {
   const navigate = useNavigate();
 
   return (

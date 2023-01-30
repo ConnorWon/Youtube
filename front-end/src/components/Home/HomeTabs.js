@@ -56,7 +56,7 @@ export const HomeTabs = () => {
               borderColor: "#393939",
               paddingRight: "12px",
               position: "fixed",
-              width: "1353px",
+              width: "-webkit-fill-available",
               display: "flex",
             }}
           >

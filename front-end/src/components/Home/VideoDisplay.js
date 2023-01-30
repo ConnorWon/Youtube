@@ -22,8 +22,17 @@ const text = [
 ];
 
 const VideoOuterContainer = styled(Grid)`
-  height: 270.61px;
   margin: 0px 8px 40px 8px;
+
+  @media only screen and (min-width: 1144px) {
+    max-height: 270.61px;
+    max-width: 313.98px;
+  }
+
+  @media only screen and (min-width: 1800px) {
+    max-height: 293.48px;
+    max-width: 343.98px;
+  }
 `;
 
 // pass a prop that contains an array of video objects

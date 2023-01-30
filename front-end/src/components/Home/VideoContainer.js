@@ -17,7 +17,14 @@ const InnerContainer = styled(Box)`
 const ThumbnailContainer = styled(Box)`
   width: 100%;
   position: relative;
-  height: 176.61px;
+
+  @media only screen and (min-width: 1186px) {
+    max-height: 176.61px;
+  }
+
+  @media only screen and (min-width: 1400px) {
+    max-height: 193.48px;
+  }
 `;
 
 const Thumbnail = styled(Box)`
