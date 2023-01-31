@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { Box, styled } from "@mui/material";
 import { colors } from "./components/ColorThemes";
+import { SidebarExpand } from "./components/Navigation/SidebarExpand";
 
 function App() {
   const PageContainer = styled(Box)`
@@ -20,7 +21,8 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <SidebarMini />
+      {/* <SidebarMini /> */}
+      <SidebarExpand />
       <PageContainer>
         <Routes>
           <Route path="/" element={<Home />} />
