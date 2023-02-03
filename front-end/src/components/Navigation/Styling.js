@@ -72,7 +72,6 @@ export const InnerSidebarContainer = styled(Stack)`
 export const OuterButtonShell = styled(Stack)`
   border-raidus: 10px;
   width: calc(100%-12px);
-  ${"" /* background-color: rgba(255, 255, 255, 0.1); */}
   display: block;
   postion: relative;
 `;
@@ -99,6 +98,11 @@ export const ButtonHighlight = styled(Paper)`
   align-items: center;
   min-height: 40px;
   background-color: ${colors.bgColorDark};
+  border-radius: 10px;
+
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 `;
 
 export const IconHolder = styled(Box)`
@@ -121,4 +125,35 @@ export const SideBarLabel = styled(Typography)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+export const SecondaryButtonsContainer = styled(Stack)`
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 12px;
+  padding-top: 12px;
+`;
+
+export const NotLoggedSubContainer = styled(Stack)`
+  display: inline-block;
+  padding: 16px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+`;
+
+export const NotLoggedMsg = styled(Typography)`
+  font-weight: 500;
+  font-family: Roboto;
+  font-size: 14px;
+  color: #f1f1f1;
+`;
+
+export const SignInContainer = styled("div")`
+  margin-top: 12px;
+`;
+
+export const SignInButton = styled(Button)`
+  border: 1px solid #717171;
+  color: #3ea6ff;
+  border-radius: 18px;
+  text-transform: inherit;
+  font-weight: 600;
 `;
