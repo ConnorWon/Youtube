@@ -59,6 +59,22 @@ export const SidebarContainer = styled(Stack)`
   display: flex;
   flex-direction: column;
   background-color: ${colors.bgColorDark};
+  ::-webkit-scrollbar {
+    width: 0.6vw;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #717171;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 1vw;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #201f1f;
+  }
 `;
 
 export const InnerSidebarContainer = styled(Stack)`
@@ -67,6 +83,24 @@ export const InnerSidebarContainer = styled(Stack)`
   flex-basis: 1e-9px;
   overflow-y: auto;
   width: 240px;
+  :hover {
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(113, 113, 113);
+      border-radius: 1vw;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.6vw;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #201f1f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 `;
 
 export const OuterButtonShell = styled(Stack)`
@@ -85,7 +119,6 @@ export const ButtonAnchor = styled("a")`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 12px;
 `;
 
 export const ButtonHighlight = styled(Paper)`
@@ -117,11 +150,11 @@ export const IconHolder = styled(Box)`
 `;
 
 export const SideBarLabel = styled(Typography)`
-  font-weight: 500;
+  font-weight: 400;
   font-family: Roboto;
   font-size: 14px;
   line-height: 24px;
-  color: white;
+  color: ${colors.textWhite};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -140,10 +173,10 @@ export const NotLoggedSubContainer = styled(Stack)`
 `;
 
 export const NotLoggedMsg = styled(Typography)`
-  font-weight: 500;
+  font-weight: 400;
   font-family: Roboto;
   font-size: 14px;
-  color: #f1f1f1;
+  color: ${colors.textWhite};
 `;
 
 export const SignInContainer = styled("div")`
@@ -155,5 +188,14 @@ export const SignInButton = styled(Button)`
   color: #3ea6ff;
   border-radius: 18px;
   text-transform: inherit;
-  font-weight: 600;
+  font-weight: 500;
+`;
+
+export const SectionLabel = styled(Typography)`
+  padding: 6px 12px 4px 14px;
+  font-size: 1rem;
+  line-height: 1.625rem;
+  font-weight: 400;
+  color: ${colors.textWhite};
+  text-transform: none;
 `;

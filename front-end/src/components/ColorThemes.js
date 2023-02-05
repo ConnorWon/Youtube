@@ -14,4 +14,5 @@ export const theme = createTheme({
 export const colors = {
   bgColorDark: "#201f1f",
   textGrey: "#aaaaaa",
+  textWhite: "#f1f1f1",
 };

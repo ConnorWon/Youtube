@@ -89,7 +89,7 @@ const NameContainer = styled(Stack)`
 const Name = styled(Typography)`
   color: white;
   font-family: Roboto;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1;
 
   @media only screen and (min-width: 686px) {
@@ -107,7 +107,7 @@ const Verified = styled(Box)`
 const Tag = styled(Typography)`
   color: ${colors.textGrey};
   font-family: Roboto;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 14px;
 `;
 
@@ -121,7 +121,7 @@ const JoinSubBtn = styled(Button)`
   background-color: white;
   color: black;
   text-transform: none;
-  font-weight: 700;
+  font-weight: 500;
   margin-left: 8px;
   :hover {
     background-color: #dad9d9;

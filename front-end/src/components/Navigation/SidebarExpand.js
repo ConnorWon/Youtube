@@ -6,6 +6,7 @@ import {
   NotLoggedMsg,
   NotLoggedSubContainer,
   SecondaryButtonsContainer,
+  SectionLabel,
   SidebarContainer,
   SideBarLabel,
   SignInButton,
@@ -17,6 +18,16 @@ import SlideshowIcon from "@mui/icons-material/Slideshow";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import WhatshotOutlinedIcon from "@mui/icons-material/WhatshotOutlined";
+import MusicNoteOutlinedIcon from "@mui/icons-material/MusicNoteOutlined";
+import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
+import StreamOutlinedIcon from "@mui/icons-material/StreamOutlined";
+import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
+import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
+import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
+import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
+import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
+import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 import { colors } from "../ColorThemes";
 import { SidebarButton } from "./SidebarButton";
 
@@ -44,6 +55,18 @@ export const SidebarExpand = () => {
   const secondaryButtons = [
     ["/", "Library", <VideoLibraryOutlinedIcon />],
     ["/", "History", <HistoryOutlinedIcon />],
+  ];
+
+  const exploreButtons = [
+    ["/", "Trending", <WhatshotOutlinedIcon />],
+    ["/", "Music", <MusicNoteOutlinedIcon />],
+    ["/", "Movies & Shows", <MovieCreationOutlinedIcon />],
+    ["/", "Live", <StreamOutlinedIcon />],
+    ["/", "Gaming", <SportsEsportsOutlinedIcon />],
+    ["/", "News", <FeedOutlinedIcon />],
+    ["/", "Sports", <EmojiEventsOutlinedIcon />],
+    ["/", "Learning", <LightbulbOutlinedIcon />],
+    ["/", "Fashion & Beauty", <DiamondOutlinedIcon />],
   ];
 
   return (
@@ -80,6 +103,12 @@ export const SidebarExpand = () => {
               </SignInContainer>
             </NotLoggedSubContainer>
           )}
+          <OuterButtonContainer>
+            <SectionLabel>Explore</SectionLabel>
+            {exploreButtons.map((icon) => {
+              return <SidebarButton icon={icon} />;
+            })}
+          </OuterButtonContainer>
         </InnerSidebarContainer>
       </SidebarContainer>
     </SidebarDrawer>

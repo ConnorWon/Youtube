@@ -12,7 +12,7 @@ const ChannelTab = styled(Tab)`
   margin: 0 10px 0 10px;
   padding: 12px 25px;
   font-family: Roboto;
-  font-weight: 700;
+  font-weight: 500;
 `;
 
 const ChannelTabPanel = styled(TabPanel)`

@@ -18,11 +18,11 @@ const ThumbnailContainer = styled(Box)`
   width: 100%;
   position: relative;
 
-  @media only screen and (min-width: 1186px) {
+  @media only screen and (min-width: 1144px) {
     max-height: 176.61px;
   }
 
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1800px) {
     max-height: 193.48px;
   }
 `;
@@ -48,7 +48,7 @@ const Title = styled(Typography)`
   font-family: Roboto;
   font-size: 13px;
   line-height: 20px;
-  font-weight: 600;
+  font-weight: 500;
   overflow: hidden;
   max-height: 40px;
   text-overflow: ellipsis;
@@ -60,7 +60,7 @@ const ChannelName = styled(Typography)`
   font-family: Roboto;
   font-size: 12px;
   line-height: 17px;
-  font-weight: 500;
+  font-weight: 400;
   max-height: 17px;
   white-space: normal;
 `;
@@ -70,7 +70,7 @@ const ViewsAndDate = styled(Typography)`
   font-family: Roboto;
   font-size: 12px;
   line-height: 17px;
-  font-weight: 500;
+  font-weight: 400;
   max-height: 17px;
   white-space: normal;
 `;
