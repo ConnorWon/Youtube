@@ -35,7 +35,7 @@ const theme = createTheme({
   },
 });
 
-export const Navbar = () => {
+export const Navbar = (props) => {
   // Connected to the x button for search bar
   const [value, setValue] = useState("");
 
@@ -97,9 +97,12 @@ export const Navbar = () => {
     setOpenSearch(searchState);
   };
 
+  // Expand sidebar function
+  const { setSideExpand, sideExpand } = props;
+
   return (
     <ThemeProvider theme={theme}>
-      <NaviBar sx={{ zIndex: 0, position: "fixed" }}>
+      <NaviBar sx={{ zIndex: 1201, position: "fixed", boxShadow: "none" }}>
         {openSearch && windowWidth.width < 650 ? (
           <Toolbar>
             <IconButton
@@ -189,7 +192,12 @@ export const Navbar = () => {
           </Toolbar>
         ) : (
           <Toolbar>
-            <IconButton color="inherit" edge="start" size="large">
+            <IconButton
+              color="inherit"
+              edge="start"
+              size="large"
+              onClick={() => setSideExpand(!sideExpand)}
+            >
               <MenuIcon />
             </IconButton>
             <Stack sx={{ minWidth: "4px" }} />
