@@ -25,13 +25,11 @@ const VideoOuterContainer = styled(Grid)`
   margin: 0px 8px 40px 8px;
 
   @media only screen and (min-width: 1144px) {
-    max-height: 270.61px;
-    max-width: 313.98px;
+    max-width: calc(100% / 4 - 16px);
   }
 
   @media only screen and (min-width: 1800px) {
-    max-height: 293.48px;
-    max-width: 343.98px;
+    max-width: calc(100% / 4 - 16px);
   }
 `;
 
@@ -39,7 +37,7 @@ const VideoOuterContainer = styled(Grid)`
 export const VideoDisplay = () => {
   return (
     <div>
-      <Grid container spacing={0} sx={{ ml: "16px" }}>
+      <Grid container spacing={0} sx={{ ml: "16px", paddingRight: "16px" }}>
         {text.map((t) => (
           <VideoOuterContainer item>
             <VideoContainer />

@@ -6,6 +6,7 @@ import { VideoDisplay } from "./VideoDisplay";
 
 const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};
+  z-index: 1;
 `;
 
 const HomeTab = styled(Tab)`
@@ -23,7 +24,7 @@ const HomeTabPanel = styled(TabPanel)`
 `;
 
 export const Home = () => {
-  const [value, setValue] = useState("1");
+  const [value, setValue] = useState("0");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -48,7 +49,7 @@ export const Home = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box>
+      <Box sx={{ pointerEvents: "none" }}>
         <TabContext value={value}>
           <TabContainer
             sx={{
@@ -58,6 +59,7 @@ export const Home = () => {
               position: "fixed",
               width: "-webkit-fill-available",
               display: "flex",
+              pointerEvents: "auto",
             }}
           >
             <TabList
@@ -84,8 +86,8 @@ export const Home = () => {
               paddingTop: "24px",
               backgroundColor: colors.bgColorDark,
               position: "relative",
-              zIndex: "-1",
               top: "49px",
+              pointerEvents: "auto",
             }}
           >
             {tabOptions.map((tab) => (

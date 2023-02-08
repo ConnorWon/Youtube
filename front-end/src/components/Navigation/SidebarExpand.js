@@ -43,6 +43,7 @@ export const SidebarExpand = () => {
   const SidebarDrawer = styled(Drawer)`
     .MuiDrawer-paper {
       background-color: transparent;
+      border-right: transparent;
     }
   `;
 

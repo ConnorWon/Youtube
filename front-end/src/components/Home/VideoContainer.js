@@ -17,18 +17,11 @@ const InnerContainer = styled(Box)`
 const ThumbnailContainer = styled(Box)`
   width: 100%;
   position: relative;
-
-  @media only screen and (min-width: 1144px) {
-    max-height: 176.61px;
-  }
-
-  @media only screen and (min-width: 1800px) {
-    max-height: 193.48px;
-  }
 `;
 
 const Thumbnail = styled(Box)`
-  height: 100%;
+  width: inherit;
+  height: auto;
   border-radius: 10px;
 `;
 
@@ -46,7 +39,7 @@ const DetailBox = styled(Box)`
 const Title = styled(Typography)`
   margin: 12px 0px 6px 0px;
   font-family: Roboto;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 20px;
   font-weight: 500;
   overflow: hidden;
@@ -58,20 +51,18 @@ const Title = styled(Typography)`
 const ChannelName = styled(Typography)`
   color: ${colors.textGrey};
   font-family: Roboto;
-  font-size: 12px;
-  line-height: 17px;
+  font-size: 14px;
+  line-height: 20px;
   font-weight: 400;
-  max-height: 17px;
   white-space: normal;
 `;
 
 const ViewsAndDate = styled(Typography)`
   color: ${colors.textGrey};
   font-family: Roboto;
-  font-size: 12px;
-  line-height: 17px;
+  font-size: 14px;
+  line-height: 20px;
   font-weight: 400;
-  max-height: 17px;
   white-space: normal;
 `;
 

@@ -39,3 +39,6 @@ General
 
 - make ui components more dynamic
 - update html font size to 10px and make changes to page accordingly
+- on sidebar expand make pages dynamic
+  - video container from home page
+  - entire channel page
