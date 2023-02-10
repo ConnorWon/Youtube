@@ -28,7 +28,10 @@ function App() {
       <PageContainer sideExpand={sideExpand}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/channel" element={<Channel />} />
+          <Route
+            path="/channel"
+            element={<Channel sideExpand={sideExpand} />}
+          />
         </Routes>
       </PageContainer>
     </div>

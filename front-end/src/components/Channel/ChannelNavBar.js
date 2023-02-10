@@ -1,24 +1,9 @@
-import { TabContext, TabPanel, TabList } from "@mui/lab";
-import { Box, Tab, styled, ThemeProvider } from "@mui/material";
+import { TabContext, TabList } from "@mui/lab";
+import { Box, ThemeProvider } from "@mui/material";
 import React, { useState } from "react";
-import { colors, theme } from "../ColorThemes";
-
-const TabContainer = styled(Box)`
-  background-color: ${colors.bgColorDark};
-`;
-
-const ChannelTab = styled(Tab)`
-  color: ${colors.textGrey};
-  margin: 0 10px 0 10px;
-  padding: 12px 25px;
-  font-family: Roboto;
-  font-weight: 500;
-`;
-
-const ChannelTabPanel = styled(TabPanel)`
-  background-color: ${colors.bgColorDark};
-  color: white;
-`;
+import { theme } from "../ColorThemes";
+import { ChannelVideos } from "./ChannelVideos";
+import { TabContainer, ChannelTab, ChannelTabPanel } from "./Styling";
 
 export const ChannelNavBar = () => {
   const [value, setValue] = useState("1");
@@ -57,7 +42,9 @@ export const ChannelNavBar = () => {
           </TabContainer>
           <Box>
             <ChannelTabPanel value="1">Home</ChannelTabPanel>
-            <ChannelTabPanel value="2">Videos</ChannelTabPanel>
+            <ChannelTabPanel value="2">
+              <ChannelVideos />
+            </ChannelTabPanel>
             <ChannelTabPanel value="3">Shorts</ChannelTabPanel>
             <ChannelTabPanel value="4">Live</ChannelTabPanel>
             <ChannelTabPanel value="5">Playlists</ChannelTabPanel>
