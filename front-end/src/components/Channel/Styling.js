@@ -142,7 +142,8 @@ export const ChannelTab = styled(Tab)`
   font-weight: 500;
 `;
 
-export const ChannelTabPanel = styled(TabPanel)`
+export const ChannelTabPanel = styled(Box)`
   background-color: ${colors.bgColorDark};
   color: white;
+  padding: 24px;
 `;

@@ -42,3 +42,7 @@ General
 - on sidebar expand make pages dynamic
   - video container from home page (done for laptop/monitor screen size)
   - entire channel page
+
+Things To Do:
+
+- fix the fact that when expanding and minimizing sidebar tab is refreshing (fixed for channel page, not home page)

@@ -1,12 +1,36 @@
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import { theme } from "../ColorThemes";
-import { ChannelVideos } from "./ChannelVideos";
+import { Home } from "./ChannelTabs/Home";
+import { ChannelVideos } from "./ChannelTabs/ChannelVideos";
 import { TabContainer, ChannelTab, ChannelTabPanel } from "./Styling";
 
 export const ChannelNavBar = () => {
-  const [value, setValue] = useState("1");
+  var currentURL = window.location.href.split("/");
+  const defaultState = () => {
+    console.log(currentURL.length);
+    if (currentURL.length == 4) {
+      return "/channel";
+    } else {
+      return "/channel/" + currentURL[currentURL.length - 1];
+    }
+  };
+  const prevPath = "/channel";
+
+  const tabRoutes = [
+    "",
+    "/videos",
+    "/shorts",
+    "/live",
+    "/playlists",
+    "/community",
+    "/channels",
+    "/about",
+  ];
+
+  const [value, setValue] = useState(defaultState);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -30,28 +54,68 @@ export const ChannelNavBar = () => {
                 },
               }}
             >
-              <ChannelTab label="Home" value="1" />
-              <ChannelTab label="Videos" value="2" />
-              <ChannelTab label="Shorts" value="3" />
-              <ChannelTab label="Live" value="4" />
-              <ChannelTab label="Playlists" value="5" />
-              <ChannelTab label="Community" value="6" />
-              <ChannelTab label="Channels" value="7" />
-              <ChannelTab label="About" value="8" />
+              <ChannelTab
+                label="Home"
+                value={prevPath + tabRoutes[0]}
+                component={Link}
+                to={prevPath + tabRoutes[0]}
+              />
+              <ChannelTab
+                label="Videos"
+                value={prevPath + tabRoutes[1]}
+                component={Link}
+                to={prevPath + tabRoutes[1]}
+              />
+              <ChannelTab
+                label="Shorts"
+                value={prevPath + tabRoutes[2]}
+                component={Link}
+                to={prevPath + tabRoutes[2]}
+              />
+              <ChannelTab
+                label="Live"
+                value={prevPath + tabRoutes[3]}
+                component={Link}
+                to={prevPath + tabRoutes[3]}
+              />
+              <ChannelTab
+                label="Playlists"
+                value={prevPath + tabRoutes[4]}
+                component={Link}
+                to={prevPath + tabRoutes[4]}
+              />
+              <ChannelTab
+                label="Community"
+                value={prevPath + tabRoutes[5]}
+                component={Link}
+                to={prevPath + tabRoutes[5]}
+              />
+              <ChannelTab
+                label="Channels"
+                value={prevPath + tabRoutes[6]}
+                component={Link}
+                to={prevPath + tabRoutes[6]}
+              />
+              <ChannelTab
+                label="About"
+                value={prevPath + tabRoutes[7]}
+                component={Link}
+                to={prevPath + tabRoutes[7]}
+              />
             </TabList>
           </TabContainer>
-          <Box>
-            <ChannelTabPanel value="1">Home</ChannelTabPanel>
-            <ChannelTabPanel value="2">
-              <ChannelVideos />
-            </ChannelTabPanel>
-            <ChannelTabPanel value="3">Shorts</ChannelTabPanel>
-            <ChannelTabPanel value="4">Live</ChannelTabPanel>
-            <ChannelTabPanel value="5">Playlists</ChannelTabPanel>
-            <ChannelTabPanel value="6">Community</ChannelTabPanel>
-            <ChannelTabPanel value="7">Channels</ChannelTabPanel>
-            <ChannelTabPanel value="8">About</ChannelTabPanel>
-          </Box>
+          <ChannelTabPanel>
+            <Routes>
+              <Route path="" element={<Home />} />
+              <Route path="/videos" element={<ChannelVideos />} />
+              <Route path="/shorts" element={<ChannelVideos />} />
+              <Route path="/live" element={<ChannelVideos />} />
+              <Route path="/playlists" element={<ChannelVideos />} />
+              <Route path="/community" element={<ChannelVideos />} />
+              <Route path="/channels" element={<ChannelVideos />} />
+              <Route path="/about" element={<ChannelVideos />} />
+            </Routes>
+          </ChannelTabPanel>
         </TabContext>
       </Box>
     </ThemeProvider>

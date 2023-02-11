@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack, Grid, styled } from "@mui/material";
-import { VideoContainer } from "../Home/VideoContainer";
+import { VideoContainer } from "../../Home/VideoContainer";
 
 const text = [
   "Video 1",

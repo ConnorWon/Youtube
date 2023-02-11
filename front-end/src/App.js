@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-            path="/channel"
+            path="/channel/*"
             element={<Channel sideExpand={sideExpand} />}
           />
         </Routes>
