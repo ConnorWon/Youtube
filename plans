@@ -6,8 +6,7 @@ Navbar
 
 Sidebar
 
-- press of button expands = persistent drawer
-- expanded sidebar
+- update so it incorporates back-end data
 
 General Page Container
 
@@ -17,6 +16,7 @@ Channel Page
 - channel header
 - channel content
   - add channel content pages
+  - make it so for certain tabs, if no content exists --> delete dont't show tab
 
 Home Page
 

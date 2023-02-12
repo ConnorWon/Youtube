@@ -132,6 +132,9 @@ export const JoinSubBtn = styled(Button)`
 
 export const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};
+  position: sticky;
+  top: 56px;
+  z-index: 1;
 `;
 
 export const ChannelTab = styled(Tab)`
@@ -145,5 +148,6 @@ export const ChannelTab = styled(Tab)`
 export const ChannelTabPanel = styled(Box)`
   background-color: ${colors.bgColorDark};
   color: white;
-  padding: 24px;
+  padding: 16px 24px;
+  min-height: calc(100vh - 56px - 48px - 16px);
 `;

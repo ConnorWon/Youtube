@@ -87,7 +87,9 @@ export const SidebarExpand = () => {
             </SecondaryButtonsContainer>
           </OuterButtonContainer>
           {loggedStatus ? (
-            <OuterButtonContainer></OuterButtonContainer>
+            <OuterButtonContainer>
+              {/* sub tabs goes here */}
+            </OuterButtonContainer>
           ) : (
             <NotLoggedSubContainer>
               <NotLoggedMsg>

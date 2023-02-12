@@ -3,14 +3,15 @@ import { Box, ThemeProvider } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { theme } from "../ColorThemes";
+import { Channels } from "./ChannelTabs/Channels";
+import { Community } from "./ChannelTabs/Community";
 import { Home } from "./ChannelTabs/Home";
-import { ChannelVideos } from "./ChannelTabs/ChannelVideos";
+import { Videos } from "./ChannelTabs/Videos";
 import { TabContainer, ChannelTab, ChannelTabPanel } from "./Styling";
 
 export const ChannelNavBar = () => {
   var currentURL = window.location.href.split("/");
   const defaultState = () => {
-    console.log(currentURL.length);
     if (currentURL.length == 4) {
       return "/channel";
     } else {
@@ -107,13 +108,13 @@ export const ChannelNavBar = () => {
           <ChannelTabPanel>
             <Routes>
               <Route path="" element={<Home />} />
-              <Route path="/videos" element={<ChannelVideos />} />
-              <Route path="/shorts" element={<ChannelVideos />} />
-              <Route path="/live" element={<ChannelVideos />} />
-              <Route path="/playlists" element={<ChannelVideos />} />
-              <Route path="/community" element={<ChannelVideos />} />
-              <Route path="/channels" element={<ChannelVideos />} />
-              <Route path="/about" element={<ChannelVideos />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/shorts" element={<Videos />} />
+              <Route path="/live" element={<Videos />} />
+              <Route path="/playlists" element={<Videos />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/channels" element={<Channels />} />
+              <Route path="/about" element={<Videos />} />
             </Routes>
           </ChannelTabPanel>
         </TabContext>
