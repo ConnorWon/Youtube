@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { theme } from "../ColorThemes";
+import { About } from "./ChannelTabs/About";
 import { Channels } from "./ChannelTabs/Channels";
 import { Community } from "./ChannelTabs/Community";
 import { Home } from "./ChannelTabs/Home";
@@ -114,7 +115,7 @@ export const ChannelNavBar = () => {
               <Route path="/playlists" element={<Videos />} />
               <Route path="/community" element={<Community />} />
               <Route path="/channels" element={<Channels />} />
-              <Route path="/about" element={<Videos />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </ChannelTabPanel>
         </TabContext>
