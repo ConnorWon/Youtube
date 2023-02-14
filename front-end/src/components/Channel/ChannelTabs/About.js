@@ -9,9 +9,11 @@ import {
   Link,
   TableBody,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
 import { colors } from "../../ColorThemes";
+import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 
 export const About = () => {
   const AboutLeftColumn = styled(Stack)`
@@ -90,6 +92,44 @@ export const About = () => {
     text-decoration: underline;
   `;
 
+  const AboutRightColumn = styled(Box)`
+    color: ${colors.textWhite};
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    flex: 1;
+    flex-basis: 1e-9px;
+  `;
+
+  const StatsText = styled(Typography)`
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: block;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: unset;
+  `;
+
+  const ReportContainer = styled(Box)`
+    margin-top: 8px;
+    margin-left: -8px;
+  `;
+
+  const ReportButton = styled(Button)`
+    margin-right: 16px;
+    display: inline-block;
+    color: ${colors.textWhite};
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    min-width: 0;
+
+    :hover {
+      background-color: rgba(63, 63, 63, 1);
+    }
+  `;
+
   const [revealEmail, setRevealEmail] = useState(false);
 
   const links = ["Twitter", "Instagram", "Website"];
@@ -154,6 +194,26 @@ export const About = () => {
             </Stack>
           </SectionContainer>
         </AboutLeftColumn>
+        <AboutRightColumn>
+          <SectionTitle
+            sx={{
+              padding: "12px 0",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+              m: "12px 0 0",
+            }}
+          >
+            Stats
+          </SectionTitle>
+          <StatsText>Joined Aug 15 2021</StatsText>
+          <StatsText>1,072,855,327 views</StatsText>
+          <ReportContainer>
+            <Tooltip title="Report user">
+              <ReportButton>
+                <FlagOutlinedIcon />
+              </ReportButton>
+            </Tooltip>
+          </ReportContainer>
+        </AboutRightColumn>
       </Stack>
     </div>
   );
