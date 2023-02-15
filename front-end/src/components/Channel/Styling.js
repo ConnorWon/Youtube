@@ -148,6 +148,6 @@ export const ChannelTab = styled(Tab)`
 export const ChannelTabPanel = styled(Box)`
   background-color: ${colors.bgColorDark};
   color: white;
-  padding: 16px 24px;
+  padding: 16px 38px;
   min-height: calc(100vh - 56px - 48px - 16px);
 `;

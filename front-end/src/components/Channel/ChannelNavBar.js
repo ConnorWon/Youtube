@@ -6,7 +6,7 @@ import { theme } from "../ColorThemes";
 import { About } from "./ChannelTabs/About";
 import { Channels } from "./ChannelTabs/Channels";
 import { Community } from "./ChannelTabs/Community";
-import { Home } from "./ChannelTabs/Home";
+import { Home } from "./ChannelTabs/Home/Home";
 import { Videos } from "./ChannelTabs/Videos";
 import { TabContainer, ChannelTab, ChannelTabPanel } from "./Styling";
 
