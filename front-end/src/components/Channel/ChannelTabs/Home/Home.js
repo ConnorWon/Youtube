@@ -144,6 +144,8 @@ const text = [
 ];
 
 export const Home = () => {
+  const handleClick = () => {};
+
   return (
     <div>
       <SubHeaderContainer sx={{ mt: "8px" }}>
@@ -185,7 +187,7 @@ export const Home = () => {
           </ScrollVideoInnerContainer>
         </ScrollVideoContainer>
         <ScrollButtonContainer sx={{ right: "-16px" }}>
-          <ScrollButton>
+          <ScrollButton onClick={() => handleClick()}>
             <IconHolder>
               <KeyboardArrowRightIcon />
             </IconHolder>

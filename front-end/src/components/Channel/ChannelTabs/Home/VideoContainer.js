@@ -24,13 +24,6 @@ const Thumbnail = styled(Box)`
   border-radius: 10px;
 `;
 
-const ChannelProfile = styled(Avatar)`
-  height: 36px;
-  width: 36px;
-  margin-top: 12px;
-  margin-right: 12px;
-`;
-
 const DetailBox = styled(Box)`
   padding-right: 24px;
 `;

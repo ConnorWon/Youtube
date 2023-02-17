@@ -148,6 +148,32 @@ export const ChannelTab = styled(Tab)`
 export const ChannelTabPanel = styled(Box)`
   background-color: ${colors.bgColorDark};
   color: white;
-  padding: 16px 38px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   min-height: calc(100vh - 56px - 48px - 16px);
+
+  @media only screen and (min-width: 0px) {
+    padding-right: calc((100% - 428px) / 2);
+    padding-left: calc((100% - 428px) / 2);
+  }
+
+  @media only screen and (min-width: 686px) {
+    padding-right: calc((100% - 642px) / 2);
+    padding-left: calc((100% - 642px) / 2);
+  }
+
+  @media only screen and (min-width: 972px) {
+    padding-right: calc((100% - 856px) / 2);
+    padding-left: calc((100% - 856px) / 2);
+  }
+
+  @media only screen and (min-width: 1354px) {
+    padding-right: calc((100% - 1070px) / 2);
+    padding-left: calc((100% - 1070px) / 2);
+  }
+
+  @media only screen and (min-width: 1568px) {
+    padding-right: calc((100% - 1284px) / 2);
+    padding-left: calc((100% - 1284px) / 2);
+  }
 `;

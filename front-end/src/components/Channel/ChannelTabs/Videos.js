@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stack, Grid, styled, Button } from "@mui/material";
+import { Stack, Grid, styled, Button, Box } from "@mui/material";
 import { VideoContainer } from "../../Home/VideoContainer";
 
 const text = [
@@ -23,14 +23,7 @@ const text = [
 
 const VideoOuterContainer = styled(Grid)`
   margin: 0px 8px 40px 8px;
-
-  @media only screen and (min-width: 1144px) {
-    max-width: calc(100% / 4 - 16px);
-  }
-
-  @media only screen and (min-width: 1800px) {
-    max-width: calc(100% / 4 - 16px);
-  }
+  max-width: 412px;
 `;
 
 const VideoFiltersContainer = styled(Stack)`
@@ -52,6 +45,26 @@ const FilterButton = styled(Button)`
   }
 `;
 
+const ContentContainer = styled(Grid)`
+  width: 100%;
+  display: flex;
+
+  @media only screen and (min-width: 0px) {
+    padding-right: calc((100% - 428px) / 2);
+    padding-left: calc((100% - 428px) / 2);
+  }
+
+  @media only screen and (min-width: 972px) {
+    padding-right: calc((100% - 856px) / 2);
+    padding-left: calc((100% - 856px) / 2);
+  }
+
+  @media only screen and (min-width: 1568px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+`;
+
 // pass a prop that contains an array of video objects
 export const Videos = () => {
   const [filter, setFilter] = useState(false);
@@ -66,13 +79,13 @@ export const Videos = () => {
           Popular
         </FilterButton>
       </VideoFiltersContainer>
-      <Grid container spacing={0} sx={{ ml: "16px", paddingRight: "16px" }}>
+      <ContentContainer container spacing={0}>
         {text.map((t) => (
           <VideoOuterContainer item>
             <VideoContainer />
           </VideoOuterContainer>
         ))}
-      </Grid>
+      </ContentContainer>
     </div>
   );
 };
