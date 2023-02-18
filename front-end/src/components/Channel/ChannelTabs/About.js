@@ -130,12 +130,41 @@ export const About = () => {
     }
   `;
 
+  const AboutContainer = styled("div")`
+    max-width: 1284px;
+
+    @media only screen and (min-width: 0px) {
+      padding-right: calc((100% - 428px) / 2);
+      padding-left: calc((100% - 428px) / 2);
+    }
+
+    @media only screen and (min-width: 687px) {
+      padding-right: calc((100% - 642px) / 2);
+      padding-left: calc((100% - 642px) / 2);
+    }
+
+    @media only screen and (min-width: 973px) {
+      padding-right: calc((100% - 856px) / 2);
+      padding-left: calc((100% - 856px) / 2);
+    }
+
+    @media only screen and (min-width: 1187px) {
+      padding-right: calc((100% - 1070px) / 2);
+      padding-left: calc((100% - 1070px) / 2);
+    }
+
+    @media only screen and (min-width: 1401px) {
+      padding-right: calc((100% - 1284px) / 2);
+      padding-left: calc((100% - 1284px) / 2);
+    }
+  `;
+
   const [revealEmail, setRevealEmail] = useState(false);
 
   const links = ["Twitter", "Instagram", "Website"];
 
   return (
-    <div>
+    <AboutContainer>
       <Stack direction="row">
         <AboutLeftColumn>
           <SectionContainer>
@@ -215,6 +244,6 @@ export const About = () => {
           </ReportContainer>
         </AboutRightColumn>
       </Stack>
-    </div>
+    </AboutContainer>
   );
 };

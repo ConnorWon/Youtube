@@ -23,7 +23,11 @@ const text = [
 
 const VideoOuterContainer = styled(Grid)`
   margin: 0px 8px 40px 8px;
-  max-width: 412px;
+  max-width: 360px;
+
+  @media only screen and (min-width: 1187px) {
+    max-width: 340px;
+  }
 `;
 
 const VideoFiltersContainer = styled(Stack)`
@@ -50,18 +54,52 @@ const ContentContainer = styled(Grid)`
   display: flex;
 
   @media only screen and (min-width: 0px) {
+    padding-right: calc((100% - 376px) / 2);
+    padding-left: calc((100% - 376px) / 2);
+  }
+
+  @media only screen and (min-width: 972px) {
+    padding-right: calc((100% - 752px) / 2);
+    padding-left: calc((100% - 752px) / 2);
+  }
+
+  @media only screen and (min-width: 1187px) {
+    padding-right: calc((100% - 1068px) / 2);
+    padding-left: calc((100% - 1068px) / 2);
+  }
+
+  @media only screen and (min-width: 1401px) {
+    padding-right: calc((100% - 1128px) / 2);
+    padding-left: calc((100% - 1128px) / 2);
+  }
+`;
+
+const VideosContainer = styled("div")`
+  max-width: 1284px;
+
+  @media only screen and (min-width: 0px) {
     padding-right: calc((100% - 428px) / 2);
     padding-left: calc((100% - 428px) / 2);
   }
 
-  @media only screen and (min-width: 972px) {
+  @media only screen and (min-width: 687px) {
+    padding-right: calc((100% - 642px) / 2);
+    padding-left: calc((100% - 642px) / 2);
+  }
+
+  @media only screen and (min-width: 973px) {
     padding-right: calc((100% - 856px) / 2);
     padding-left: calc((100% - 856px) / 2);
   }
 
-  @media only screen and (min-width: 1568px) {
-    padding-right: 0;
-    padding-left: 0;
+  @media only screen and (min-width: 1187px) {
+    padding-right: calc((100% - 1070px) / 2);
+    padding-left: calc((100% - 1070px) / 2);
+  }
+
+  @media only screen and (min-width: 1401px) {
+    padding-right: calc((100% - 1284px) / 2);
+    padding-left: calc((100% - 1284px) / 2);
   }
 `;
 
@@ -70,7 +108,7 @@ export const Videos = () => {
   const [filter, setFilter] = useState(false);
 
   return (
-    <div>
+    <VideosContainer>
       <VideoFiltersContainer direction="row" spacing={1}>
         <FilterButton value={!filter} onClick={() => setFilter(false)}>
           Recently Uploaded
@@ -86,6 +124,6 @@ export const Videos = () => {
           </VideoOuterContainer>
         ))}
       </ContentContainer>
-    </div>
+    </VideosContainer>
   );
 };

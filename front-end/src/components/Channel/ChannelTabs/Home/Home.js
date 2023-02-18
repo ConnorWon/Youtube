@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Stack, styled, Link, Button } from "@mui/material";
 import { colors } from "../../../ColorThemes";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -70,15 +70,6 @@ const ScrollVideoContainer = styled(Box)`
   overflow: hidden;
 `;
 
-const ScrollVideoInnerContainer = styled(Box)`
-  transform: translateX(0px);
-  margin-bottom: 24px;
-  transition-duration: 0.15s;
-  transition-timing-function: cubic-bezier(0.05, 0, 0, 1);
-  display: inline-block;
-  white-space: nowrap;
-`;
-
 const VideoOuterContainer = styled(Box)`
   padding-right: 4px;
   display: inline-block;
@@ -96,6 +87,7 @@ const ScrollButtonContainer = styled(Box)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  visibility: ${({ shift }) => (shift ? "hidden" : "visible")};
 `;
 
 const ScrollButton = styled(Button)`
@@ -124,6 +116,41 @@ const IconHolder = styled(Box)`
   height: 24px;
 `;
 
+const HomeContainer = styled("div")`
+  @media only screen and (min-width: 0px) {
+    padding-right: calc((100% - 428px) / 2);
+    padding-left: calc((100% - 428px) / 2);
+  }
+
+  @media only screen and (min-width: 686px) {
+    padding-right: calc((100% - 642px) / 2);
+    padding-left: calc((100% - 642px) / 2);
+  }
+
+  @media only screen and (min-width: 972px) {
+    padding-right: calc((100% - 856px) / 2);
+    padding-left: calc((100% - 856px) / 2);
+  }
+
+  @media only screen and (min-width: 1354px) {
+    padding-right: calc((100% - 1070px) / 2);
+    padding-left: calc((100% - 1070px) / 2);
+  }
+
+  @media only screen and (min-width: 1568px) {
+    padding-right: calc((100% - 1284px) / 2);
+    padding-left: calc((100% - 1284px) / 2);
+  }
+`;
+
+const ScrollVideoInnerContainer = styled(Box)`
+  margin-bottom: 24px;
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.05, 0, 0, 1);
+  display: inline-block;
+  white-space: nowrap;
+`;
+
 const text = [
   "Video 1",
   "Video 2",
@@ -144,10 +171,45 @@ const text = [
 ];
 
 export const Home = () => {
-  const handleClick = () => {};
+  const vidListSize = (text.length - 5) * 214;
+
+  var shift = 0;
+
+  // useEffect(() => {
+  //   // var left = document.getElementById("left");
+  // }, [])
+
+  const handleClick = (direction) => {
+    console.log("init: " + shift);
+    var cont = document.getElementById("scroll");
+    var left = document.getElementById("left");
+    var right = document.getElementById("right");
+    if (direction === "right") {
+      if (-(shift - 1070) <= vidListSize) {
+        shift = shift - 1070;
+        right.style.visibility = "visible";
+        left.style.visibility = "visible";
+      } else {
+        shift = -1 * vidListSize;
+        right.style.visibility = "hidden";
+      }
+    } else {
+      if (shift + 1070 <= 0) {
+        shift = shift + 1070;
+        right.style.visibility = "visible";
+        left.style.visibility = "visible";
+      } else {
+        shift = 0;
+        left.style.visibility = "hidden";
+      }
+    }
+    cont.style.transform = "translateX(" + shift + "px)";
+  };
+
+  const [shiftValue, setShiftValue] = useState(0);
 
   return (
-    <div>
+    <HomeContainer>
       <SubHeaderContainer sx={{ mt: "8px" }}>
         <SubHeaderInner direction="row">
           <Box>
@@ -170,15 +232,19 @@ export const Home = () => {
         </SubHeaderInner>
       </SubHeaderContainer>
       <ContentContainer direction="row">
-        <ScrollButtonContainer sx={{ left: "-21px" }}>
-          <ScrollButton>
+        <ScrollButtonContainer
+          id="left"
+          sx={{ left: "-21px" }}
+          style={{ visibility: "hidden" }}
+        >
+          <ScrollButton onClick={() => handleClick("left")}>
             <IconHolder>
               <KeyboardArrowLeftIcon />
             </IconHolder>
           </ScrollButton>
         </ScrollButtonContainer>
         <ScrollVideoContainer>
-          <ScrollVideoInnerContainer>
+          <ScrollVideoInnerContainer id="scroll">
             {text.map((t) => (
               <VideoOuterContainer>
                 <VideoContainer />
@@ -186,14 +252,14 @@ export const Home = () => {
             ))}
           </ScrollVideoInnerContainer>
         </ScrollVideoContainer>
-        <ScrollButtonContainer sx={{ right: "-16px" }}>
-          <ScrollButton onClick={() => handleClick()}>
+        <ScrollButtonContainer id="right" sx={{ right: "-16px" }}>
+          <ScrollButton onClick={() => handleClick("right")}>
             <IconHolder>
               <KeyboardArrowRightIcon />
             </IconHolder>
           </ScrollButton>
         </ScrollButtonContainer>
       </ContentContainer>
-    </div>
+    </HomeContainer>
   );
 };
