@@ -28,9 +28,14 @@ const VideoOuterContainer = styled(Grid)`
   @media only screen and (min-width: 1187px) {
     max-width: 340px;
   }
+
+  @media only screen and (min-width: 1401px) {
+    max-width: 360px;
+  }
 `;
 
 const VideoFiltersContainer = styled(Stack)`
+  padding-top: 16px;
   padding-bottom: 12px;
 `;
 
