@@ -1,5 +1,4 @@
 import React from "react";
-import { Box, styled } from "@mui/material";
 import { NoContent } from "./Styling";
 
 export const Channels = () => {

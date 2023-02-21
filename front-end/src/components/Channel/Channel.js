@@ -11,7 +11,7 @@ export const Channel = (props) => {
     <div>
       {Banner && <ChannelBanner banner={Banner} sideExpand={sideExpand} />}
       <ChannelHeader sideExpand={sideExpand} />
-      <ChannelNavBar />
+      <ChannelNavBar sideExpand={sideExpand} />
     </div>
   );
 };

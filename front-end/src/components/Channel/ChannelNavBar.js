@@ -8,9 +8,13 @@ import { Channels } from "./ChannelTabs/Channels";
 import { Community } from "./ChannelTabs/Community";
 import { Home } from "./ChannelTabs/Home/Home";
 import { Videos } from "./ChannelTabs/Videos";
+import { Shorts } from "./ChannelTabs/Shorts";
 import { TabContainer, ChannelTab, ChannelTabPanel } from "./Styling";
+import { Playlists } from "./ChannelTabs/Playlists";
 
-export const ChannelNavBar = () => {
+export const ChannelNavBar = (props) => {
+  const { sideExpand } = props;
+
   var currentURL = window.location.href.split("/");
   const defaultState = () => {
     if (currentURL.length == 4) {
@@ -108,14 +112,35 @@ export const ChannelNavBar = () => {
           </TabContainer>
           <ChannelTabPanel>
             <Routes>
-              <Route path="" element={<Home />} />
-              <Route path="/videos" element={<Videos />} />
-              <Route path="/shorts" element={<Videos />} />
-              <Route path="/live" element={<Videos />} />
-              <Route path="/playlists" element={<Videos />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/channels" element={<Channels />} />
-              <Route path="/about" element={<About />} />
+              <Route path="" element={<Home sideExpand={sideExpand} />} />
+              <Route
+                path="/videos"
+                element={<Videos sideExpand={sideExpand} />}
+              />
+              <Route
+                path="/shorts"
+                element={<Shorts sideExpand={sideExpand} />}
+              />
+              <Route
+                path="/live"
+                element={<Videos sideExpand={sideExpand} />}
+              />
+              <Route
+                path="/playlists"
+                element={<Playlists sideExpand={sideExpand} />}
+              />
+              <Route
+                path="/community"
+                element={<Community sideExpand={sideExpand} />}
+              />
+              <Route
+                path="/channels"
+                element={<Channels sideExpand={sideExpand} />}
+              />
+              <Route
+                path="/about"
+                element={<About sideExpand={sideExpand} />}
+              />
             </Routes>
           </ChannelTabPanel>
         </TabContext>

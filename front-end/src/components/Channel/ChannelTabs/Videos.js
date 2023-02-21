@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Stack, Grid, styled, Button, Box } from "@mui/material";
 import { VideoContainer } from "../../Home/VideoContainer";
+import { MainContainer } from "./Styling";
 
 const text = [
   "Video 1",
@@ -26,10 +27,18 @@ const VideoOuterContainer = styled(Grid)`
   max-width: 360px;
 
   @media only screen and (min-width: 1187px) {
+    max-width: ${({ sideExpand }) => (sideExpand ? "360px" : "340px")};
+  }
+
+  @media only screen and (min-width: 1355px) {
     max-width: 340px;
   }
 
   @media only screen and (min-width: 1401px) {
+    max-width: ${({ sideExpand }) => (sideExpand ? "340px" : "360px")};
+  }
+
+  @media only screen and (min-width: 1569px) {
     max-width: 360px;
   }
 `;
@@ -69,51 +78,37 @@ const ContentContainer = styled(Grid)`
   }
 
   @media only screen and (min-width: 1187px) {
+    padding-right: ${({ sideExpand }) =>
+      sideExpand ? "calc((100% - 752px) / 2)" : "calc((100% - 1068px) / 2)"};
+    padding-left: ${({ sideExpand }) =>
+      sideExpand ? "calc((100% - 752px) / 2)" : "calc((100% - 1068px) / 2)"};
+  }
+
+  @media only screen and (min-width: 1355px) {
     padding-right: calc((100% - 1068px) / 2);
     padding-left: calc((100% - 1068px) / 2);
   }
 
   @media only screen and (min-width: 1401px) {
+    padding-right: ${({ sideExpand }) =>
+      sideExpand ? "calc((100% - 1068px) / 2)" : "calc((100% - 1128px) / 2)"};
+    padding-left: ${({ sideExpand }) =>
+      sideExpand ? "calc((100% - 1068px) / 2)" : "calc((100% - 1128px) / 2)"};
+  }
+
+  @media only screen and (min-width: 1569px) {
     padding-right: calc((100% - 1128px) / 2);
     padding-left: calc((100% - 1128px) / 2);
   }
 `;
 
-const VideosContainer = styled("div")`
-  max-width: 1284px;
-
-  @media only screen and (min-width: 0px) {
-    padding-right: calc((100% - 428px) / 2);
-    padding-left: calc((100% - 428px) / 2);
-  }
-
-  @media only screen and (min-width: 687px) {
-    padding-right: calc((100% - 642px) / 2);
-    padding-left: calc((100% - 642px) / 2);
-  }
-
-  @media only screen and (min-width: 973px) {
-    padding-right: calc((100% - 856px) / 2);
-    padding-left: calc((100% - 856px) / 2);
-  }
-
-  @media only screen and (min-width: 1187px) {
-    padding-right: calc((100% - 1070px) / 2);
-    padding-left: calc((100% - 1070px) / 2);
-  }
-
-  @media only screen and (min-width: 1401px) {
-    padding-right: calc((100% - 1284px) / 2);
-    padding-left: calc((100% - 1284px) / 2);
-  }
-`;
-
 // pass a prop that contains an array of video objects
-export const Videos = () => {
+export const Videos = (props) => {
   const [filter, setFilter] = useState(false);
+  const { sideExpand } = props;
 
   return (
-    <VideosContainer>
+    <MainContainer sideExpand={sideExpand}>
       <VideoFiltersContainer direction="row" spacing={1}>
         <FilterButton value={!filter} onClick={() => setFilter(false)}>
           Recently Uploaded
@@ -122,13 +117,13 @@ export const Videos = () => {
           Popular
         </FilterButton>
       </VideoFiltersContainer>
-      <ContentContainer container spacing={0}>
+      <ContentContainer container spacing={0} sideExpand={sideExpand}>
         {text.map((t) => (
-          <VideoOuterContainer item>
+          <VideoOuterContainer item sideExpand={sideExpand}>
             <VideoContainer />
           </VideoOuterContainer>
         ))}
       </ContentContainer>
-    </VideosContainer>
+    </MainContainer>
   );
 };

@@ -1,6 +1,7 @@
 import { Navbar } from "./components/Navigation/Navbar";
 import { SidebarMini } from "./components/Navigation/SidebarMini";
 import { Channel } from "./components/Channel/Channel";
+import { SearchPage } from "./components/SearchPage/SearchPage";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { Box, styled } from "@mui/material";
@@ -32,6 +33,7 @@ function App() {
             path="/channel/*"
             element={<Channel sideExpand={sideExpand} />}
           />
+          <Route path="/results" element={<SearchPage />} />
         </Routes>
       </PageContainer>
     </div>
