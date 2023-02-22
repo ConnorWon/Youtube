@@ -6,8 +6,9 @@ import {
   Button,
   Stack,
   Link,
+  Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { colors } from "../ColorThemes";
 import TuneIcon from "@mui/icons-material/Tune";
 import { HorizontalVideo } from "./HorizontalVideo";
@@ -79,6 +80,10 @@ const FilterButton = styled(Button)`
   border-radius: 18px;
   text-decoration: none;
   text-transform: none;
+
+  :hover {
+    background-color: ${colors.borderColor};
+  }
 `;
 
 const IconContainer = styled(Box)`
@@ -161,12 +166,17 @@ const filters = [
 
 const videos = [1, 2, 3, 4, 5];
 
-export const SearchPage = () => {
+export const SearchPage = (props) => {
   const [open, setOpen] = useState(false);
+  const { setInSearchPage } = props;
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    setInSearchPage(true);
+  }, []);
 
   return (
     <MainContainer>
@@ -176,12 +186,18 @@ export const SearchPage = () => {
             <InnerColumnContainer>
               <FiltersMenu>
                 <ButtonContainer>
-                  <FilterButton onClick={() => handleClick()}>
-                    <IconContainer>
-                      <TuneIcon />
-                    </IconContainer>
-                    <ButtonText>Filters</ButtonText>
-                  </FilterButton>
+                  <Tooltip
+                    title={
+                      open ? "Close search filters" : "Open search filters"
+                    }
+                  >
+                    <FilterButton onClick={() => handleClick()}>
+                      <IconContainer>
+                        <TuneIcon />
+                      </IconContainer>
+                      <ButtonText>Filters</ButtonText>
+                    </FilterButton>
+                  </Tooltip>
                 </ButtonContainer>
                 <FilterCollapsible in={open} timeout="auto">
                   <MenuContent direction="row">

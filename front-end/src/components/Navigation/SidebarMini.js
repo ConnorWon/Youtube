@@ -16,6 +16,10 @@ const SideMenu = styled(Stack)`
   background-color: ${colors.bgColorDark};
   overflow-x: hidden;
   margin-top: 56px;
+
+  @media only screen and (max-width: 791px) {
+    visibility: ${({ inSearchPage }) => (inSearchPage ? "hidden" : "visible")};
+  }
 `;
 
 const SideButton = styled(Button)`
@@ -36,15 +40,17 @@ const Label = styled(Typography)`
 const icons = [
   ["/", "Home", <HomeOutlinedIcon />],
   ["/", "Shorts", <SlideshowIcon />],
-  ["/", "Subscriptions", <SubscriptionsOutlinedIcon />],
+  ["/results", "Subscriptions", <SubscriptionsOutlinedIcon />],
   ["/channel", "Library", <VideoLibraryOutlinedIcon />],
 ];
 
-export const SidebarMini = () => {
+export const SidebarMini = (props) => {
   const navigate = useNavigate();
 
+  const { inSearchPage } = props;
+
   return (
-    <SideMenu>
+    <SideMenu inSearchPage={inSearchPage}>
       {icons.map((icon) => {
         return (
           <SideButton onClick={() => navigate(icon[0])}>
