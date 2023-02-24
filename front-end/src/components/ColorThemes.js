@@ -16,4 +16,5 @@ export const colors = {
   textGrey: "#aaaaaa",
   textWhite: "#f1f1f1",
   borderColor: "rgba(255, 255, 255, 0.2)",
+  youtubeRed: "#f00",
 };

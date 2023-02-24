@@ -1,5 +1,6 @@
 import React from "react";
 import { styled, Box, Stack } from "@mui/material";
+import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;
@@ -82,62 +83,16 @@ const Primary = styled(Box)`
 
 const PrimaryInner = styled(Stack)``;
 
-const Player = styled(Stack)`
-  position: relative;
-`;
-
-const OuterPlayerContainer = styled(Box)`
-  max-width: var(--max-player-width);
-  min-width: var(--min-player-width);
-  margin: 0 auto;
-`;
-
-const PlayerContainer = styled(Stack)`
-  position: relative;
-  padding-top: calc(var(--height-ratio) / var(--width-ratio) * 100%);
-`;
-
-const InnerPlayerContainer = styled(Stack)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-`;
-
-const VideoPlayerContainer = styled(Stack)`
-  display: block;
-  width: 100%;
-  height: 100%;
-`;
-
-const VideoPlayer = styled(Stack)`
-  postion: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-  outline: 0;
-  font-family: Roboto;
-  color: #eee;
-  text-align: left;
-  direction: ltr;
-  font-size: 11px;
-  line-height: 1.3;
-  -webkit-font-smoothing: antialiased;
-`;
-
-const VideoHolder = styled(Stack)`
-  z-index: 10;
-  position: relative;
-`;
-
-// non-theater video player ends here
-
 export const VideoPage = () => {
   return (
     <CSSValueProvider>
-      <MainContainer>hi</MainContainer>
+      <MainContainer>
+        <Primary>
+          <PrimaryInner>
+            <VideoPlayer />
+          </PrimaryInner>
+        </Primary>
+      </MainContainer>
     </CSSValueProvider>
   );
 };
