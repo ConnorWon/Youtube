@@ -1,6 +1,7 @@
 import React from "react";
 import { styled, Box, Stack } from "@mui/material";
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
+import { colors } from "../ColorThemes";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;
@@ -48,6 +49,7 @@ const CSSValueProvider = styled("div")`
         (var(--width-ratio) / var(--height-ratio))
     )
   );
+  background-color: ${colors.bgColorDark};
 `;
 
 const MainContainer = styled("div")`
