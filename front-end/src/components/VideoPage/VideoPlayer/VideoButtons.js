@@ -6,12 +6,19 @@ import {
   Typography,
   Collapse,
   Slider,
+  Switch,
 } from "@mui/material";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ClosedCaptionIcon from "@mui/icons-material/ClosedCaption";
+import SettingsIcon from "@mui/icons-material/Settings";
+import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
+import CropLandscapeIcon from "@mui/icons-material/CropLandscape";
+import CastIcon from "@mui/icons-material/Cast";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { colors } from "../../ColorThemes";
 
 const VideoButtonsContainer = styled(Stack)`
@@ -33,11 +40,11 @@ const LeftButtons = styled(Stack)`
 `;
 
 const SkipButton = styled(Link)`
+  cursor: pointer;
   height: 100%;
   opacity: 0.9;
   display: inline-block;
   width: 48px;
-  padding: 0 2px;
   transition: opacity 0.1s cubic-bezier(0.4, 0, 1, 1);
   overflow: hidden;
   color: inherit;
@@ -53,6 +60,7 @@ const SkipButton = styled(Link)`
 `;
 
 const PlayButton = styled("div")`
+  cursor: pointer;
   border: none;
   background-color: transparent;
   color: inherit;
@@ -62,7 +70,6 @@ const PlayButton = styled("div")`
   line-height: inherit;
   outline: 0;
   flex: 0 0 auto;
-  padding: 0 2px;
   transition: opacity 0.1s cubic-bezier(0.4, 0, 1, 1);
   overflow: hidden;
   opacity: 0.9;
@@ -71,15 +78,7 @@ const PlayButton = styled("div")`
   width: 46px;
 `;
 
-const VolumeContainer = styled(Stack)`
-  ${
-    "" /* color: inherit;
-  text-align: inherit;
-  font-size: inherit;
-  font-family: inherit;
-  line-height: inherit; */
-  }
-`;
+const VolumeContainer = styled(Stack)``;
 
 const VolumeButton = styled("div")`
   border: none;
@@ -137,7 +136,6 @@ const ChapterContainer = styled(Stack)`
   height: 100%;
   font-size: 109%;
   justify-content: center;
-  padding: 0 5px 0 0;
   white-space: nowrap;
   line-height: 47px;
 `;
@@ -180,9 +178,60 @@ const ChapterChevron = styled(Stack)`
   margin-left: -2px;
 `;
 
+const RightButtons = styled(Stack)`
+  height: 100%;
+  float: right;
+  align-items: center;
+`;
+
+const AutoPlay = styled(Switch)(({}) => ({
+  "& .MuiSwitch-switchBase + .MuiSwitch-track": {
+    backgroundColor: "rgb(256, 256, 256)",
+  },
+  "& .MuiSwitch-switchBase": {
+    color: "rgb(90, 90, 90)",
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: "rgb(256, 256, 256)",
+  },
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: "rgb(256, 256, 256)",
+  },
+}));
+
+const RightButton = styled(Stack)`
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+  opacity: 0.9;
+  width: 48px;
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 1, 1);
+  overflow: hidden;
+  border: none;
+  background-color: transparent;
+  color: white;
+  text-align: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const VideoButtons = () => {
   const [open, setOpen] = useState(false);
   const [volumeVal, setVolumeVal] = useState(30);
+  const [prevBtn, setPrevBtn] = useState(false);
+  const [cast, setCast] = useState(false);
+
+  const rightBtns = [
+    [true, <ClosedCaptionIcon />],
+    [true, <SettingsIcon />],
+    [true, <BrandingWatermarkIcon />],
+    [cast, <CastIcon />],
+    [true, <CropLandscapeIcon />],
+    [true, <FullscreenIcon />],
+  ];
 
   const handleVolumeChange = (event, newValue) => {
     setVolumeVal(newValue);
@@ -191,12 +240,14 @@ export const VideoButtons = () => {
   return (
     <VideoButtonsContainer direction="row">
       <LeftButtons direction="row">
-        <SkipButton>
-          <SkipPreviousIcon
-            sx={{ height: "inherit", width: "inherit" }}
-            viewBox="-5 -5 36 36"
-          />
-        </SkipButton>
+        {prevBtn && (
+          <SkipButton>
+            <SkipPreviousIcon
+              sx={{ height: "inherit", width: "inherit" }}
+              viewBox="-5 -5 36 36"
+            />
+          </SkipButton>
+        )}
         <PlayButton>
           <PlayArrowIcon
             sx={{ height: "inherit", width: "inherit" }}
@@ -252,6 +303,10 @@ export const VideoButtons = () => {
           </ChapterButton>
         </ChapterContainer>
       </LeftButtons>
+      <RightButtons direction="row">
+        <AutoPlay />
+        {rightBtns.map((btn) => btn[0] && <RightButton>{btn[1]}</RightButton>)}
+      </RightButtons>
     </VideoButtonsContainer>
   );
 };
