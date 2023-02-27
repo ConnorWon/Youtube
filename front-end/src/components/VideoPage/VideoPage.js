@@ -2,6 +2,7 @@ import React from "react";
 import { styled, Box, Stack } from "@mui/material";
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 import { colors } from "../ColorThemes";
+import { BelowPlayer } from "./VideoPlayer/BelowPlayer";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;
@@ -92,6 +93,7 @@ export const VideoPage = () => {
         <Primary>
           <PrimaryInner>
             <VideoPlayer />
+            <BelowPlayer />
           </PrimaryInner>
         </Primary>
       </MainContainer>
