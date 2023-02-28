@@ -14,6 +14,12 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import IosShareOutlinedIcon from "@mui/icons-material/IosShareOutlined";
+import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import ContentCutOutlinedIcon from "@mui/icons-material/ContentCutOutlined";
+import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import "./Styling.css";
 import { colors } from "../../ColorThemes";
 
 const MainContainer = styled("div")`
@@ -21,8 +27,8 @@ const MainContainer = styled("div")`
 `;
 
 const VideoInfoContainer = styled("div")`
-  margin-top: calc(--margin-size / 3);
-  margin-bottom: --margin-size;
+  margin-top: calc(var(--margin-size) / 3);
+  margin-bottom: var(--margin-size);
   color: #fff;
 `;
 
@@ -39,7 +45,7 @@ const Title = styled(Typography)`
   white-space: normal;
 `;
 
-const ChannelButtonsContainer = styled("div")`
+const ChannelButtonsContainer = styled(Stack)`
   margin-top: -4px;
 `;
 
@@ -145,7 +151,7 @@ const ActionInner = styled(Stack)`
 `;
 
 const Menu = styled(Stack)`
-  justify-content: flex-start;
+  justify-content: flex-end;
   width: 100%;
   overflow-y: hidden;
   flex-wrap: wrap;
@@ -189,14 +195,47 @@ const LikeDislikeBtn = styled(ToggleButton)`
   }
 `;
 
-const LikeText = styled(Typography)`
+const ButtonText = styled(Typography)`
   font-size: inherit;
   line-height: inherit;
+  font-weight: inherit;
   white-space: nowrap;
 `;
 
+const MenuButtonContainer = styled("div")`
+  margin-left: 8px;
+  display: inline-block;
+`;
+
+const MenuButton = styled(Button)`
+  margin-left: 8px;
+  font-size: 14px;
+  line-height: 36px;
+  border-radius: 18px;
+  height: 36px;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-transform: none;
+  padding: 0 16px;
+  letter-spacing: 0.5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+
+  :hover {
+    background-color: ${colors.borderColor};
+  }
+`;
+
+const FlexibleButtons = styled("div")``;
+
 export const BelowPlayer = () => {
   const [like, setLike] = useState();
+  const [flexBtnShow, setFlexBtnShow] = useState(false);
 
   return (
     <MainContainer>
@@ -204,7 +243,7 @@ export const BelowPlayer = () => {
         <div>
           <Title>Video Title</Title>
         </div>
-        <ChannelButtonsContainer>
+        <ChannelButtonsContainer direction="row">
           <ChannelOwnerContainer direction="row">
             <ChannelContainer direction="row">
               <ChannelIconContainer>
@@ -257,7 +296,7 @@ export const BelowPlayer = () => {
                           }}
                         />
                       )}
-                      <LikeText>33K</LikeText>
+                      <ButtonText>33K</ButtonText>
                     </LikeDislikeBtn>
                     <LikeDislikeBtn
                       value="dislike"
@@ -288,7 +327,43 @@ export const BelowPlayer = () => {
                       )}
                     </LikeDislikeBtn>
                   </ToggleButtonGroup>
+                  <MenuButtonContainer>
+                    <MenuButton>
+                      <IosShareOutlinedIcon className="Menu-button" />
+                      <ButtonText>Share</ButtonText>
+                    </MenuButton>
+                  </MenuButtonContainer>
                 </NonFlexButtons>
+                {flexBtnShow && (
+                  <FlexibleButtons>
+                    <MenuButtonContainer>
+                      <MenuButton>
+                        <DownloadOutlinedIcon className="Menu-button" />
+                        <ButtonText>Download</ButtonText>
+                      </MenuButton>
+                    </MenuButtonContainer>
+                    <MenuButtonContainer>
+                      <MenuButton>
+                        <ContentCutOutlinedIcon className="Menu-button" />
+                        <ButtonText>Clip</ButtonText>
+                      </MenuButton>
+                    </MenuButtonContainer>
+                    <MenuButtonContainer>
+                      <MenuButton>
+                        <BookmarkAddOutlinedIcon className="Menu-button" />
+                        <ButtonText>Save</ButtonText>
+                      </MenuButton>
+                    </MenuButtonContainer>
+                  </FlexibleButtons>
+                )}
+                <MenuButtonContainer>
+                  <MenuButton sx={{ p: 0, width: "36px" }}>
+                    <MoreHorizIcon
+                      className="Menu-button"
+                      style={{ marginRight: 0, marginLeft: 0 }}
+                    />
+                  </MenuButton>
+                </MenuButtonContainer>
               </Menu>
             </ActionInner>
           </ActionButtons>
