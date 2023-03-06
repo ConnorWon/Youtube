@@ -2,7 +2,7 @@ import React from "react";
 import { styled, Box, Stack } from "@mui/material";
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 import { colors } from "../ColorThemes";
-import { BelowPlayer } from "./VideoPlayer/BelowPlayer";
+import { BelowPlayer } from "./VideoPlayer/BelowPlayer/BelowPlayer";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;
