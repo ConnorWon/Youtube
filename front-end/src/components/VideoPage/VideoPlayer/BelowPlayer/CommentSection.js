@@ -5,15 +5,17 @@ import {
   Menu,
   MenuItem,
   Avatar,
-  TextField,
+  Button,
   FormControl,
   Input,
   createTheme,
   ThemeProvider,
+  Collapse,
 } from "@mui/material";
 import React, { useState } from "react";
 import { colors } from "../../../ColorThemes";
 import SortIcon from "@mui/icons-material/Sort";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 
 const BaseContainer = styled("div")``;
 
@@ -116,6 +118,44 @@ const theme = createTheme({
   },
 });
 
+const BelowCommentField = styled(Stack)`
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+`;
+
+const Emojis = styled(InsertEmoticonIcon)`
+  color: ${colors.textWhite};
+  cursor: pointer;
+`;
+
+const Spacer = styled(Stack)`
+  flex-grow: 1;
+`;
+
+const CommentButton = styled(Button)`
+  background-color: transparent;
+  min-width: 0;
+  border-radius: 18px;
+  margin-left: 8px;
+  color: ${colors.textWhite};
+  text-transform: none;
+  padding: 0 16px;
+  height: 36px;
+  font-size: 14px;
+  line-height: 36px;
+  font-weight: 500;
+  :hover {
+    background-color: ${colors.borderColor};
+  }
+`;
+
+const Contents = styled("div")``;
+
+const CommentThread = styled("div")`
+  margin-bottom: 16px;
+`;
+
 export const CommentSection = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -126,7 +166,13 @@ export const CommentSection = () => {
     setAnchorEl(null);
   };
 
-  const [focused, setFocused] = useState(false);
+  const [expand, setExpand] = useState(false);
+  const [fieldVal, setFieldVal] = useState("");
+
+  const handleCancel = () => {
+    setFieldVal("");
+    setExpand(false);
+  };
 
   return (
     <BaseContainer>
@@ -147,11 +193,42 @@ export const CommentSection = () => {
           <CommentBox>
             <CommentFormControl variant="standard">
               <ThemeProvider theme={theme}>
-                <CommentInput placeholder="Add a comment..." />
+                <CommentInput
+                  placeholder="Add a comment..."
+                  onFocus={() => setExpand(true)}
+                  value={fieldVal}
+                  onChange={(e) => setFieldVal(e.target.value)}
+                />
               </ThemeProvider>
             </CommentFormControl>
+            <Collapse in={expand} timeout="auto">
+              <BelowCommentField direction="row">
+                <Emojis />
+                <Spacer />
+                <CommentButton onClick={handleCancel}>Cancel</CommentButton>
+                <CommentButton
+                  sx={{
+                    ":disabled": {
+                      color: "rgba(255, 255, 255, 0.3)",
+                      bgcolor: "rgba(255, 255, 255, 0.1)",
+                    },
+                    backgroundColor: "rgb(92,164,248)",
+                    color: colors.bgColorDark,
+                    ":hover": {
+                      bgcolor: "rgb(121, 182, 249)",
+                    },
+                  }}
+                  disabled={fieldVal === ""}
+                >
+                  Comment
+                </CommentButton>
+              </BelowCommentField>
+            </Collapse>
           </CommentBox>
         </CommentContainer>
+        <Contents>
+          <CommentThread></CommentThread>
+        </Contents>
       </MainContainer>
     </BaseContainer>
   );
