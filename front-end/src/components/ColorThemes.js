@@ -18,4 +18,5 @@ export const colors = {
   borderColor: "rgba(255, 255, 255, 0.2)",
   youtubeRed: "#f00",
   dropDownMenu: "rgb(50, 50, 50)",
+  ytdBlue: "#3ea6ff",
 };
