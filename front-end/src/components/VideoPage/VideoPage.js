@@ -3,6 +3,7 @@ import { styled, Box, Stack } from "@mui/material";
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 import { colors } from "../ColorThemes";
 import { BelowPlayer } from "./VideoPlayer/BelowPlayer/BelowPlayer";
+import { VideoPageSidebar } from "./Sidebar/VideoPageSidebar";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;
@@ -86,6 +87,16 @@ const Primary = styled(Box)`
 
 const PrimaryInner = styled(Stack)``;
 
+const Secondary = styled("div")`
+  padding-top: var(--margin);
+  position: relative;
+  padding-right: var(--margin);
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-min-width);
+`;
+
+const SecondaryInner = styled("div")``;
+
 export const VideoPage = () => {
   return (
     <CSSValueProvider>
@@ -96,6 +107,11 @@ export const VideoPage = () => {
             <BelowPlayer />
           </PrimaryInner>
         </Primary>
+        <Secondary>
+          <SecondaryInner>
+            <VideoPageSidebar />
+          </SecondaryInner>
+        </Secondary>
       </MainContainer>
     </CSSValueProvider>
   );

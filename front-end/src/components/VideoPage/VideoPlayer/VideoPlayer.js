@@ -64,6 +64,17 @@ const VideoMenu = styled(Stack)`
   position: absolute;
   text-shadow: 0 0 2px rgb(0 0 0 / 50%);
   ${"" /* direction: "row" */}
+  bottom: 0;
+`;
+
+const Video = styled("video")`
+  object-fit: cover;
+  position: absolute;
+  display: block;
+  width: 640px;
+  height: 360px;
+  top: 0;
+  left: 0;
 `;
 
 export const VideoPlayer = () => {
@@ -74,11 +85,14 @@ export const VideoPlayer = () => {
           <InnerPlayerContainer>
             <VideoPlayerContainer>
               <VideoPlayerComponent>
-                <VideoHolder>{/* video component */}</VideoHolder>
-                <VideoMenu>
+                <VideoHolder>
+                  <Video controls />
+                </VideoHolder>
+                {/* connect video with personal video controls */}
+                {/* <VideoMenu>
                   <ProgressBar />
                   <VideoButtons />
-                </VideoMenu>
+                </VideoMenu> */}
               </VideoPlayerComponent>
             </VideoPlayerContainer>
           </InnerPlayerContainer>
