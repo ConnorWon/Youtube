@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Link,
   Stack,
@@ -20,6 +20,8 @@ import CropLandscapeIcon from "@mui/icons-material/CropLandscape";
 import CastIcon from "@mui/icons-material/Cast";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { colors } from "../../ColorThemes";
+import PauseIcon from "@mui/icons-material/Pause";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 const VideoButtonsContainer = styled(Stack)`
   height: 48px;
@@ -218,11 +220,15 @@ const RightButton = styled(Stack)`
   align-items: center;
 `;
 
-export const VideoButtons = () => {
+export const VideoButtons = (props) => {
   const [open, setOpen] = useState(false);
-  const [volumeVal, setVolumeVal] = useState(30);
+  // const [volumeVal, setVolumeVal] = useState(30);
   const [prevBtn, setPrevBtn] = useState(false);
   const [cast, setCast] = useState(false);
+  const [play, setPlay] = useState(false);
+  // const [lastVol, setLastVol] = useState(30);
+
+  const { refs, volumeVal, handleMute, handleVolumeChange } = props;
 
   const rightBtns = [
     [true, <ClosedCaptionIcon />],
@@ -230,12 +236,36 @@ export const VideoButtons = () => {
     [true, <BrandingWatermarkIcon />],
     [cast, <CastIcon />],
     [true, <CropLandscapeIcon />],
-    [true, <FullscreenIcon />],
   ];
 
-  const handleVolumeChange = (event, newValue) => {
-    setVolumeVal(newValue);
-  };
+  // const handleVolumeChange = (event, newValue) => {
+  //   setLastVol(volumeVal);
+  //   setVolumeVal(newValue);
+  // };
+
+  // useEffect(() => {
+  //   var video = document.getElementById("video");
+  //   console.log(video);
+  // }, []);
+
+  // useEffect(() => {
+  //   const videoControls = document.getElementById("videoControls");
+  //   video.controls = false;
+  //   videoControls.style.display = "flex";
+
+  //   play.addEventListener("click", (e) => {
+  //     if (video.paused || video.ended) {
+  //       video.play();
+  //     } else {
+  //       video.pause();
+  //     }
+  //   });
+
+  //   mute.addEventListener("click", (e) => {
+  //     video.muted = !video.muted;
+  //   });
+
+  // }, []);
 
   return (
     <VideoButtonsContainer direction="row">
@@ -248,12 +278,21 @@ export const VideoButtons = () => {
             />
           </SkipButton>
         )}
-        <PlayButton>
-          <PlayArrowIcon
-            sx={{ height: "inherit", width: "inherit" }}
-            viewBox="-5 -5 36 36"
-          />
-        </PlayButton>
+        {!play ? (
+          <PlayButton ref={refs[0]} onClick={() => setPlay(true)}>
+            <PlayArrowIcon
+              sx={{ height: "inherit", width: "inherit" }}
+              viewBox="-5 -5 36 36"
+            />
+          </PlayButton>
+        ) : (
+          <PlayButton ref={refs[0]} onClick={() => setPlay(false)}>
+            <PauseIcon
+              sx={{ height: "inherit", width: "inherit" }}
+              viewBox="-5 -5 36 36"
+            />
+          </PlayButton>
+        )}
         <SkipButton>
           <SkipNextIcon
             sx={{ height: "inherit", width: "inherit" }}
@@ -269,12 +308,21 @@ export const VideoButtons = () => {
             setOpen(false);
           }}
         >
-          <VolumeButton>
-            <VolumeUpIcon
-              sx={{ height: "inherit", width: "inherit" }}
-              viewBox="-9 -9 44 44"
-            />
-          </VolumeButton>
+          {!(volumeVal === 0) ? (
+            <VolumeButton ref={refs[1]} onClick={handleMute}>
+              <VolumeUpIcon
+                sx={{ height: "inherit", width: "inherit" }}
+                viewBox="-9 -9 44 44"
+              />
+            </VolumeButton>
+          ) : (
+            <VolumeButton ref={refs[1]} onClick={handleMute}>
+              <VolumeOffIcon
+                sx={{ height: "inherit", width: "inherit" }}
+                viewBox="-9 -9 44 44"
+              />
+            </VolumeButton>
+          )}
           <VolumeSliderCollapse
             in={open}
             timeout="auto"
@@ -286,6 +334,7 @@ export const VideoButtons = () => {
                 size="small"
                 value={volumeVal}
                 onChange={handleVolumeChange}
+                ref={refs[2]}
               />
             </VolumeSliderContainer>
           </VolumeSliderCollapse>
@@ -306,6 +355,9 @@ export const VideoButtons = () => {
       <RightButtons direction="row">
         <AutoPlay />
         {rightBtns.map((btn) => btn[0] && <RightButton>{btn[1]}</RightButton>)}
+        <RightButton ref={refs[3]}>
+          <FullscreenIcon />
+        </RightButton>
       </RightButtons>
     </VideoButtonsContainer>
   );

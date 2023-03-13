@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, Box, styled } from "@mui/material";
 import { ProgressBar } from "./ProgressBar";
 import { VideoButtons } from "./VideoButtons";
+import movie from "./test.MOV";
 
 const Player = styled(Stack)`
   position: relative;
@@ -65,6 +66,7 @@ const VideoMenu = styled(Stack)`
   text-shadow: 0 0 2px rgb(0 0 0 / 50%);
   ${"" /* direction: "row" */}
   bottom: 0;
+  display: none;
 `;
 
 const Video = styled("video")`
@@ -78,6 +80,72 @@ const Video = styled("video")`
 `;
 
 export const VideoPlayer = () => {
+  // var video = null;
+
+  // const videoRef = (el) => {
+  //   video = el;
+  // };
+
+  var play = null;
+  var mute = null;
+  var vol = null;
+  var fullscreen = null;
+
+  const playRef = (el) => {
+    play = el;
+  };
+  const muteRef = (el) => {
+    mute = el;
+  };
+  const volRef = (el) => {
+    vol = el;
+  };
+  const fullscreenRef = (el) => {
+    fullscreen = el;
+  };
+
+  const refs = [playRef, muteRef, volRef, fullscreenRef];
+
+  const [volumeVal, setVolumeVal] = useState(100);
+  const [lastVol, setLastVol] = useState(100);
+  const handleVolumeChange = (event, newValue) => {
+    setLastVol(volumeVal);
+    setVolumeVal(newValue);
+    const video = document.getElementById("video");
+    video.volume = volumeVal / 100;
+  };
+
+  const handleMute = (event) => {
+    const video = document.getElementById("video");
+    if (volumeVal === 0) {
+      if (lastVol === 1) {
+        setVolumeVal(100);
+        video.volume = 1;
+      } else {
+        setVolumeVal(lastVol);
+        video.volume = lastVol / 100;
+      }
+    } else {
+      setVolumeVal(0);
+      video.volume = 0;
+    }
+  };
+
+  useEffect(() => {
+    const videoControls = document.getElementById("videoControls");
+    const video = document.getElementById("video");
+    video.controls = false;
+    videoControls.style.display = "flex";
+
+    play.addEventListener("click", (e) => {
+      if (video.paused || video.ended) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  }, []);
+
   return (
     <Player>
       <OuterPlayerContainer>
@@ -86,13 +154,19 @@ export const VideoPlayer = () => {
             <VideoPlayerContainer>
               <VideoPlayerComponent>
                 <VideoHolder>
-                  <Video controls />
+                  <Video controls preload="metadata" id="video" src={movie} />
                 </VideoHolder>
                 {/* connect video with personal video controls */}
-                {/* <VideoMenu>
+                <VideoMenu id="videoControls">
                   <ProgressBar />
-                  <VideoButtons />
-                </VideoMenu> */}
+                  <VideoButtons
+                    refs={refs}
+                    volumeVal={volumeVal}
+                    handleMute={handleMute}
+                    lastVol={lastVol}
+                    handleVolumeChange={handleVolumeChange}
+                  />
+                </VideoMenu>
               </VideoPlayerComponent>
             </VideoPlayerContainer>
           </InnerPlayerContainer>
