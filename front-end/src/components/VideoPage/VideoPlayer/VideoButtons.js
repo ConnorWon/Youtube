@@ -222,13 +222,19 @@ const RightButton = styled(Stack)`
 
 export const VideoButtons = (props) => {
   const [open, setOpen] = useState(false);
-  // const [volumeVal, setVolumeVal] = useState(30);
   const [prevBtn, setPrevBtn] = useState(false);
   const [cast, setCast] = useState(false);
-  const [play, setPlay] = useState(false);
-  // const [lastVol, setLastVol] = useState(30);
 
-  const { refs, volumeVal, handleMute, handleVolumeChange } = props;
+  const {
+    volumeVal,
+    handleMute,
+    handleVolumeChange,
+    visualTime,
+    handleFullScreen,
+    handlePlay,
+    play,
+    visualDuration,
+  } = props;
 
   const rightBtns = [
     [true, <ClosedCaptionIcon />],
@@ -238,34 +244,7 @@ export const VideoButtons = (props) => {
     [true, <CropLandscapeIcon />],
   ];
 
-  // const handleVolumeChange = (event, newValue) => {
-  //   setLastVol(volumeVal);
-  //   setVolumeVal(newValue);
-  // };
-
-  // useEffect(() => {
-  //   var video = document.getElementById("video");
-  //   console.log(video);
-  // }, []);
-
-  // useEffect(() => {
-  //   const videoControls = document.getElementById("videoControls");
-  //   video.controls = false;
-  //   videoControls.style.display = "flex";
-
-  //   play.addEventListener("click", (e) => {
-  //     if (video.paused || video.ended) {
-  //       video.play();
-  //     } else {
-  //       video.pause();
-  //     }
-  //   });
-
-  //   mute.addEventListener("click", (e) => {
-  //     video.muted = !video.muted;
-  //   });
-
-  // }, []);
+  // make play button turn back to play button when vid ends
 
   return (
     <VideoButtonsContainer direction="row">
@@ -279,14 +258,14 @@ export const VideoButtons = (props) => {
           </SkipButton>
         )}
         {!play ? (
-          <PlayButton ref={refs[0]} onClick={() => setPlay(true)}>
+          <PlayButton onClick={() => handlePlay}>
             <PlayArrowIcon
               sx={{ height: "inherit", width: "inherit" }}
               viewBox="-5 -5 36 36"
             />
           </PlayButton>
         ) : (
-          <PlayButton ref={refs[0]} onClick={() => setPlay(false)}>
+          <PlayButton onClick={() => handlePlay}>
             <PauseIcon
               sx={{ height: "inherit", width: "inherit" }}
               viewBox="-5 -5 36 36"
@@ -309,14 +288,14 @@ export const VideoButtons = (props) => {
           }}
         >
           {!(volumeVal === 0) ? (
-            <VolumeButton ref={refs[1]} onClick={handleMute}>
+            <VolumeButton onClick={handleMute}>
               <VolumeUpIcon
                 sx={{ height: "inherit", width: "inherit" }}
                 viewBox="-9 -9 44 44"
               />
             </VolumeButton>
           ) : (
-            <VolumeButton ref={refs[1]} onClick={handleMute}>
+            <VolumeButton onClick={handleMute}>
               <VolumeOffIcon
                 sx={{ height: "inherit", width: "inherit" }}
                 viewBox="-9 -9 44 44"
@@ -334,13 +313,14 @@ export const VideoButtons = (props) => {
                 size="small"
                 value={volumeVal}
                 onChange={handleVolumeChange}
-                ref={refs[2]}
               />
             </VolumeSliderContainer>
           </VolumeSliderCollapse>
         </VolumeContainer>
         <TimeContainer>
-          <Time>0:00 / 6:40</Time>
+          <Time>
+            {visualTime} / {visualDuration}
+          </Time>
         </TimeContainer>
         <ChapterContainer>
           <ChapterButton direction="row">
@@ -355,7 +335,7 @@ export const VideoButtons = (props) => {
       <RightButtons direction="row">
         <AutoPlay />
         {rightBtns.map((btn) => btn[0] && <RightButton>{btn[1]}</RightButton>)}
-        <RightButton ref={refs[3]}>
+        <RightButton onClick={() => handleFullScreen()}>
           <FullscreenIcon />
         </RightButton>
       </RightButtons>

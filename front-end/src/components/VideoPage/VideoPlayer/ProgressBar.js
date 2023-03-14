@@ -1,5 +1,5 @@
-import React from "react";
-import { Stack, styled } from "@mui/material";
+import React, { useState } from "react";
+import { LinearProgress, Stack, styled } from "@mui/material";
 import { colors } from "../../ColorThemes";
 
 // Progress Bar
@@ -97,11 +97,25 @@ const HoverProgress = styled(Stack)`
   transform-origin: 0 0;
 `;
 
-export const ProgressBar = () => {
+const Bar = styled(LinearProgress)`
+  .MuiLinearProgress-bar {
+    background-color: ${colors.youtubeRed};
+  }
+  background: rgba(255, 255, 255, 0.4);
+  :hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+`;
+
+export const ProgressBar = (props) => {
+  // const [progress, setProgress] = useState(0);
+  const { progressRef } = props;
+
   return (
     <ProgressBarContainer>
       <ProgressBarComponent>
-        <ChaptersContainer>
+        <Bar variant="determinate" value={0} ref={progressRef} />
+        {/* <ChaptersContainer>
           <ChapterContainer>
             <ChapterPadding />
             <ProgressTrackerContainer>
@@ -110,7 +124,7 @@ export const ProgressBar = () => {
               <HoverProgress />
             </ProgressTrackerContainer>
           </ChapterContainer>
-        </ChaptersContainer>
+        </ChaptersContainer> */}
       </ProgressBarComponent>
     </ProgressBarContainer>
   );
