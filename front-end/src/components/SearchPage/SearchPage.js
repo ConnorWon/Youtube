@@ -176,6 +176,10 @@ export const SearchPage = (props) => {
 
   useEffect(() => {
     setInSearchPage(true);
+
+    return () => {
+      setInSearchPage(false);
+    };
   }, []);
 
   return (

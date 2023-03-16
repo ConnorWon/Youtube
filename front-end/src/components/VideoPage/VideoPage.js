@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled, Box, Stack } from "@mui/material";
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 import { colors } from "../ColorThemes";
@@ -97,7 +97,18 @@ const Secondary = styled("div")`
 
 const SecondaryInner = styled("div")``;
 
-export const VideoPage = () => {
+export const VideoPage = (props) => {
+  const { setInVideoPage } = props;
+  // setInVideoPage(true);
+
+  useEffect(() => {
+    setInVideoPage(true);
+
+    return () => {
+      setInVideoPage(false);
+    };
+  }, []);
+
   return (
     <CSSValueProvider>
       <MainContainer>

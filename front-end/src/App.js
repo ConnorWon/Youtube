@@ -9,36 +9,53 @@ import { SidebarExpand } from "./components/Navigation/SidebarExpand";
 import { useState } from "react";
 import { VideoPage } from "./components/VideoPage/VideoPage";
 
+const PageContainer = styled(Box)`
+  width: ${({ inVideoPage }) => (inVideoPage ? "100%" : "calc(100% - 72px)")};
+  height: calc(100% - 56px);
+  position: relative;
+  margin-top: 56px;
+  margin-left: ${({ inVideoPage }) => (inVideoPage ? "0" : "72px")};
+  overflow-x: clip;
+  max-width: 100%;
+
+  @media only screen and (max-width: 791px) {
+    width: ${({ inSearchPage }) =>
+      inSearchPage ? "100%" : "calc(100% - 72px)"};
+    margin-left: ${({ inSearchPage }) => (inSearchPage ? "0" : "72px")};
+  }
+`;
+
 function App() {
-  const PageContainer = styled(Box)`
-    width: ${({ sideExpand }) =>
-      sideExpand ? "calc(100% - 240px)" : "calc(100% - 72px)"};
-    height: calc(100% - 56px);
-    position: relative;
-    margin-top: 56px;
-    margin-left: ${({ sideExpand }) => (sideExpand ? "240px" : "72px")};
-    overflow-x: clip;
-    max-width: 100%;
-
-    @media only screen and (max-width: 791px) {
-      width: ${({ inSearchPage }) =>
-        inSearchPage ? "100%" : "calc(100% - 72px)"};
-      margin-left: ${({ inSearchPage }) => (inSearchPage ? "0" : "72px")};
-    }
-  `;
-
   const [sideExpand, setSideExpand] = useState(false);
   const [inSearchPage, setInSearchPage] = useState(false);
+  const [inVideoPage, setInVideoPage] = useState(false);
+
+  const handleSideExpand = (e) => {
+    setSideExpand(!sideExpand);
+    const main = document.getElementById("main");
+    if (!sideExpand) {
+      main.style.width = "calc(100% - 240px)";
+      main.style.marginLeft = "240px";
+    } else {
+      main.style.width = "calc(100% - 72px)";
+      main.style.marginLeft = "72px";
+    }
+  };
 
   return (
     <div className="App">
-      <Navbar setSideExpand={setSideExpand} sideExpand={sideExpand} />
-      {sideExpand ? (
-        <SidebarExpand />
-      ) : (
-        <SidebarMini inSearchPage={inSearchPage} />
-      )}
-      <PageContainer sideExpand={sideExpand} inSearchPage={inSearchPage}>
+      <Navbar handleSideExpand={handleSideExpand} />
+      <SidebarExpand sideExpand={sideExpand} />
+      <SidebarMini
+        sideExpand={sideExpand}
+        inSearchPage={inSearchPage}
+        inVideoPage={inVideoPage}
+      />
+      <PageContainer
+        id="main"
+        inSearchPage={inSearchPage}
+        inVideoPage={inVideoPage}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -49,7 +66,10 @@ function App() {
             path="/results"
             element={<SearchPage setInSearchPage={setInSearchPage} />}
           />
-          <Route path="/watch" element={<VideoPage />} />
+          <Route
+            path="/watch"
+            element={<VideoPage setInVideoPage={setInVideoPage} />}
+          />
         </Routes>
       </PageContainer>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Stack, Box, styled, LinearProgress } from "@mui/material";
 import { VideoButtons } from "./VideoButtons";
 import movie from "./test.MOV";
@@ -102,9 +102,6 @@ const ProgressBarComponent = styled(Stack)`
 
 const Bar = styled(LinearProgress)`
   background: ${colors.borderColor};
-  :hover {
-    background: rgba(255, 255, 255, 0.6);
-  }
   .MuiLinearProgress-bar {
     transition: transform 0.1s cubic-bezier(0.4, 0, 1, 1);
   }
@@ -116,8 +113,21 @@ const Bar = styled(LinearProgress)`
     background-color: rgba(255, 255, 255, 0.4);
   }
   .MuiLinearProgress-dashed {
-    display: none;
+    background-image: none;
   }
+`;
+
+const HoverProgress = styled("span")`
+  background: rgba(255, 255, 255, 0.6);
+  background-image: none;
+  position: absolute;
+  transform: opacity 0.25s cubic-bezier(0, 0, 0.2, 1);
+  opacity: 0;
+  animation: none;
+  transform-origin: 0 0;
+  width: 100%;
+  height: calc(100% - 1px);
+  z-index: 0;
 `;
 
 export const VideoPlayer = () => {
@@ -168,8 +178,12 @@ export const VideoPlayer = () => {
   const [visualDuration, setVisualDuration] = useState("0:00");
 
   const handleTime = (time, duration) => {
+    const prog = document.getElementById("progress-bar");
     handleVideoTimer(time, setVisualTime);
     setTime((time / duration) * 100);
+    const hp = document.getElementById("hover-progress");
+    hp.style.left = (time / duration) * prog.offsetWidth + "px";
+    setHoverPos((time / duration) * prog.offsetWidth);
   };
 
   const handleVideoTimer = (time, func) => {
@@ -182,6 +196,42 @@ export const VideoPlayer = () => {
     const secStr = sec < 10 ? "0" + sec : sec;
     func(hourStr + minStr + ":" + secStr);
   };
+
+  const [elLeft, setElLeft] = useState();
+  const handleProgressChange = (el) => {
+    const pos = el.clientX - elLeft.left;
+    setTime((pos / el.target.offsetWidth) * 100);
+    const video = document.getElementById("video");
+    video.currentTime = (pos / el.target.offsetWidth) * video.duration;
+  };
+
+  const [hoverPos, setHoverPos] = useState(0);
+  const handleMouseMove = (el) => {
+    const hp = document.getElementById("hover-progress");
+    const pos = el.clientX - elLeft.left;
+    const scaleVal =
+      pos / el.target.offsetWidth - hoverPos / el.target.offsetWidth;
+    hp.style.transform = "scaleX(" + scaleVal + ")";
+  };
+
+  const handleMouseEnter = (val) => {
+    const hp = document.getElementById("hover-progress");
+    hp.style.opacity = val;
+  };
+
+  const resizer = useRef(0);
+
+  const monitorResize = () => {
+    const progressBar = document.getElementById("progress-bar");
+    setElLeft(progressBar.getBoundingClientRect());
+  };
+
+  useEffect(() => {
+    const progressBar = document.getElementById("progress-bar");
+    setElLeft(progressBar.getBoundingClientRect());
+    resizer.current = new ResizeObserver(monitorResize);
+    resizer.current.observe(progressBar);
+  }, []);
 
   // fullscreen controls
   const [fs, setFs] = useState(false);
@@ -199,6 +249,7 @@ export const VideoPlayer = () => {
     }
   };
 
+  // setup custom controls
   useEffect(() => {
     const videoControls = document.getElementById("videoControls");
     const video = document.getElementById("video");
@@ -234,11 +285,17 @@ export const VideoPlayer = () => {
                 <VideoMenu id="videoControls">
                   <ProgressBarContainer>
                     <ProgressBarComponent>
+                      <HoverProgress id="hover-progress" />
                       <Bar
                         variant="buffer"
                         value={time}
                         valueBuffer={time + 5}
-                        onMou
+                        onClick={(e) => handleProgressChange(e)}
+                        onMouseMove={(e) => handleMouseMove(e)}
+                        onMouseEnter={(e) => handleMouseEnter("1")}
+                        onMouseLeave={(e) => handleMouseEnter("0")}
+                        time={time}
+                        id="progress-bar"
                       />
                     </ProgressBarComponent>
                   </ProgressBarContainer>

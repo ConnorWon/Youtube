@@ -258,14 +258,14 @@ export const VideoButtons = (props) => {
           </SkipButton>
         )}
         {!play ? (
-          <PlayButton onClick={() => handlePlay}>
+          <PlayButton onClick={() => handlePlay()}>
             <PlayArrowIcon
               sx={{ height: "inherit", width: "inherit" }}
               viewBox="-5 -5 36 36"
             />
           </PlayButton>
         ) : (
-          <PlayButton onClick={() => handlePlay}>
+          <PlayButton onClick={() => handlePlay()}>
             <PauseIcon
               sx={{ height: "inherit", width: "inherit" }}
               viewBox="-5 -5 36 36"

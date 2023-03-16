@@ -22,6 +22,7 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { DividerLeft, NaviBar, YTButton } from "./Styling";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   breakpoints: {
@@ -98,7 +99,10 @@ export const Navbar = (props) => {
   };
 
   // Expand sidebar function
-  const { setSideExpand, sideExpand } = props;
+  const { handleSideExpand } = props;
+
+  // nav to different routes
+  const navigate = useNavigate();
 
   return (
     <ThemeProvider theme={theme}>
@@ -196,7 +200,8 @@ export const Navbar = (props) => {
               color="inherit"
               edge="start"
               size="large"
-              onClick={() => setSideExpand(!sideExpand)}
+              // onClick={() => setSideExpand(!sideExpand)}
+              onClick={(e) => handleSideExpand()}
             >
               <MenuIcon />
             </IconButton>
@@ -205,6 +210,7 @@ export const Navbar = (props) => {
               size="large"
               startIcon={<YouTubeIcon sx={{ color: "red", mr: -1 }} />}
               disableRipple
+              onClick={() => navigate("/")}
             >
               Youtube
             </YTButton>

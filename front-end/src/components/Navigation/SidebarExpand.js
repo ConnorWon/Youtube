@@ -32,7 +32,7 @@ import { colors } from "../ColorThemes";
 import { SidebarButton } from "./SidebarButton";
 
 // pass a prop to this function and make that prop open and close this drawer (use true false to turn on off display css or change z-index css)
-export const SidebarExpand = () => {
+export const SidebarExpand = (props) => {
   const [loggedStatus, setLoggedStatus] = useState(false);
 
   const OuterButtonContainer = styled(Stack)`
@@ -45,6 +45,7 @@ export const SidebarExpand = () => {
       background-color: transparent;
       border-right: transparent;
     }
+    visibility: ${({ sideExpand }) => (sideExpand ? "visible" : "hidden")};
   `;
 
   const mainButtons = [
@@ -70,8 +71,10 @@ export const SidebarExpand = () => {
     ["/", "Fashion & Beauty", <DiamondOutlinedIcon />],
   ];
 
+  const { sideExpand } = props;
+
   return (
-    <SidebarDrawer variant="permanent">
+    <SidebarDrawer variant="permanent" sideExpand={sideExpand}>
       <HeaderSpacer />
       <SidebarContainer>
         <InnerSidebarContainer>
