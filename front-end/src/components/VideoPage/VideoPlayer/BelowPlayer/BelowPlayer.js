@@ -15,6 +15,7 @@ import { colors } from "../../../ColorThemes";
 import { ChannelButtons } from "./ChannelButtons";
 import { Description } from "./Description";
 import { CommentSection } from "./CommentSection";
+import { VideoPageSidebar } from "../../Sidebar/VideoPageSidebar";
 
 const MainContainer = styled("div")`
   position: relative;
@@ -39,6 +40,12 @@ const Title = styled(Typography)`
   white-space: normal;
 `;
 
+// const RelatedVids = styled("div")`
+//   @media only screen and (min-width: 1015px) {
+//     display: none;
+//   }
+// `;
+
 export const BelowPlayer = () => {
   const [expandDesc, setExpandDesc] = useState(false);
 
@@ -51,6 +58,9 @@ export const BelowPlayer = () => {
         <ChannelButtons />
         <Description />
       </VideoInfoContainer>
+      {/* <RelatedVids>
+        <VideoPageSidebar />
+      </RelatedVids> */}
       <CommentSection />
     </MainContainer>
   );

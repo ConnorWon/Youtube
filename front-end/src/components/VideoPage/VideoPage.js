@@ -36,7 +36,7 @@ const CSSValueProvider = styled("div")`
     var(--appbar-height) + var(--margin-size) + var(--space-below-player)
   );
   --non-player-width: calc(var(--sidebar-width) + 3 * var(--margin-size));
-  --min-player-height: 360px;
+  --min-player-height: 240px;
   --min-player-width: calc(
     var(--min-player-height) * (var(--width-ratio) / var(--height-ratio))
   );
@@ -46,23 +46,32 @@ const CSSValueProvider = styled("div")`
   );
   --max-player-width: calc(
     (
-      100vh -
-        (var(--appbar-height) + var(--margin-size) + var(--space-below-player)) *
-        (var(--width-ratio) / var(--height-ratio))
-    )
+        100vh -
+          (
+            var(--appbar-height) + var(--margin-size) +
+              var(--space-below-player)
+          )
+      ) * (var(--width-ratio) / var(--height-ratio))
   );
   background-color: ${colors.bgColorDark};
+
+  @media only screen and (min-width: 1015px) {
+    --min-player-height: 360px;
+  }
+  @media only screen and (min-width: 1342px) and (min-height: 630px) {
+    --min-player-height: 480px;
+  }
 `;
 
 const MainContainer = styled("div")`
   ${
     "" /* min-width styling is only present when video player and side video recommendation is on screen */
   }
+
   min-width: calc(
     var(--min-player-height) * (var(--width-ratio) / var(--height-ratio)) + 3 *
       var(--margin-size) + var(--sidebar-min-width)
   );
-
   justify-content: center;
   max-width: calc(1280px + var(--sidebar-width) + 3 * var(--margin-size));
   margin: 0 auto;
@@ -76,7 +85,6 @@ const Primary = styled(Box)`
     "" /* max-width styling is only present when video player and side video recommendation is on screen */
   }
   max-width: var(--max-player-width);
-
   min-width: var(--min-player-width);
   padding-top: var(--margin-size);
   margin-left: var(--margin-size);
@@ -88,11 +96,15 @@ const Primary = styled(Box)`
 const PrimaryInner = styled(Stack)``;
 
 const Secondary = styled("div")`
-  padding-top: var(--margin);
+  padding-top: calc(var(--margin-size) - 8px);
   position: relative;
-  padding-right: var(--margin);
+  padding-right: var(--margin-size);
   width: var(--sidebar-width);
   min-width: var(--sidebar-min-width);
+
+  @media only screen and (max-width: 1014px) {
+    display: none;
+  }
 `;
 
 const SecondaryInner = styled("div")``;

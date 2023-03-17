@@ -11,7 +11,6 @@ const Player = styled(Stack)`
 const OuterPlayerContainer = styled(Box)`
   max-width: var(--max-player-width);
   min-width: var(--min-player-width);
-  margin: 0 auto;
 `;
 
 const PlayerContainer = styled(Stack)`
@@ -73,8 +72,12 @@ const Video = styled("video")`
   object-fit: cover;
   position: absolute;
   display: block;
-  width: ${({ fs }) => (fs ? "unset" : "640px")};
-  height: ${({ fs }) => (fs ? "unset" : "360px")};
+  width: ${({ fs }) => (fs ? "unset" : "100%")};
+  ${"" /* width: ${({ fs }) => (fs ? "unset" : "var(--max-player-width)")}; */}
+  ${
+    "" /* width: var(--max-player-width);
+  height: var(--max-player-height); */
+  }
   top: 0;
   left: 0;
 `;
