@@ -73,11 +73,6 @@ const Video = styled("video")`
   position: absolute;
   display: block;
   width: ${({ fs }) => (fs ? "unset" : "100%")};
-  ${"" /* width: ${({ fs }) => (fs ? "unset" : "var(--max-player-width)")}; */}
-  ${
-    "" /* width: var(--max-player-width);
-  height: var(--max-player-height); */
-  }
   top: 0;
   left: 0;
 `;
@@ -133,7 +128,9 @@ const HoverProgress = styled("span")`
   z-index: 0;
 `;
 
-export const VideoPlayer = () => {
+export const VideoPlayer = (props) => {
+  const { inVideoPage } = props;
+
   // play/pause controls
   const [play, setPlay] = useState(false);
 
@@ -234,7 +231,7 @@ export const VideoPlayer = () => {
     setElLeft(progressBar.getBoundingClientRect());
     resizer.current = new ResizeObserver(monitorResize);
     resizer.current.observe(progressBar);
-  }, []);
+  }, [inVideoPage]);
 
   // fullscreen controls
   const [fs, setFs] = useState(false);

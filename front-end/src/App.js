@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { Box, styled } from "@mui/material";
 import { SidebarExpand } from "./components/Navigation/SidebarExpand";
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 import { VideoPage } from "./components/VideoPage/VideoPage";
 
 const PageContainer = styled(Box)`
@@ -19,9 +19,10 @@ const PageContainer = styled(Box)`
   max-width: 100%;
 
   @media only screen and (max-width: 791px) {
-    width: ${({ inSearchPage }) =>
-      inSearchPage ? "100%" : "calc(100% - 72px)"};
-    margin-left: ${({ inSearchPage }) => (inSearchPage ? "0" : "72px")};
+    width: ${({ inSearchPage, inVideoPage }) =>
+      inSearchPage || inVideoPage ? "100%" : "calc(100% - 72px)"};
+    margin-left: ${({ inSearchPage, inVideoPage }) =>
+      inSearchPage || inVideoPage ? "0" : "72px"};
   }
 `;
 
@@ -41,6 +42,13 @@ function App() {
       main.style.marginLeft = "72px";
     }
   };
+
+  var currentURL = window.location.href.split("/");
+  useLayoutEffect(() => {
+    if (currentURL[3] == "watch") {
+      setInVideoPage(true);
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -68,7 +76,12 @@ function App() {
           />
           <Route
             path="/watch"
-            element={<VideoPage setInVideoPage={setInVideoPage} />}
+            element={
+              <VideoPage
+                setInVideoPage={setInVideoPage}
+                inVideoPage={inVideoPage}
+              />
+            }
           />
         </Routes>
       </PageContainer>

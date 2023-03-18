@@ -20,7 +20,8 @@ const SideMenu = styled(Stack)`
     sideExpand || inVideoPage ? "hidden" : "visible"};
 
   @media only screen and (max-width: 791px) {
-    visibility: ${({ inSearchPage }) => (inSearchPage ? "hidden" : "visible")};
+    visibility: ${({ inSearchPage, inVideoPage }) =>
+      inSearchPage || inVideoPage ? "hidden" : "visible"};
   }
 `;
 

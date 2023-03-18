@@ -55,7 +55,8 @@ const CSSValueProvider = styled("div")`
   );
   background-color: ${colors.bgColorDark};
 
-  @media only screen and (min-width: 1015px) {
+  @media only screen and (min-width: 1015px),
+    (min-width: 672px) and (max-height: 629px) {
     --min-player-height: 360px;
   }
   @media only screen and (min-width: 1342px) and (min-height: 630px) {
@@ -67,11 +68,13 @@ const MainContainer = styled("div")`
   ${
     "" /* min-width styling is only present when video player and side video recommendation is on screen */
   }
+  @media only screen and (min-width: 1015px) {
+    min-width: calc(
+      var(--min-player-height) * (var(--width-ratio) / var(--height-ratio)) + 3 *
+        var(--margin-size) + var(--sidebar-min-width)
+    );
+  }
 
-  min-width: calc(
-    var(--min-player-height) * (var(--width-ratio) / var(--height-ratio)) + 3 *
-      var(--margin-size) + var(--sidebar-min-width)
-  );
   justify-content: center;
   max-width: calc(1280px + var(--sidebar-width) + 3 * var(--margin-size));
   margin: 0 auto;
@@ -110,12 +113,10 @@ const Secondary = styled("div")`
 const SecondaryInner = styled("div")``;
 
 export const VideoPage = (props) => {
-  const { setInVideoPage } = props;
-  // setInVideoPage(true);
+  const { setInVideoPage, inVideoPage } = props;
 
   useEffect(() => {
     setInVideoPage(true);
-
     return () => {
       setInVideoPage(false);
     };
@@ -126,7 +127,7 @@ export const VideoPage = (props) => {
       <MainContainer>
         <Primary>
           <PrimaryInner>
-            <VideoPlayer />
+            <VideoPlayer inVideoPage={inVideoPage} />
             <BelowPlayer />
           </PrimaryInner>
         </Primary>
