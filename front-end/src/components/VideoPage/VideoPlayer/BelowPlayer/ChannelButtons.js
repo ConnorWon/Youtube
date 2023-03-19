@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Avatar,
   styled,
@@ -178,10 +178,7 @@ const ButtonText = styled(Typography)`
   white-space: nowrap;
 `;
 
-const MenuButtonContainer = styled("div")`
-  margin-left: 8px;
-  display: inline-block;
-`;
+const MenuButtonContainer = styled("div")``;
 
 const MenuButton = styled(Button)`
   margin-left: 8px;
@@ -212,8 +209,93 @@ const FlexibleButtons = styled("div")``;
 export const ChannelButtons = () => {
   const [like, setLike] = useState();
   const [flexBtnShow, setFlexBtnShow] = useState(false);
+
+  // adding responsiveness to buttons
+  const resizer = useRef(0);
+  var rightSide = null;
+  var main = null;
+  var download = useRef(null);
+  var clip = useRef(null);
+  var save = useRef(null);
+  var flexElNum = 0;
+
+  var flexibleElements = [
+    [download, 127.39],
+    [clip, 88.7],
+    [save, 94.8],
+  ];
+
+  // const monitorResize = () => {
+  //   // const left = leftSide.getBoundingClientRect();
+  //   const right = rightSide.getBoundingClientRect();
+  //   if (mainSize) {
+  //     if (flexElNum == 0) {
+  //       main.style.display = "block";
+  //       download.current.style.display = "inline-block";
+  //       clip.current.style.display = "inline-block";
+  //       save.current.style.display = "inline-block";
+  //     } else {
+  //       const flexEl = flexibleElements[flexElNum][0];
+  //       flexEl.current.style.display = "none";
+  //       flexElNum--;
+  //     }
+  //   } else {
+  //     if (right.left - left.right > flexibleElements[flexElNum][1]) {
+  //       const flexEl = flexibleElements[flexElNum][0];
+  //       flexEl.current.style.display = "inline-block";
+  //       flexElNum++;
+  //     } else if (main.getBoundingClientRect().width >= 640 && flexElNum == 3) {
+  //       main.style.display = "flex";
+  //     }
+  //   }
+  // };
+
+  const handleFlexButtons = () => {
+    const mainSize = main.getBoundingClientRect().width;
+    if (mainSize >= 641) {
+      main.style.display = "flex";
+      rightSide.style.justifyContent = "flex-end";
+      download.current.style.display = "none";
+      clip.current.style.display = "none";
+      save.current.style.display = "none";
+      if (mainSize / 2 - 6 >= 403.5) {
+        download.current.style.display = "inline-block";
+        if (mainSize / 2 - 6 >= 491.78) {
+          clip.current.style.display = "inline-block";
+          if (mainSize / 2 - 6 >= 586) {
+            save.current.style.display = "inline-block";
+          }
+        }
+      }
+    } else if (mainSize < 641) {
+      main.style.display = "block";
+      rightSide.style.justifyContent = "flex-start";
+      download.current.style.display = "inline-block";
+      clip.current.style.display = "none";
+      save.current.style.display = "none";
+      if (mainSize >= 492) {
+        clip.current.style.display = "inline-block";
+        if (mainSize >= 586) {
+          save.current.style.display = "inline-block";
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    main = document.getElementById("channelbtncont");
+    resizer.current = new ResizeObserver(handleFlexButtons);
+    resizer.current.observe(main);
+    rightSide = document.getElementById("right-side");
+    download.current = document.getElementById("download");
+    clip.current = document.getElementById("clip");
+    save.current = document.getElementById("save");
+    handleFlexButtons();
+    // monitorResize();
+  }, []);
+
   return (
-    <ChannelButtonsContainer direction="row">
+    <ChannelButtonsContainer id="channelbtncont" direction="row">
       <ChannelOwnerContainer direction="row">
         <ChannelContainer direction="row">
           <ChannelIconContainer>
@@ -239,7 +321,7 @@ export const ChannelButtons = () => {
       </ChannelOwnerContainer>
       <ActionButtons direction="row">
         <ActionInner>
-          <Menu direction="row">
+          <Menu id="right-side" direction="row">
             <NonFlexButtons direction="row">
               <ToggleButtonGroup
                 value={like}
@@ -304,28 +386,26 @@ export const ChannelButtons = () => {
                 </MenuButton>
               </MenuButtonContainer>
             </NonFlexButtons>
-            {flexBtnShow && (
-              <FlexibleButtons>
-                <MenuButtonContainer>
-                  <MenuButton>
-                    <DownloadOutlinedIcon className="Menu-button" />
-                    <ButtonText>Download</ButtonText>
-                  </MenuButton>
-                </MenuButtonContainer>
-                <MenuButtonContainer>
-                  <MenuButton>
-                    <ContentCutOutlinedIcon className="Menu-button" />
-                    <ButtonText>Clip</ButtonText>
-                  </MenuButton>
-                </MenuButtonContainer>
-                <MenuButtonContainer>
-                  <MenuButton>
-                    <BookmarkAddOutlinedIcon className="Menu-button" />
-                    <ButtonText>Save</ButtonText>
-                  </MenuButton>
-                </MenuButtonContainer>
-              </FlexibleButtons>
-            )}
+            <FlexibleButtons>
+              <MenuButtonContainer id="download" sx={{ display: "none" }}>
+                <MenuButton>
+                  <DownloadOutlinedIcon className="Menu-button" />
+                  <ButtonText>Download</ButtonText>
+                </MenuButton>
+              </MenuButtonContainer>
+              <MenuButtonContainer id="clip" sx={{ display: "none" }}>
+                <MenuButton>
+                  <ContentCutOutlinedIcon className="Menu-button" />
+                  <ButtonText>Clip</ButtonText>
+                </MenuButton>
+              </MenuButtonContainer>
+              <MenuButtonContainer id="save" sx={{ display: "none" }}>
+                <MenuButton>
+                  <BookmarkAddOutlinedIcon className="Menu-button" />
+                  <ButtonText>Save</ButtonText>
+                </MenuButton>
+              </MenuButtonContainer>
+            </FlexibleButtons>
             <MenuButtonContainer>
               <MenuButton sx={{ p: 0, width: "36px" }}>
                 <MoreHorizIcon

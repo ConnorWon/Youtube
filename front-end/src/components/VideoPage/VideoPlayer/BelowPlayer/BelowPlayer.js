@@ -40,11 +40,11 @@ const Title = styled(Typography)`
   white-space: normal;
 `;
 
-// const RelatedVids = styled("div")`
-//   @media only screen and (min-width: 1015px) {
-//     display: none;
-//   }
-// `;
+const RelatedVids = styled("div")`
+  @media only screen and (min-width: 1015px) {
+    display: none;
+  }
+`;
 
 export const BelowPlayer = () => {
   const [expandDesc, setExpandDesc] = useState(false);
@@ -58,9 +58,9 @@ export const BelowPlayer = () => {
         <ChannelButtons />
         <Description />
       </VideoInfoContainer>
-      {/* <RelatedVids>
+      <RelatedVids>
         <VideoPageSidebar />
-      </RelatedVids> */}
+      </RelatedVids>
       <CommentSection />
     </MainContainer>
   );
