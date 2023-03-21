@@ -1,5 +1,5 @@
 import { Drawer, Stack, styled } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   HeaderSpacer,
   InnerSidebarContainer,
@@ -71,10 +71,15 @@ export const SidebarExpand = (props) => {
     ["/", "Fashion & Beauty", <DiamondOutlinedIcon />],
   ];
 
-  const { sideExpand } = props;
+  const { sideExpand, inVideoPage } = props;
 
   return (
-    <SidebarDrawer variant="permanent" sideExpand={sideExpand}>
+    <SidebarDrawer
+      variant={inVideoPage ? "temporary" : "permanent"}
+      anchor="left"
+      open={sideExpand}
+      sideExpand={sideExpand}
+    >
       <HeaderSpacer />
       <SidebarContainer>
         <InnerSidebarContainer>

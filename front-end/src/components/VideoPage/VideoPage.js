@@ -113,14 +113,17 @@ const Secondary = styled("div")`
 const SecondaryInner = styled("div")``;
 
 export const VideoPage = (props) => {
-  const { setInVideoPage, inVideoPage } = props;
+  const { handleInVideoPage, inVideoPage, sideExpand } = props;
 
   useEffect(() => {
-    setInVideoPage(true);
-    return () => {
-      setInVideoPage(false);
-    };
+    handleInVideoPage(true);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      handleInVideoPage(false);
+    };
+  }, [sideExpand]);
 
   return (
     <CSSValueProvider>

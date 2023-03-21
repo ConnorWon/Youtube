@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { Box, styled } from "@mui/material";
 import { SidebarExpand } from "./components/Navigation/SidebarExpand";
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import { VideoPage } from "./components/VideoPage/VideoPage";
 
 const PageContainer = styled(Box)`
@@ -34,12 +34,14 @@ function App() {
   const handleSideExpand = (e) => {
     setSideExpand(!sideExpand);
     const main = document.getElementById("main");
-    if (!sideExpand) {
-      main.style.width = "calc(100% - 240px)";
-      main.style.marginLeft = "240px";
-    } else {
-      main.style.width = "calc(100% - 72px)";
-      main.style.marginLeft = "72px";
+    if (!inVideoPage) {
+      if (!sideExpand) {
+        main.style.width = "calc(100% - 240px)";
+        main.style.marginLeft = "240px";
+      } else {
+        main.style.width = "calc(100% - 72px)";
+        main.style.marginLeft = "72px";
+      }
     }
   };
 
@@ -50,10 +52,27 @@ function App() {
     }
   }, []);
 
+  const handleInVideoPage = (inPage) => {
+    setInVideoPage(inPage);
+    const main = document.getElementById("main");
+    if (inPage) {
+      main.style.width = "100%";
+      main.style.marginLeft = "0";
+    } else {
+      if (sideExpand) {
+        main.style.width = "calc(100% - 240px)";
+        main.style.marginLeft = "240px";
+      } else {
+        main.style.width = "calc(100% - 72px)";
+        main.style.marginLeft = "72px";
+      }
+    }
+  };
+
   return (
     <div className="App">
       <Navbar handleSideExpand={handleSideExpand} />
-      <SidebarExpand sideExpand={sideExpand} />
+      <SidebarExpand sideExpand={sideExpand} inVideoPage={inVideoPage} />
       <SidebarMini
         sideExpand={sideExpand}
         inSearchPage={inSearchPage}
@@ -78,8 +97,9 @@ function App() {
             path="/watch"
             element={
               <VideoPage
-                setInVideoPage={setInVideoPage}
+                handleInVideoPage={handleInVideoPage}
                 inVideoPage={inVideoPage}
+                sideExpand={sideExpand}
               />
             }
           />

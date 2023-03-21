@@ -217,13 +217,6 @@ export const ChannelButtons = () => {
   var download = useRef(null);
   var clip = useRef(null);
   var save = useRef(null);
-  var flexElNum = 0;
-
-  var flexibleElements = [
-    [download, 127.39],
-    [clip, 88.7],
-    [save, 94.8],
-  ];
 
   // const monitorResize = () => {
   //   // const left = leftSide.getBoundingClientRect();
