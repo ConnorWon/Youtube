@@ -13,10 +13,10 @@ export const SidebarButton = (props) => {
   const navigate = useNavigate();
 
   return (
-    <OuterButtonShell>
+    <OuterButtonShell onClick={() => navigate(icon[0])}>
       <ButtonAnchor>
         <ButtonHighlight elevation={0}>
-          <IconHolder onClick={() => navigate(icon[0])}>{icon[2]}</IconHolder>
+          <IconHolder>{icon[2]}</IconHolder>
           <SideBarLabel>{icon[1]}</SideBarLabel>
         </ButtonHighlight>
       </ButtonAnchor>

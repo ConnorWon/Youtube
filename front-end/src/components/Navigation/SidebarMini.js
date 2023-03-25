@@ -20,8 +20,7 @@ const SideMenu = styled(Stack)`
     sideExpand || inVideoPage ? "hidden" : "visible"};
 
   @media only screen and (max-width: 791px) {
-    visibility: ${({ inSearchPage, inVideoPage }) =>
-      inSearchPage || inVideoPage ? "hidden" : "visible"};
+    visibility: hidden;
   }
 `;
 
@@ -50,14 +49,10 @@ const icons = [
 export const SidebarMini = (props) => {
   const navigate = useNavigate();
 
-  const { inSearchPage, sideExpand, inVideoPage } = props;
+  const { sideExpand, inVideoPage } = props;
 
   return (
-    <SideMenu
-      inSearchPage={inSearchPage}
-      sideExpand={sideExpand}
-      inVideoPage={inVideoPage}
-    >
+    <SideMenu sideExpand={sideExpand} inVideoPage={inVideoPage}>
       {icons.map((icon) => {
         return (
           <SideButton onClick={() => navigate(icon[0])}>

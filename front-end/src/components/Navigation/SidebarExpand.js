@@ -1,5 +1,5 @@
 import { Drawer, Stack, styled } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useSyncExternalStore, useState, useEffect } from "react";
 import {
   HeaderSpacer,
   InnerSidebarContainer,
@@ -30,10 +30,34 @@ import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 import { colors } from "../ColorThemes";
 import { SidebarButton } from "./SidebarButton";
+import { GetWindowDimension } from "../WindowSizeStore";
+
+// function getSnapshot() {
+//   return window.innerWidth;
+// }
+
+// function subscribe(callback) {
+//   window.addEventListener("resize", callback);
+//   return () => {
+//     window.removeEventListener("resize", callback);
+//   };
+// }
 
 // pass a prop to this function and make that prop open and close this drawer (use true false to turn on off display css or change z-index css)
 export const SidebarExpand = (props) => {
   const [loggedStatus, setLoggedStatus] = useState(false);
+  const [modalSide, setModalSide] = useState(false);
+  //
+
+  const windowSize = GetWindowDimension();
+
+  useEffect(() => {
+    if (windowSize <= 1312) {
+      setModalSide(true);
+    } else {
+      setModalSide(false);
+    }
+  }, [windowSize]);
 
   const OuterButtonContainer = styled(Stack)`
     padding: 12px;
@@ -50,12 +74,12 @@ export const SidebarExpand = (props) => {
 
   const mainButtons = [
     ["/", "Home", <HomeOutlinedIcon />],
-    ["/", "Shorts", <SlideshowIcon />],
-    ["/", "Subscriptions", <SubscriptionsOutlinedIcon />],
+    ["/watch", "Shorts", <SlideshowIcon />],
+    ["/results", "Subscriptions", <SubscriptionsOutlinedIcon />],
   ];
 
   const secondaryButtons = [
-    ["/", "Library", <VideoLibraryOutlinedIcon />],
+    ["/channel", "Library", <VideoLibraryOutlinedIcon />],
     ["/", "History", <HistoryOutlinedIcon />],
   ];
 
@@ -75,7 +99,7 @@ export const SidebarExpand = (props) => {
 
   return (
     <SidebarDrawer
-      variant={inVideoPage ? "temporary" : "permanent"}
+      variant={inVideoPage || modalSide ? "temporary" : "permanent"}
       anchor="left"
       open={sideExpand}
       sideExpand={sideExpand}

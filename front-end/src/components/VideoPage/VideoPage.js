@@ -117,7 +117,7 @@ export const VideoPage = (props) => {
 
   useEffect(() => {
     handleInVideoPage(true);
-  }, []);
+  }, [sideExpand]);
 
   useEffect(() => {
     return () => {

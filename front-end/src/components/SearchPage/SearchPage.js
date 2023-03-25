@@ -174,14 +174,6 @@ export const SearchPage = (props) => {
     setOpen(!open);
   };
 
-  useEffect(() => {
-    setInSearchPage(true);
-
-    return () => {
-      setInSearchPage(false);
-    };
-  }, []);
-
   return (
     <MainContainer>
       <OuterContainer>

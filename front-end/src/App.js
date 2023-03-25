@@ -8,41 +8,37 @@ import { Box, styled } from "@mui/material";
 import { SidebarExpand } from "./components/Navigation/SidebarExpand";
 import { useState, useLayoutEffect, useEffect } from "react";
 import { VideoPage } from "./components/VideoPage/VideoPage";
+import { GetWindowDimension } from "./components/WindowSizeStore";
 
 const PageContainer = styled(Box)`
-  width: ${({ inVideoPage }) => (inVideoPage ? "100%" : "calc(100% - 72px)")};
+  ${
+    "" /* width: ${({ inVideoPage }) => (inVideoPage ? "100%" : "calc(100% - 72px)")}; */
+  }
   height: calc(100% - 56px);
   position: relative;
   margin-top: 56px;
-  margin-left: ${({ inVideoPage }) => (inVideoPage ? "0" : "72px")};
+  ${"" /* margin-left: ${({ inVideoPage }) => (inVideoPage ? "0" : "72px")}; */}
   overflow-x: clip;
   max-width: 100%;
 
   @media only screen and (max-width: 791px) {
-    width: ${({ inSearchPage, inVideoPage }) =>
-      inSearchPage || inVideoPage ? "100%" : "calc(100% - 72px)"};
-    margin-left: ${({ inSearchPage, inVideoPage }) =>
-      inSearchPage || inVideoPage ? "0" : "72px"};
+    width: 100%;
+    margin-left: 0;
+  }
+
+  @media only screen and (min-width: 792px) {
+    width: ${({ inVideoPage }) => (inVideoPage ? "100%" : "calc(100% - 72px)")};
+    margin-left: ${({ inVideoPage }) => (inVideoPage ? "0" : "72px")};
   }
 `;
 
 function App() {
   const [sideExpand, setSideExpand] = useState(false);
-  const [inSearchPage, setInSearchPage] = useState(false);
   const [inVideoPage, setInVideoPage] = useState(false);
+  const windowSize = GetWindowDimension();
 
   const handleSideExpand = (e) => {
     setSideExpand(!sideExpand);
-    const main = document.getElementById("main");
-    if (!inVideoPage) {
-      if (!sideExpand) {
-        main.style.width = "calc(100% - 240px)";
-        main.style.marginLeft = "240px";
-      } else {
-        main.style.width = "calc(100% - 72px)";
-        main.style.marginLeft = "72px";
-      }
-    }
   };
 
   var currentURL = window.location.href.split("/");
@@ -54,45 +50,35 @@ function App() {
 
   const handleInVideoPage = (inPage) => {
     setInVideoPage(inPage);
+  };
+
+  useEffect(() => {
     const main = document.getElementById("main");
-    if (inPage) {
+    if (inVideoPage || windowSize < 791) {
       main.style.width = "100%";
       main.style.marginLeft = "0";
-    } else {
-      if (sideExpand) {
-        main.style.width = "calc(100% - 240px)";
-        main.style.marginLeft = "240px";
-      } else {
-        main.style.width = "calc(100% - 72px)";
-        main.style.marginLeft = "72px";
-      }
+    } else if (windowSize > 791 && !sideExpand) {
+      main.style.width = "calc(100% - 72px)";
+      main.style.marginLeft = "72px";
+    } else if (windowSize > 1312 && sideExpand) {
+      main.style.width = "calc(100% - 240px)";
+      main.style.marginLeft = "240px";
     }
-  };
+  }, [windowSize, sideExpand, inVideoPage]);
 
   return (
     <div className="App">
       <Navbar handleSideExpand={handleSideExpand} />
       <SidebarExpand sideExpand={sideExpand} inVideoPage={inVideoPage} />
-      <SidebarMini
-        sideExpand={sideExpand}
-        inSearchPage={inSearchPage}
-        inVideoPage={inVideoPage}
-      />
-      <PageContainer
-        id="main"
-        inSearchPage={inSearchPage}
-        inVideoPage={inVideoPage}
-      >
+      <SidebarMini sideExpand={sideExpand} inVideoPage={inVideoPage} />
+      <PageContainer id="main" inVideoPage={inVideoPage}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
             path="/channel/*"
             element={<Channel sideExpand={sideExpand} />}
           />
-          <Route
-            path="/results"
-            element={<SearchPage setInSearchPage={setInSearchPage} />}
-          />
+          <Route path="/results" element={<SearchPage />} />
           <Route
             path="/watch"
             element={
