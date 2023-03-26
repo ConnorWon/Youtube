@@ -11,25 +11,11 @@ import { VideoPage } from "./components/VideoPage/VideoPage";
 import { GetWindowDimension } from "./components/WindowSizeStore";
 
 const PageContainer = styled(Box)`
-  ${
-    "" /* width: ${({ inVideoPage }) => (inVideoPage ? "100%" : "calc(100% - 72px)")}; */
-  }
   height: calc(100% - 56px);
   position: relative;
   margin-top: 56px;
-  ${"" /* margin-left: ${({ inVideoPage }) => (inVideoPage ? "0" : "72px")}; */}
   overflow-x: clip;
   max-width: 100%;
-
-  @media only screen and (max-width: 791px) {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  @media only screen and (min-width: 792px) {
-    width: ${({ inVideoPage }) => (inVideoPage ? "100%" : "calc(100% - 72px)")};
-    margin-left: ${({ inVideoPage }) => (inVideoPage ? "0" : "72px")};
-  }
 `;
 
 function App() {
@@ -43,7 +29,7 @@ function App() {
 
   var currentURL = window.location.href.split("/");
   useLayoutEffect(() => {
-    if (currentURL[3] == "watch") {
+    if (currentURL[3] === "watch") {
       setInVideoPage(true);
     }
   }, []);

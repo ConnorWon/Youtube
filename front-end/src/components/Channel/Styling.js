@@ -7,7 +7,6 @@ import {
   Button,
   Tab,
 } from "@mui/material";
-import { TabPanel } from "@mui/lab";
 import { colors } from "../ColorThemes";
 
 export const ChannelHeaderExternal = styled("div")`
@@ -26,22 +25,22 @@ export const ChannelHeaderMiddle = styled(Box)`
     padding-left: calc((100% - 428px) / 2);
   }
 
-  @media only screen and (max-width: 972px) {
+  @media only screen and (max-width: 972px) and (min-width: 687px) {
     padding-right: calc((100% - 642px) / 2);
     padding-left: calc((100% - 642px) / 2);
   }
 
-  @media only screen and (max-width: 1186px) {
+  @media only screen and (max-width: 1186px) and (min-width: 973px) {
     padding-right: calc((100% - 856px) / 2);
     padding-left: calc((100% - 856px) / 2);
   }
 
-  @media only screen and (max-width: 1400px) {
+  @media only screen and (max-width: 1400px) and (min-width: 1187px) {
     padding-right: calc((100% - 1070px) / 2);
     padding-left: calc((100% - 1070px) / 2);
   }
 
-  @media only screen and (max-width: 1568px) {
+  @media only screen and (max-width: 1568px) and (min-width: 1401px) {
     padding-right: ${({ sideExpand }) =>
       sideExpand ? "calc((100% - 1070px) / 2)" : "calc((100% - 1284px) / 2)"};
     padding-left: ${({ sideExpand }) =>
@@ -52,6 +51,11 @@ export const ChannelHeaderMiddle = styled(Box)`
     padding-right: calc((100% - 1284px) / 2);
     padding-left: calc((100% - 1284px) / 2);
   }
+
+  @media (max-width: 701px) {
+    height: auto;
+    padding: 0;
+  }
 `;
 
 export const ChannelHeaderInner = styled(Stack)`
@@ -60,6 +64,13 @@ export const ChannelHeaderInner = styled(Stack)`
   height: 100%;
   max-width: 1284px;
   align-items: center;
+
+  @media (max-width: 701px) {
+    width: 428px;
+    margin: auto;
+    padding: 24px 0 0;
+    box-sizing: border-box;
+  }
 `;
 
 export const ChannelIcon = styled(Avatar)`
@@ -67,6 +78,10 @@ export const ChannelIcon = styled(Avatar)`
   height: 80px;
   margin: 0 24px 0 0;
   flex: none;
+
+  @media (max-width: 701px) {
+    display: none;
+  }
 `;
 
 export const InnerContainer = styled(Stack)`
@@ -92,10 +107,12 @@ export const Name = styled(Typography)`
   color: white;
   font-family: Roboto;
   font-weight: 400;
-  line-height: 1;
+  line-height: 30px;
+  font-size: 24px;
 
-  @media only screen and (min-width: 686px) {
-    font-size: 23px;
+  @media only screen and (max-width: 701px) {
+    font-size: 18px;
+    line-height: 26px;
   }
 `;
 
@@ -135,6 +152,38 @@ export const TabContainer = styled(Box)`
   position: sticky;
   top: 56px;
   z-index: 1;
+
+  @media only screen and (max-width: 686px) {
+    padding-right: calc((100% - 428px) / 2);
+    padding-left: calc((100% - 428px) / 2);
+  }
+
+  @media only screen and (max-width: 972px) and (min-width: 687px) {
+    padding-right: calc((100% - 642px) / 2);
+    padding-left: calc((100% - 642px) / 2);
+  }
+
+  @media only screen and (max-width: 1186px) and (min-width: 973px) {
+    padding-right: calc((100% - 856px) / 2);
+    padding-left: calc((100% - 856px) / 2);
+  }
+
+  @media only screen and (max-width: 1400px) and (min-width: 1187px) {
+    padding-right: calc((100% - 1070px) / 2);
+    padding-left: calc((100% - 1070px) / 2);
+  }
+
+  @media only screen and (max-width: 1568px) and (min-width: 1401px) {
+    padding-right: ${({ sideExpand }) =>
+      sideExpand ? "calc((100% - 1070px) / 2)" : "calc((100% - 1284px) / 2)"};
+    padding-left: ${({ sideExpand }) =>
+      sideExpand ? "calc((100% - 1070px) / 2)" : "calc((100% - 1284px) / 2)"};
+  }
+
+  @media only screen and (min-width: 1569px) {
+    padding-right: calc((100% - 1284px) / 2);
+    padding-left: calc((100% - 1284px) / 2);
+  }
 `;
 
 export const ChannelTab = styled(Tab)`

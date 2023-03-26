@@ -81,6 +81,8 @@ export const About = (props) => {
     text-transform: none;
     margin-left: -16px;
     padding: 0 16px;
+    white-space: nowrap;
+    letter-spacing: 0;
 
     :hover {
       background-color: rgba(256, 256, 256, 0.3);

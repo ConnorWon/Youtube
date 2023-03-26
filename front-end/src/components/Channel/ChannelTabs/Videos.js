@@ -27,11 +27,11 @@ const VideoOuterContainer = styled(Grid)`
   max-width: 360px;
 
   @media only screen and (min-width: 1187px) {
-    max-width: ${({ sideExpand }) => (sideExpand ? "360px" : "340px")};
+    max-width: 340px;
   }
 
-  @media only screen and (min-width: 1355px) {
-    max-width: 340px;
+  @media only screen and (min-width: 1313px) and (max-width: 1354px) {
+    max-width: ${({ sideExpand }) => (sideExpand ? "360px" : "340px")};
   }
 
   @media only screen and (min-width: 1401px) {
@@ -78,15 +78,15 @@ const ContentContainer = styled(Grid)`
   }
 
   @media only screen and (min-width: 1187px) {
+    padding-right: calc((100% - 1068px) / 2);
+    padding-left: calc((100% - 1068px) / 2);
+  }
+
+  @media only screen and (min-width: 1313px) and (max-width: 1354px) {
     padding-right: ${({ sideExpand }) =>
       sideExpand ? "calc((100% - 752px) / 2)" : "calc((100% - 1068px) / 2)"};
     padding-left: ${({ sideExpand }) =>
       sideExpand ? "calc((100% - 752px) / 2)" : "calc((100% - 1068px) / 2)"};
-  }
-
-  @media only screen and (min-width: 1355px) {
-    padding-right: calc((100% - 1068px) / 2);
-    padding-left: calc((100% - 1068px) / 2);
   }
 
   @media only screen and (min-width: 1401px) {

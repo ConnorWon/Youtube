@@ -54,9 +54,13 @@ export const ChannelNavBar = (props) => {
               textColor="secondary"
               indicatorColor="primary"
               sx={{
-                ml: "25px",
                 "& .MuiTabScrollButton-root": {
                   color: "#aaaaaa",
+                },
+                "& .MuiTabs-scrollButtons": {
+                  "@media(min-width: 0)": {
+                    display: "flex",
+                  },
                 },
               }}
             >

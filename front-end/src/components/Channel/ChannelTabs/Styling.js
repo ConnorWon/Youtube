@@ -28,15 +28,15 @@ export const MainContainer = styled("div")`
   }
 
   @media only screen and (min-width: 1187px) {
+    padding-right: calc((100% - 1070px) / 2);
+    padding-left: calc((100% - 1070px) / 2);
+  }
+
+  @media only screen and (min-width: 1313px) and (max-width: 1354px) {
     padding-right: ${({ sideExpand }) =>
       sideExpand ? "calc((100% - 856px) / 2)" : "calc((100% - 1070px) / 2)"};
     padding-left: ${({ sideExpand }) =>
       sideExpand ? "calc((100% - 856px) / 2)" : "calc((100% - 1070px) / 2)"};
-  }
-
-  @media only screen and (min-width: 1355px) {
-    padding-right: calc((100% - 1070px) / 2);
-    padding-left: calc((100% - 1070px) / 2);
   }
 
   @media only screen and (min-width: 1401px) {

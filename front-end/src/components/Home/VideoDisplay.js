@@ -23,12 +23,13 @@ const text = [
 
 const VideoOuterContainer = styled(Grid)`
   margin: 0px 8px 40px 8px;
+  max-width: calc(100% / 2 - 16px);
 
-  @media only screen and (min-width: 1144px) {
-    max-width: calc(100% / 4 - 16px);
+  @media only screen and (min-width: 882px) {
+    max-width: calc(100% / 3 - 16px);
   }
 
-  @media only screen and (min-width: 1800px) {
+  @media only screen and (min-width: 1144px) {
     max-width: calc(100% / 4 - 16px);
   }
 `;
