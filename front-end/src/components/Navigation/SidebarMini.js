@@ -22,6 +22,10 @@ const SideMenu = styled(Stack)`
   @media only screen and (max-width: 791px) {
     visibility: hidden;
   }
+
+  @media (max-width: 1313px) {
+    visibility: visible;
+  }
 `;
 
 const SideButton = styled(Button)`

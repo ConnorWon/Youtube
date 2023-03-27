@@ -3,9 +3,11 @@ import React from "react";
 import thumbnail from "./youtube-thumbnail.png";
 import { colors } from "../ColorThemes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled(Box)`
   height: 100%;
+  cursor: pointer;
 `;
 
 const InnerContainer = styled(Box)`
@@ -55,6 +57,10 @@ const ChannelName = styled(Typography)`
   line-height: 20px;
   font-weight: 400;
   white-space: normal;
+
+  :hover {
+    color: rgba(255, 255, 255, 0.9);
+  }
 `;
 
 const ViewsAndDate = styled(Typography)`
@@ -73,31 +79,53 @@ const Verified = styled(Box)`
   margin: 0 0 0 4px;
 `;
 
-export const VideoContainer = () => {
+export const VideoContainer = (props) => {
+  const navigate = useNavigate();
+  const url = window.location.href;
+
+  const handleRouting = (val) => {
+    if (window.location.href === url) {
+      navigate(val);
+    }
+  };
+
+  const { inChannel } = props;
+
   return (
-    <Container>
+    <Container onClick={() => handleRouting("/watch")}>
       <InnerContainer>
         <ThumbnailContainer>
           <Thumbnail component="img" src={thumbnail} />
         </ThumbnailContainer>
         <Box>
           <Stack direction="row">
-            <ChannelProfile /> {/* the data here will come from the back-end */}
+            {!inChannel && (
+              <ChannelProfile onClick={() => handleRouting("/channel")} />
+            )}
+            {/* the data here will come from the back-end */}
             <DetailBox>
               <Stack>
                 <Title>Video Title</Title>{" "}
                 {/* the data here will come from the back-end */}
                 <Box>
                   <Stack>
-                    <Stack direction="row">
-                      <ChannelName>Channel Name</ChannelName>{" "}
-                      {/* the data here will come from the back-end */}
-                      <Verified>
-                        <CheckCircleIcon
-                          sx={{ color: "white", width: "14px", height: "14px" }}
-                        />
-                      </Verified>
-                    </Stack>
+                    {!inChannel && (
+                      <Stack direction="row">
+                        <ChannelName onClick={() => handleRouting("/channel")}>
+                          Channel Name
+                        </ChannelName>
+                        {/* the data here will come from the back-end */}
+                        <Verified>
+                          <CheckCircleIcon
+                            sx={{
+                              color: "white",
+                              width: "14px",
+                              height: "14px",
+                            }}
+                          />
+                        </Verified>
+                      </Stack>
+                    )}
                     <ViewsAndDate>
                       867K views {"\u2022"} 1 year ago{" "}
                       {/* the data here will come from the back-end */}

@@ -69,7 +69,8 @@ export const SidebarExpand = (props) => {
       background-color: transparent;
       border-right: transparent;
     }
-    visibility: ${({ sideExpand }) => (sideExpand ? "visible" : "hidden")};
+    visibility: ${({ sideExpand, modalSideExpand }) =>
+      sideExpand || modalSideExpand ? "visible" : "hidden"};
   `;
 
   const mainButtons = [
@@ -95,14 +96,15 @@ export const SidebarExpand = (props) => {
     ["/", "Fashion & Beauty", <DiamondOutlinedIcon />],
   ];
 
-  const { sideExpand, inVideoPage } = props;
+  const { sideExpand, inVideoPage, modalSideExpand } = props;
 
   return (
     <SidebarDrawer
       variant={inVideoPage || modalSide ? "temporary" : "permanent"}
       anchor="left"
-      open={sideExpand}
+      open={modalSideExpand}
       sideExpand={sideExpand}
+      modalSideExpand={modalSideExpand}
     >
       <HeaderSpacer />
       <SidebarContainer>

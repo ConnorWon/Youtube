@@ -113,7 +113,13 @@ const Secondary = styled("div")`
 const SecondaryInner = styled("div")``;
 
 export const VideoPage = (props) => {
-  const { handleInVideoPage, inVideoPage, sideExpand } = props;
+  const {
+    handleInVideoPage,
+    inVideoPage,
+    sideExpand,
+    setModalSideExpand,
+    modalSideExpand,
+  } = props;
 
   useEffect(() => {
     handleInVideoPage(true);
@@ -123,7 +129,11 @@ export const VideoPage = (props) => {
     return () => {
       handleInVideoPage(false);
     };
-  }, [sideExpand]);
+  }, [sideExpand, modalSideExpand]);
+
+  useEffect(() => {
+    setModalSideExpand(false);
+  }, []);
 
   return (
     <CSSValueProvider>

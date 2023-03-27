@@ -2,12 +2,14 @@ import { Typography, styled, Stack, Box, Avatar } from "@mui/material";
 import React from "react";
 import { colors } from "../ColorThemes";
 import thumbnail from "../Home/youtube-thumbnail.png";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useNavigate } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const VideosRender = styled(Box)`
   margin-top: 16px;
   display: block;
   position: relative;
+  cursor: pointer;
 `;
 
 const Container = styled(Stack)`
@@ -95,6 +97,10 @@ const ChannelName = styled(Typography)`
   max-height: 18px;
   -webkit-line-clamp: 1;
   display: flex;
+
+  :hover {
+    color: rgba(255, 255, 255, 0.9);
+  }
 `;
 
 const Description = styled(Typography)`
@@ -111,9 +117,25 @@ const Description = styled(Typography)`
   white-space: normal;
 `;
 
+const Verified = styled(Box)`
+  width: 20px;
+  align-items: center;
+  display: flex;
+  margin: 0 0 0 4px;
+`;
+
 export const HorizontalVideo = () => {
+  const navigate = useNavigate();
+  const url = window.location.href;
+
+  const handleRouting = (val) => {
+    if (window.location.href === url) {
+      navigate(val);
+    }
+  };
+
   return (
-    <VideosRender>
+    <VideosRender onClick={() => handleRouting("/watch")}>
       <Container direction="row">
         <ThumbnailContainer>
           <Thumbnail component="img" src={thumbnail} />
@@ -126,10 +148,21 @@ export const HorizontalVideo = () => {
             <ViewsAndDate>51K views {"\u2022"} 2 weeks ago</ViewsAndDate>
           </Stack>
           <ChannelNameContainer direction="row">
-            <ChannelIcon>
+            <ChannelIcon onClick={() => handleRouting("/channel")}>
               <Avatar sx={{ width: "24px", height: "24px" }} />
             </ChannelIcon>
-            <ChannelName>Ghost</ChannelName>
+            <ChannelName onClick={() => handleRouting("/channel")}>
+              Ghost
+            </ChannelName>
+            <Verified>
+              <CheckCircleIcon
+                sx={{
+                  color: "white",
+                  width: "14px",
+                  height: "14px",
+                }}
+              />
+            </Verified>
           </ChannelNameContainer>
           <Description>Hello this is the description!</Description>
         </InfoContainer>

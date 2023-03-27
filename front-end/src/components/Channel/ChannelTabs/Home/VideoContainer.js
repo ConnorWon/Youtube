@@ -2,9 +2,11 @@ import { Avatar, Box, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 import thumbnail from "./youtube-thumbnail.png";
 import { colors } from "../../../ColorThemes";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled(Box)`
   height: 100%;
+  cursor: pointer;
 `;
 
 const InnerContainer = styled(Box)`
@@ -50,8 +52,10 @@ const ViewsAndDate = styled(Typography)`
 `;
 
 export const VideoContainer = () => {
+  const navigate = useNavigate();
+
   return (
-    <Container>
+    <Container onClick={() => navigate("/watch")}>
       <InnerContainer>
         <ThumbnailContainer>
           <Thumbnail component="img" src={thumbnail} />

@@ -21,10 +21,15 @@ const PageContainer = styled(Box)`
 function App() {
   const [sideExpand, setSideExpand] = useState(false);
   const [inVideoPage, setInVideoPage] = useState(false);
+  const [modalSideExpand, setModalSideExpand] = useState(false);
   const windowSize = GetWindowDimension();
 
   const handleSideExpand = (e) => {
-    setSideExpand(!sideExpand);
+    if (windowSize <= 1312 || inVideoPage) {
+      setModalSideExpand(!modalSideExpand);
+    } else {
+      setSideExpand(!sideExpand);
+    }
   };
 
   var currentURL = window.location.href.split("/");
@@ -36,6 +41,9 @@ function App() {
 
   const handleInVideoPage = (inPage) => {
     setInVideoPage(inPage);
+    if (modalSideExpand) {
+      setSideExpand(modalSideExpand);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +51,7 @@ function App() {
     if (inVideoPage || windowSize < 791) {
       main.style.width = "100%";
       main.style.marginLeft = "0";
-    } else if (windowSize > 791 && !sideExpand) {
+    } else if (windowSize > 791 && (!sideExpand || windowSize <= 1312)) {
       main.style.width = "calc(100% - 72px)";
       main.style.marginLeft = "72px";
     } else if (windowSize > 1312 && sideExpand) {
@@ -52,19 +60,51 @@ function App() {
     }
   }, [windowSize, sideExpand, inVideoPage]);
 
+  useEffect(() => {
+    if (windowSize > 1312) {
+      setModalSideExpand(false);
+    }
+  }, [windowSize, sideExpand]);
+
   return (
     <div className="App">
       <Navbar handleSideExpand={handleSideExpand} />
-      <SidebarExpand sideExpand={sideExpand} inVideoPage={inVideoPage} />
+      <SidebarExpand
+        sideExpand={sideExpand}
+        inVideoPage={inVideoPage}
+        modalSideExpand={modalSideExpand}
+      />
       <SidebarMini sideExpand={sideExpand} inVideoPage={inVideoPage} />
       <PageContainer id="main" inVideoPage={inVideoPage}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                windowSize={windowSize}
+                setModalSideExpand={setModalSideExpand}
+              />
+            }
+          />
           <Route
             path="/channel/*"
-            element={<Channel sideExpand={sideExpand} />}
+            element={
+              <Channel
+                sideExpand={sideExpand}
+                windowSize={windowSize}
+                setModalSideExpand={setModalSideExpand}
+              />
+            }
           />
-          <Route path="/results" element={<SearchPage />} />
+          <Route
+            path="/results"
+            element={
+              <SearchPage
+                windowSize={windowSize}
+                setModalSideExpand={setModalSideExpand}
+              />
+            }
+          />
           <Route
             path="/watch"
             element={
@@ -72,6 +112,8 @@ function App() {
                 handleInVideoPage={handleInVideoPage}
                 inVideoPage={inVideoPage}
                 sideExpand={sideExpand}
+                setModalSideExpand={setModalSideExpand}
+                modalSideExpand={modalSideExpand}
               />
             }
           />

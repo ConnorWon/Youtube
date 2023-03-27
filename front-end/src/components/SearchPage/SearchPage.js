@@ -168,11 +168,16 @@ const videos = [1, 2, 3, 4, 5];
 
 export const SearchPage = (props) => {
   const [open, setOpen] = useState(false);
-  const { setInSearchPage } = props;
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  const { windowSize, setModalSideExpand } = props;
+
+  useEffect(() => {
+    setModalSideExpand(false);
+  }, []);
 
   return (
     <MainContainer>

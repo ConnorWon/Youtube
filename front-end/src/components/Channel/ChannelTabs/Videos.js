@@ -120,7 +120,7 @@ export const Videos = (props) => {
       <ContentContainer container spacing={0} sideExpand={sideExpand}>
         {text.map((t) => (
           <VideoOuterContainer item sideExpand={sideExpand}>
-            <VideoContainer />
+            <VideoContainer inChannel={"true"} />
           </VideoOuterContainer>
         ))}
       </ContentContainer>

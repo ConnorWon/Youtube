@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 import { Box, Tab, styled, ThemeProvider } from "@mui/material";
 import { colors, theme } from "../ColorThemes";
@@ -23,11 +23,17 @@ const HomeTabPanel = styled(TabPanel)`
   padding: 0px;
 `;
 
-export const Home = () => {
+export const Home = (props) => {
   const [value, setValue] = useState("0");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const { windowSize, setModalSideExpand } = props;
+
+  useEffect(() => {
+    setModalSideExpand(false);
+  }, []);
 
   const tabOptions = [
     "Apple",
