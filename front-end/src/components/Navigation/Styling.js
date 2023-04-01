@@ -28,11 +28,12 @@ export const NaviBar = styled(AppBar)`
 
 export const YTButton = styled(Button)`
   color: inherit;
-  size: large;
-  min-width: 115.52px;
   :hover {
     background-color: transparent;
   }
+  padding: 18px 14px 18px 16px;
+  min-height: 20px;
+  line-height: unset;
 `;
 
 // export const DividerLeft = styled(Stack)`
