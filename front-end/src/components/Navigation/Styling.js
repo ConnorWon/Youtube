@@ -26,16 +26,6 @@ export const NaviBar = styled(AppBar)`
   width: 100%;
 `;
 
-export const YTButton = styled(Button)`
-  color: inherit;
-  :hover {
-    background-color: transparent;
-  }
-  padding: 18px 14px 18px 16px;
-  min-height: 20px;
-  line-height: unset;
-`;
-
 // export const DividerLeft = styled(Stack)`
 //   width: ${({ width, searchstate }) =>
 //     searchstate === "true" ? width : `xs: 95px`};

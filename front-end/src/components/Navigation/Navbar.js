@@ -12,6 +12,8 @@ import {
   ThemeProvider,
   Tooltip,
   styled,
+  FormControl,
+  Input,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,7 +24,6 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { YTButton } from "./Styling";
 import { useNavigate } from "react-router-dom";
 import { colors } from "../ColorThemes";
 
@@ -54,9 +55,45 @@ const LeftSideContainer = styled(Stack)`
   align-items: center;
 `;
 
+const CloseMiniSearchBtn = styled(IconButton)`
+  color: inherit;
+  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  display: none;
+
+  @media (max-width: 656px) {
+    display: ${({ miniSearchState }) =>
+      miniSearchState ? "inline-flex" : "none"};
+  }
+`;
+
 const LeftMenuButton = styled(IconButton)`
+  color: inherit;
   :hover {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 656px) {
+    display: ${({ miniSearchState }) =>
+      miniSearchState ? "none" : "inline-flex"};
+  }
+`;
+
+const YTButton = styled(Button)`
+  color: inherit;
+  padding: 18px 14px 18px 16px;
+  min-height: 20px;
+  line-height: unset;
+
+  :hover {
+    background-color: transparent;
+  }
+
+  @media (max-width: 656px) {
+    display: ${({ miniSearchState }) =>
+      miniSearchState ? "none" : "inline-flex"};
   }
 `;
 
@@ -68,6 +105,7 @@ const RightSideContainer = styled(Stack)`
 
   @media (max-width: 656px) {
     min-width: 0;
+    display: ${({ miniSearchState }) => (miniSearchState ? "none" : "flex")};
   }
 `;
 
@@ -114,11 +152,109 @@ const SearchContainer = styled(Stack)`
   padding: 0 4px;
   flex: 1;
   flex-basis: 1e-9px;
+  @media (max-width: 656px) {
+    display: ${({ miniSearchState }) => (miniSearchState ? "flex" : "none")};
+    margin-left: 0;
+  }
 `;
 
-const SearchBar = styled(TextField)``;
+const SearchBarFormControl = styled(FormControl)`
+  position: relative;
+  flex: 1;
+  flex-basis: 1e-9px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: hsl(0, 0%, 7%);
+  border: ${({ focus }) =>
+    focus ? "1px solid #1c62b9" : "1px solid hsl(0, 0%, 18.82%)"};
+  border-right: none;
+  border-radius: 40px 0 0 40px;
+  padding: ${({ focus }) => (focus ? "2px 4px 2px 48px" : "0px 4px 0px 16px")};
+  margin-left: ${({ focus }) => (focus ? "0" : "32px")};
+  box-shadow: ${({ focus }) =>
+    focus
+      ? "inset 0 1px 2px rgba(0, 0, 0, 0.3)"
+      : "inset 0 1px 2px hsla(0, 0%, 0%, 0)"};
+`;
 
-const SearchButton = styled(IconButton)`
+const SearchInputAdornment = styled(InputAdornment)`
+  position: absolute;
+  left: 0;
+  color: #fff;
+  padding: 0 12px 0 16px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+`;
+
+const SearchBarInput = styled(Input)`
+  width: 100%;
+  max-width: 100%;
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  box-shadow: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: hsla(0, 100%, 100%, 0.88);
+  outline: none;
+  -webkit-font-smoothing: antialiased;
+
+  .MuiInput-input {
+    padding: 1px 0;
+    height: unset;
+    box-sizing: border-box;
+  }
+`;
+
+const SearchEndAdornment = styled(InputAdornment)`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ClearButton = styled(IconButton)`
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: #fff;
+`;
+
+const SearchButton = styled(Button)`
+  color: inherit;
+  border: 1px solid hsl(0, 0%, 18.82%);
+  background-color: #424242;
+  height: 40px;
+  width: 64px;
+  margin: 0;
+  border-radius: 0 40px 40px 0;
+  padding: 1px 6px;
+
+  :hover {
+    background-color: #424242;
+  }
+`;
+
+const MiniScreenSearchButton = styled(IconButton)`
+  display: none;
+  color: inherit;
+  height: 40px;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 656px) {
+    display: ${({ miniSearchState }) => (miniSearchState ? "none" : "block")};
+  }
+`;
+
+const VoiceButton = styled(IconButton)`
   margin-left: 4px;
   color: inherit;
   :hover {
@@ -145,25 +281,17 @@ export const Navbar = (props) => {
   // Connected to the focus of the search bar
   const [focus, setFocus] = useState(false);
 
-  // for displaying the search icon
-  const [searchState, setSearchState] = useState(false);
-
   // for xs-sm screen size, opening the search bar
-  const [openSearch, setOpenSearch] = useState(false);
+  const [miniSearchState, setMiniSearchState] = useState(false);
 
   // for resizing the searchbar when clicking on it
   const [searchExpandedWidth, setSearchExpandedWidth] = useState(0);
-  const [d1NewWidth, setD1NewWidth] = useState();
 
   const searchRef = useRef();
-  const div1Ref = useRef();
 
   const getSearchBarSize = () => {
     const newWidth = searchRef.current.clientWidth;
     setSearchExpandedWidth(newWidth + 24.5);
-
-    const newDivWidth = div1Ref.current.clientWidth;
-    setD1NewWidth(newDivWidth - 24);
   };
 
   // useEffect(() => {
@@ -195,9 +323,11 @@ export const Navbar = (props) => {
   //   return () => window.removeEventListener("resize", handleResize);
   // }, []);
 
-  // for determining whether to keep the openSearch true after screen goes from xs to sm
-  const handleOpenSearch = () => {
-    setOpenSearch(searchState);
+  const handleFocus = (val) => {
+    setFocus(val);
+    if (window.innerWidth > 656) {
+      setMiniSearchState(val);
+    }
   };
 
   // Expand sidebar function
@@ -209,100 +339,22 @@ export const Navbar = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <NaviBar>
-        {/* {openSearch && windowWidth.width < 650 ? (
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              onClick={() => setOpenSearch(false)}
-              sx={{ ml: -1, mr: 1 }}
-            >
-              <ArrowBackIcon />
-            </IconButton>
-            <Stack
-              sx={[!searchState && { minWidth: "24px", maxWidth: "24px" }]}
-            />
-            <TextField
-              placeholder="Search"
-              variant="outlined"
-              fullWidth
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onFocus={() => setSearchState(true)}
-              onBlur={() => {
-                setSearchState(false);
-                setFocus(false);
-              }}
-              onClick={() => setFocus(true)}
-              inputRef={(input) => focus && input?.focus()}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {!value ? (
-                      ""
-                    ) : (
-                      <IconButton
-                        size="small"
-                        sx={{ color: "white", mx: -1 }}
-                        onClick={() => {
-                          setValue("");
-                          setSearchState(true);
-                        }}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    )}
-                  </InputAdornment>
-                ),
-                startAdornment: (
-                  <InputAdornment position="start">
-                    {!searchState ? null : (
-                      <SearchIcon sx={{ color: "white", ml: -0.5, mr: 0.5 }} />
-                    )}
-                  </InputAdornment>
-                ),
-              }}
-              sx={[
-                {
-                  bgcolor: "#0a0a0a",
-                  label: { color: "#424242" },
-                  input: {
-                    color: "white",
-                    ml: -0.75,
-                    height: "8px",
-                  },
-                },
-              ]}
-            />
-            <Tooltip title="Search">
-              <Button
-                variant="contained"
-                sx={{
-                  height: 39.5,
-                  bgcolor: "#424242",
-                  borderRadius: 0,
-                  "&.MuiButtonBase-root:hover": {
-                    bgcolor: "#424242",
-                  },
-                }}
-                disableRipple
-                disableElevation
-              >
-                <SearchIcon />
-              </Button>
-            </Tooltip>
-            <Tooltip title="Search with your voice">
-              <IconButton color="inherit" sx={{ ml: "8px" }}>
-                <MicIcon />
-              </IconButton>
-            </Tooltip>
-          </Toolbar>
-        ) : ( */}
         <NavToolBar disableGutters>
           <LeftSideContainer direction="row">
-            <LeftMenuButton color="inherit" onClick={(e) => handleSideExpand()}>
+            <CloseMiniSearchBtn
+              miniSearchState={miniSearchState}
+              onClick={() => setMiniSearchState(false)}
+            >
+              <ArrowBackIcon />
+            </CloseMiniSearchBtn>
+            <LeftMenuButton
+              miniSearchState={miniSearchState}
+              onClick={() => handleSideExpand()}
+            >
               <MenuIcon />
             </LeftMenuButton>
             <YTButton
+              miniSearchState={miniSearchState}
               startIcon={<YouTubeIcon sx={{ color: "red", mr: -0.5 }} />}
               disableRipple
               onClick={() => navigate("/")}
@@ -311,122 +363,66 @@ export const Navbar = (props) => {
             </YTButton>
           </LeftSideContainer>
           <CenterContainer direction="row">
-            <SearchContainer direction="row">
-              <TextField
-                ref={searchRef}
-                placeholder="Search"
-                variant="outlined"
-                fullWidth
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                onFocus={() => setSearchState(true)}
-                onBlur={() => {
-                  setSearchState(false);
-                  setFocus(false);
-                }}
-                onClick={() => setFocus(true)}
-                inputRef={(input) => focus && input?.focus()}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      {!value ? (
-                        ""
-                      ) : (
-                        <IconButton
-                          size="small"
-                          sx={{ color: "white", mx: -2 }}
-                          onClick={() => {
-                            setValue("");
-                            setSearchState(true);
-                          }}
-                        >
-                          <CloseIcon />
-                        </IconButton>
-                      )}
-                    </InputAdornment>
-                  ),
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      {!searchState ? null : (
-                        <SearchIcon
-                          sx={{ color: "white", ml: -0.5, mr: 0.5 }}
-                        />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-                sx={[
-                  {
-                    bgcolor: "#0a0a0a",
-                    height: "40px",
-                    width: {
-                      lg: "540px",
-                    },
-                    display: {
-                      xs: "none",
-                      sm: "block",
-                    },
-                    label: { color: "#424242" },
-                    input: {
-                      color: "white",
-                      ml: -0.75,
-                      height: "8px",
-                      width: {
-                        lg: "503px",
-                      },
-                    },
-                  },
-                  searchState && {
-                    width: searchExpandedWidth,
-                    minWidth: searchExpandedWidth,
-                  },
-                ]}
-              />
-              <Tooltip title="Search">
-                <Button
-                  variant="contained"
-                  sx={{
-                    height: 39.5,
-                    bgcolor: "#424242",
-                    borderRadius: 0,
-                    "&.MuiButtonBase-root:hover": {
-                      bgcolor: "#424242",
-                    },
-                    display: {
-                      xs: "none",
-                      sm: "block",
-                    },
+            <SearchContainer direction="row" miniSearchState={miniSearchState}>
+              <SearchBarFormControl focus={focus}>
+                {focus && (
+                  <SearchInputAdornment position="start">
+                    <SearchIcon />
+                  </SearchInputAdornment>
+                )}
+                <SearchBarInput
+                  disableUnderline
+                  placeholder="Search"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  onFocus={() => handleFocus(true)}
+                  onBlur={() => {
+                    handleFocus(false);
                   }}
+                  inputRef={(input) => focus && input?.focus()}
+                />
+                {value && (
+                  <SearchEndAdornment position="end">
+                    <ClearButton
+                      onClick={() => {
+                        setValue("");
+                        handleFocus(true);
+                      }}
+                    >
+                      <CloseIcon />
+                    </ClearButton>
+                  </SearchEndAdornment>
+                )}
+              </SearchBarFormControl>
+              <Tooltip title="Search">
+                <SearchButton
+                  variant="contained"
                   disableRipple
                   disableElevation
                 >
                   <SearchIcon />
-                </Button>
-              </Tooltip>
-              <Tooltip title="Search">
-                <IconButton
-                  color="inherit"
-                  sx={{
-                    display: {
-                      sm: "none",
-                    },
-                  }}
-                  onClick={() => {
-                    setOpenSearch(true);
-                    setFocus(true);
-                  }}
-                >
-                  <SearchIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Search with your voice">
-                <SearchButton>
-                  <MicIcon />
                 </SearchButton>
               </Tooltip>
             </SearchContainer>
+            <Tooltip title="Search">
+              <MiniScreenSearchButton
+                disableRipple
+                miniSearchState={miniSearchState}
+                onClick={() => {
+                  setMiniSearchState(true);
+                  setFocus(true);
+                }}
+              >
+                <SearchIcon />
+              </MiniScreenSearchButton>
+            </Tooltip>
+            <Tooltip title="Search with your voice">
+              <VoiceButton>
+                <MicIcon />
+              </VoiceButton>
+            </Tooltip>
           </CenterContainer>
-          <RightSideContainer direction="row">
+          <RightSideContainer miniSearchState={miniSearchState} direction="row">
             <Tooltip title="Create">
               <RightMenuButton>
                 <VideoCallOutlinedIcon />
