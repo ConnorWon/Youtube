@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import {
   AppBar,
   Toolbar,
   IconButton,
   Button,
-  TextField,
   InputAdornment,
   Stack,
   Avatar,
-  createTheme,
-  ThemeProvider,
   Tooltip,
   styled,
   FormControl,
@@ -26,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { colors } from "../ColorThemes";
+import { GetWindowDimension } from "../WindowSizeStore";
 
 const NaviBar = styled(AppBar)`
   position: fixed;
@@ -168,7 +166,6 @@ const SearchBarFormControl = styled(FormControl)`
   background-color: hsl(0, 0%, 7%);
   border: ${({ focus }) =>
     focus ? "1px solid #1c62b9" : "1px solid hsl(0, 0%, 18.82%)"};
-  border-right: none;
   border-radius: 40px 0 0 40px;
   padding: ${({ focus }) => (focus ? "2px 4px 2px 48px" : "0px 4px 0px 16px")};
   margin-left: ${({ focus }) => (focus ? "0" : "32px")};
@@ -229,7 +226,7 @@ const ClearButton = styled(IconButton)`
 const SearchButton = styled(Button)`
   color: inherit;
   border: 1px solid hsl(0, 0%, 18.82%);
-  background-color: #424242;
+  background-color: hsla(0, 0%, 100%, 0.08);
   height: 40px;
   width: 64px;
   margin: 0;
@@ -237,7 +234,7 @@ const SearchButton = styled(Button)`
   padding: 1px 6px;
 
   :hover {
-    background-color: #424242;
+    background-color: hsla(0, 0%, 100%, 0.08);
   }
 `;
 
@@ -262,67 +259,42 @@ const VoiceButton = styled(IconButton)`
   }
 `;
 
-const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 650,
-      md: 900,
-      lg: 1180,
-      xl: 1536,
-    },
-  },
-});
-
 export const Navbar = (props) => {
-  // Connected to the x button for search bar
+  // Connected to the clear button for search bar
   const [value, setValue] = useState("");
 
   // Connected to the focus of the search bar
   const [focus, setFocus] = useState(false);
 
-  // for xs-sm screen size, opening the search bar
+  // for <= 656px screen size, opening the search bar
   const [miniSearchState, setMiniSearchState] = useState(false);
 
-  // for resizing the searchbar when clicking on it
-  const [searchExpandedWidth, setSearchExpandedWidth] = useState(0);
+  // for handling searchBar when below 656px window size
+  const windowSize = GetWindowDimension();
+  const [miniSearchStateReset, setMiniSearchStateReset] = useState();
 
-  const searchRef = useRef();
+  useEffect(() => {
+    if (windowSize > 656) {
+      setMiniSearchStateReset(false);
+    } else {
+      setMiniSearchStateReset(true);
+    }
+  }, []);
 
-  const getSearchBarSize = () => {
-    const newWidth = searchRef.current.clientWidth;
-    setSearchExpandedWidth(newWidth + 24.5);
-  };
+  useEffect(() => {
+    if (miniSearchStateReset) {
+      if (windowSize > 656) {
+        setMiniSearchState(focus);
+        setMiniSearchStateReset(false);
+      }
+    } else if (!miniSearchStateReset) {
+      if (windowSize <= 656) {
+        setMiniSearchStateReset(true);
+      }
+    }
+  }, [windowSize]);
 
-  // useEffect(() => {
-  //   getSearchBarSize();
-  // }, []);
-
-  // useEffect(() => {
-  //   // if (windowWidth.width >= 650)
-  //   window.addEventListener("resize", getSearchBarSize);
-  // }, []);
-
-  // maybe add windowWidth into the useEffect above, also maybe change the useLayoutEffect to useEffect and make it do something on mount
-
-  // for closing search bar when transitioning from xs to sm size screen
-  // const getWindowWidth = () => {
-  //   const { innerWidth: width } = window;
-  //   return {
-  //     width,
-  //   };
-  // };
-  // const [windowWidth, setWindowWidth] = useState(getWindowWidth());
-
-  // useLayoutEffect(() => {
-  //   function handleResize() {
-  //     setWindowWidth(getWindowWidth());
-  //   }
-
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
-
+  // deals with focus and unfocusing the search bar
   const handleFocus = (val) => {
     setFocus(val);
     if (window.innerWidth > 656) {
@@ -337,108 +309,102 @@ export const Navbar = (props) => {
   const navigate = useNavigate();
 
   return (
-    <ThemeProvider theme={theme}>
-      <NaviBar>
-        <NavToolBar disableGutters>
-          <LeftSideContainer direction="row">
-            <CloseMiniSearchBtn
-              miniSearchState={miniSearchState}
-              onClick={() => setMiniSearchState(false)}
-            >
-              <ArrowBackIcon />
-            </CloseMiniSearchBtn>
-            <LeftMenuButton
-              miniSearchState={miniSearchState}
-              onClick={() => handleSideExpand()}
-            >
-              <MenuIcon />
-            </LeftMenuButton>
-            <YTButton
-              miniSearchState={miniSearchState}
-              startIcon={<YouTubeIcon sx={{ color: "red", mr: -0.5 }} />}
-              disableRipple
-              onClick={() => navigate("/")}
-            >
-              Youtube
-            </YTButton>
-          </LeftSideContainer>
-          <CenterContainer direction="row">
-            <SearchContainer direction="row" miniSearchState={miniSearchState}>
-              <SearchBarFormControl focus={focus}>
-                {focus && (
-                  <SearchInputAdornment position="start">
-                    <SearchIcon />
-                  </SearchInputAdornment>
-                )}
-                <SearchBarInput
-                  disableUnderline
-                  placeholder="Search"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  onFocus={() => handleFocus(true)}
-                  onBlur={() => {
-                    handleFocus(false);
-                  }}
-                  inputRef={(input) => focus && input?.focus()}
-                />
-                {value && (
-                  <SearchEndAdornment position="end">
-                    <ClearButton
-                      onClick={() => {
-                        setValue("");
-                        handleFocus(true);
-                      }}
-                    >
-                      <CloseIcon />
-                    </ClearButton>
-                  </SearchEndAdornment>
-                )}
-              </SearchBarFormControl>
-              <Tooltip title="Search">
-                <SearchButton
-                  variant="contained"
-                  disableRipple
-                  disableElevation
-                >
+    <NaviBar>
+      <NavToolBar disableGutters>
+        <LeftSideContainer direction="row">
+          <CloseMiniSearchBtn
+            miniSearchState={miniSearchState}
+            onClick={() => setMiniSearchState(false)}
+          >
+            <ArrowBackIcon />
+          </CloseMiniSearchBtn>
+          <LeftMenuButton
+            miniSearchState={miniSearchState}
+            onClick={() => handleSideExpand()}
+          >
+            <MenuIcon />
+          </LeftMenuButton>
+          <YTButton
+            miniSearchState={miniSearchState}
+            startIcon={<YouTubeIcon sx={{ color: "red", mr: -0.5 }} />}
+            disableRipple
+            onClick={() => navigate("/")}
+          >
+            Youtube
+          </YTButton>
+        </LeftSideContainer>
+        <CenterContainer direction="row">
+          <SearchContainer direction="row" miniSearchState={miniSearchState}>
+            <SearchBarFormControl focus={focus}>
+              {focus && (
+                <SearchInputAdornment position="start">
                   <SearchIcon />
-                </SearchButton>
-              </Tooltip>
-            </SearchContainer>
-            <Tooltip title="Search">
-              <MiniScreenSearchButton
-                disableRipple
-                miniSearchState={miniSearchState}
-                onClick={() => {
-                  setMiniSearchState(true);
-                  setFocus(true);
+                </SearchInputAdornment>
+              )}
+              <SearchBarInput
+                disableUnderline
+                placeholder="Search"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onFocus={() => handleFocus(true)}
+                onBlur={() => {
+                  handleFocus(false);
                 }}
-              >
+                inputRef={(input) => focus && input?.focus()}
+              />
+              {value && (
+                <SearchEndAdornment position="end">
+                  <ClearButton
+                    onClick={() => {
+                      setValue("");
+                      handleFocus(true);
+                    }}
+                  >
+                    <CloseIcon />
+                  </ClearButton>
+                </SearchEndAdornment>
+              )}
+            </SearchBarFormControl>
+            <Tooltip title="Search">
+              <SearchButton variant="contained" disableRipple disableElevation>
                 <SearchIcon />
-              </MiniScreenSearchButton>
+              </SearchButton>
             </Tooltip>
-            <Tooltip title="Search with your voice">
-              <VoiceButton>
-                <MicIcon />
-              </VoiceButton>
-            </Tooltip>
-          </CenterContainer>
-          <RightSideContainer miniSearchState={miniSearchState} direction="row">
-            <Tooltip title="Create">
-              <RightMenuButton>
-                <VideoCallOutlinedIcon />
-              </RightMenuButton>
-            </Tooltip>
-            <Tooltip title="Notifications">
-              <RightMenuButton>
-                <NotificationsNoneIcon />
-              </RightMenuButton>
-            </Tooltip>
-            <AvatarButton>
-              <UserAvatar />
-            </AvatarButton>
-          </RightSideContainer>
-        </NavToolBar>
-      </NaviBar>
-    </ThemeProvider>
+          </SearchContainer>
+          <Tooltip title="Search">
+            <MiniScreenSearchButton
+              disableRipple
+              miniSearchState={miniSearchState}
+              onClick={() => {
+                setMiniSearchState(true);
+                setFocus(true);
+              }}
+            >
+              <SearchIcon />
+            </MiniScreenSearchButton>
+          </Tooltip>
+          <Tooltip title="Search with your voice">
+            <VoiceButton>
+              <MicIcon />
+            </VoiceButton>
+          </Tooltip>
+        </CenterContainer>
+        <RightSideContainer miniSearchState={miniSearchState} direction="row">
+          <Tooltip title="Create">
+            <RightMenuButton>
+              <VideoCallOutlinedIcon />
+            </RightMenuButton>
+          </Tooltip>
+          <Tooltip title="Notifications">
+            <RightMenuButton>
+              <NotificationsNoneIcon />
+            </RightMenuButton>
+          </Tooltip>
+          <AvatarButton>
+            <UserAvatar />
+          </AvatarButton>
+        </RightSideContainer>
+      </NavToolBar>
+    </NaviBar>
   );
 };
