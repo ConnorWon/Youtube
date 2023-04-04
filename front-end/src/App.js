@@ -1,11 +1,11 @@
-import { Navbar } from "./components/Navigation/Navbar";
-import { SidebarMini } from "./components/Navigation/SidebarMini";
+import { Navbar } from "./components/Navigation/Navbar/Navbar";
+import { SidebarMini } from "./components/Navigation/Sidebar/SidebarMini";
 import { Channel } from "./components/Channel/Channel";
 import { SearchPage } from "./components/SearchPage/SearchPage";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { Box, styled } from "@mui/material";
-import { SidebarExpand } from "./components/Navigation/SidebarExpand";
+import { SidebarExpand } from "./components/Navigation/Sidebar/SidebarExpand";
 import { useState, useLayoutEffect, useEffect } from "react";
 import { VideoPage } from "./components/VideoPage/VideoPage";
 import { GetWindowDimension } from "./components/WindowSizeStore";
@@ -19,9 +19,13 @@ const PageContainer = styled(Box)`
 `;
 
 function App() {
+  // state tracking expansion of sidebar
   const [sideExpand, setSideExpand] = useState(false);
+  // state tracking whether in videoPage (necessary b/c videoPage has slight differences in page layout than the other pages)
   const [inVideoPage, setInVideoPage] = useState(false);
+  // state tracking expansion of sidebar when expanding results in a modal sidebar (<= 1312px window size)
   const [modalSideExpand, setModalSideExpand] = useState(false);
+  // used for tracking window size
   const windowSize = GetWindowDimension();
 
   const handleSideExpand = (e) => {
@@ -32,6 +36,7 @@ function App() {
     }
   };
 
+  // ensures page layout is proper for when going to videoPage from outside YouTube
   var currentURL = window.location.href.split("/");
   useLayoutEffect(() => {
     if (currentURL[3] === "watch") {
@@ -39,6 +44,7 @@ function App() {
     }
   }, []);
 
+  // deals with case for when switching to videoPage from other YouTube pages
   const handleInVideoPage = (inPage) => {
     setInVideoPage(inPage);
     if (modalSideExpand) {
@@ -46,6 +52,7 @@ function App() {
     }
   };
 
+  // deals with resizing the main page container
   useEffect(() => {
     const main = document.getElementById("main");
     if (inVideoPage || windowSize < 791) {
@@ -60,6 +67,7 @@ function App() {
     }
   }, [windowSize, sideExpand, inVideoPage]);
 
+  // resets modalSideExpand upon reaching max window size for the modal sidebar
   useEffect(() => {
     if (windowSize > 1312) {
       setModalSideExpand(false);
@@ -67,7 +75,7 @@ function App() {
   }, [windowSize, sideExpand]);
 
   return (
-    <div className="App">
+    <div>
       <Navbar handleSideExpand={handleSideExpand} />
       <SidebarExpand
         sideExpand={sideExpand}

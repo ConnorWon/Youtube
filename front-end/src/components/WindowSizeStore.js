@@ -1,4 +1,4 @@
-import React, { useSyncExternalStore, useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
 export const GetWindowDimension = () => {
   const size = useSyncExternalStore(subscribe, getSnapshot);

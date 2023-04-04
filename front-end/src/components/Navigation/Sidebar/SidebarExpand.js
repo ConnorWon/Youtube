@@ -1,14 +1,14 @@
-import { Drawer, Stack, styled } from "@mui/material";
-import React, { useSyncExternalStore, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  SidebarDrawer,
   HeaderSpacer,
   InnerSidebarContainer,
+  OuterButtonContainer,
   NotLoggedMsg,
   NotLoggedSubContainer,
   SecondaryButtonsContainer,
   SectionLabel,
   SidebarContainer,
-  SideBarLabel,
   SignInButton,
   SignInContainer,
 } from "./Styling";
@@ -26,31 +26,19 @@ import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
-import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
-import { colors } from "../ColorThemes";
 import { SidebarButton } from "./SidebarButton";
-import { GetWindowDimension } from "../WindowSizeStore";
+import { GetWindowDimension } from "../../WindowSizeStore";
 
-// function getSnapshot() {
-//   return window.innerWidth;
-// }
-
-// function subscribe(callback) {
-//   window.addEventListener("resize", callback);
-//   return () => {
-//     window.removeEventListener("resize", callback);
-//   };
-// }
-
-// pass a prop to this function and make that prop open and close this drawer (use true false to turn on off display css or change z-index css)
 export const SidebarExpand = (props) => {
+  // state for hiding and showing elements that are dependent on log in status
   const [loggedStatus, setLoggedStatus] = useState(false);
+  // state for turning on or off modal feature
   const [modalSide, setModalSide] = useState(false);
-  //
 
   const windowSize = GetWindowDimension();
 
+  // deals with turning on or off the modal sidebar feature
   useEffect(() => {
     if (windowSize <= 1312) {
       setModalSide(true);
@@ -58,20 +46,6 @@ export const SidebarExpand = (props) => {
       setModalSide(false);
     }
   }, [windowSize]);
-
-  const OuterButtonContainer = styled(Stack)`
-    padding: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  `;
-
-  const SidebarDrawer = styled(Drawer)`
-    .MuiDrawer-paper {
-      background-color: transparent;
-      border-right: transparent;
-    }
-    visibility: ${({ sideExpand, modalSideExpand }) =>
-      sideExpand || modalSideExpand ? "visible" : "hidden"};
-  `;
 
   const mainButtons = [
     ["/", "Home", <HomeOutlinedIcon />],

@@ -65,9 +65,6 @@ const CSSValueProvider = styled("div")`
 `;
 
 const MainContainer = styled("div")`
-  ${
-    "" /* min-width styling is only present when video player and side video recommendation is on screen */
-  }
   @media only screen and (min-width: 1015px) {
     min-width: calc(
       var(--min-player-height) * (var(--width-ratio) / var(--height-ratio)) + 3 *
@@ -84,9 +81,6 @@ const MainContainer = styled("div")`
 
 // non-theater mode video player
 const Primary = styled(Box)`
-  ${
-    "" /* max-width styling is only present when video player and side video recommendation is on screen */
-  }
   max-width: var(--max-player-width);
   min-width: var(--min-player-width);
   padding-top: var(--margin-size);
