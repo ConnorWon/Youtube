@@ -173,7 +173,7 @@ export const SearchPage = (props) => {
     setOpen(!open);
   };
 
-  const { windowSize, setModalSideExpand } = props;
+  const { setModalSideExpand } = props;
 
   useEffect(() => {
     setModalSideExpand(false);

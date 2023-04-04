@@ -5,7 +5,7 @@ import { ChannelNavBar } from "./ChannelNavBar";
 import Banner from "./YouTube-banner.png";
 
 export const Channel = (props) => {
-  const { sideExpand, windowSize, setModalSideExpand } = props;
+  const { sideExpand, setModalSideExpand } = props;
 
   useEffect(() => {
     setModalSideExpand(false);

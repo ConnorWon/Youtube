@@ -87,31 +87,20 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <Home
-                windowSize={windowSize}
-                setModalSideExpand={setModalSideExpand}
-              />
-            }
+            element={<Home setModalSideExpand={setModalSideExpand} />}
           />
           <Route
             path="/channel/*"
             element={
               <Channel
                 sideExpand={sideExpand}
-                windowSize={windowSize}
                 setModalSideExpand={setModalSideExpand}
               />
             }
           />
           <Route
             path="/results"
-            element={
-              <SearchPage
-                windowSize={windowSize}
-                setModalSideExpand={setModalSideExpand}
-              />
-            }
+            element={<SearchPage setModalSideExpand={setModalSideExpand} />}
           />
           <Route
             path="/watch"

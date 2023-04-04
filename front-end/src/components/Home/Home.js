@@ -1,36 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { TabContext, TabPanel, TabList } from "@mui/lab";
-import { Box, Tab, styled, ThemeProvider } from "@mui/material";
-import { colors, theme } from "../ColorThemes";
+import {
+  TabContainer,
+  HomeTab,
+  HomeTabPanel,
+  HomeTabPanelContainer,
+} from "./Styling";
+import { TabContext, TabList } from "@mui/lab";
+import { Box, ThemeProvider } from "@mui/material";
+import { theme } from "../ColorThemes";
 import { VideoDisplay } from "./VideoDisplay";
 
-const TabContainer = styled(Box)`
-  background-color: ${colors.bgColorDark};
-  z-index: 1;
-`;
-
-const HomeTab = styled(Tab)`
-  color: ${colors.textGrey};
-  margin: 0 10px 0 10px;
-  padding: 12px 25px;
-  font-family: Roboto;
-  font-weight: 500;
-`;
-
-const HomeTabPanel = styled(TabPanel)`
-  background-color: ${colors.bgColorDark};
-  color: white;
-  padding: 0px;
-`;
-
 export const Home = (props) => {
+  // tracks which video tab user is in
   const [value, setValue] = useState("0");
+  // handles changing of tab
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const { windowSize, setModalSideExpand } = props;
+  const { setModalSideExpand } = props;
 
+  // used to close modal sidebar after switching to this page from another
   useEffect(() => {
     setModalSideExpand(false);
   }, []);
@@ -51,23 +41,14 @@ export const Home = (props) => {
     "Blackberry",
     "Raspberry",
   ];
+
   var tabCount = 0;
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ pointerEvents: "none" }}>
+      <Box>
         <TabContext value={value}>
-          <TabContainer
-            sx={{
-              borderBottom: 1,
-              borderColor: "#393939",
-              paddingRight: "12px",
-              position: "fixed",
-              width: "-webkit-fill-available",
-              display: "flex",
-              pointerEvents: "auto",
-            }}
-          >
+          <TabContainer>
             <TabList
               value={value}
               onChange={handleChange}
@@ -87,22 +68,14 @@ export const Home = (props) => {
               {(tabCount = 0)}
             </TabList>
           </TabContainer>
-          <Box
-            sx={{
-              paddingTop: "24px",
-              backgroundColor: colors.bgColorDark,
-              position: "relative",
-              top: "49px",
-              pointerEvents: "auto",
-            }}
-          >
+          <HomeTabPanelContainer>
             {tabOptions.map((tab) => (
               <HomeTabPanel value={(tabCount++).toString()}>
                 <VideoDisplay />
                 {/* have to pass videos prop into components after performing a http request */}
               </HomeTabPanel>
             ))}
-          </Box>
+          </HomeTabPanelContainer>
         </TabContext>
       </Box>
     </ThemeProvider>
