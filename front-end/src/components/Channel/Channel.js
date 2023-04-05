@@ -7,6 +7,7 @@ import Banner from "./YouTube-banner.png";
 export const Channel = (props) => {
   const { sideExpand, setModalSideExpand } = props;
 
+  // used to close modal sidebar after switching to this page from another
   useEffect(() => {
     setModalSideExpand(false);
   }, []);

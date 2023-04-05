@@ -1,6 +1,6 @@
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { theme } from "../ColorThemes";
 import { About } from "./ChannelTabs/About";
@@ -15,6 +15,7 @@ import { Playlists } from "./ChannelTabs/Playlists";
 export const ChannelNavBar = (props) => {
   const { sideExpand } = props;
 
+  // used to ensure tab indicator is underlining correct tab
   var currentURL = window.location.href.split("/");
   const defaultState = () => {
     if (currentURL.length == 4) {
@@ -23,20 +24,24 @@ export const ChannelNavBar = (props) => {
       return "/channel/" + currentURL[currentURL.length - 1];
     }
   };
+
   const prevPath = "/channel";
 
+  // data for routing and tab display
   const tabRoutes = [
-    "",
-    "/videos",
-    "/shorts",
-    "/live",
-    "/playlists",
-    "/community",
-    "/channels",
-    "/about",
+    ["", <Home sideExpand={sideExpand} />, "Home"],
+    ["/videos", <Videos sideExpand={sideExpand} />, "Videos"],
+    ["/shorts", <Shorts sideExpand={sideExpand} />, "Shorts"],
+    ["/live", <Videos sideExpand={sideExpand} />, "Live"],
+    ["/playlists", <Playlists sideExpand={sideExpand} />, "Playlists"],
+    ["/community", <Community sideExpand={sideExpand} />, "Community"],
+    ["/channels", <Channels sideExpand={sideExpand} />, "Channels"],
+    ["/about", <About sideExpand={sideExpand} />, "About"],
   ];
 
+  // state used to track tab
   const [value, setValue] = useState(defaultState);
+  // handles changing of tabs
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -64,87 +69,21 @@ export const ChannelNavBar = (props) => {
                 },
               }}
             >
-              <ChannelTab
-                label="Home"
-                value={prevPath + tabRoutes[0]}
-                component={Link}
-                to={prevPath + tabRoutes[0]}
-              />
-              <ChannelTab
-                label="Videos"
-                value={prevPath + tabRoutes[1]}
-                component={Link}
-                to={prevPath + tabRoutes[1]}
-              />
-              <ChannelTab
-                label="Shorts"
-                value={prevPath + tabRoutes[2]}
-                component={Link}
-                to={prevPath + tabRoutes[2]}
-              />
-              <ChannelTab
-                label="Live"
-                value={prevPath + tabRoutes[3]}
-                component={Link}
-                to={prevPath + tabRoutes[3]}
-              />
-              <ChannelTab
-                label="Playlists"
-                value={prevPath + tabRoutes[4]}
-                component={Link}
-                to={prevPath + tabRoutes[4]}
-              />
-              <ChannelTab
-                label="Community"
-                value={prevPath + tabRoutes[5]}
-                component={Link}
-                to={prevPath + tabRoutes[5]}
-              />
-              <ChannelTab
-                label="Channels"
-                value={prevPath + tabRoutes[6]}
-                component={Link}
-                to={prevPath + tabRoutes[6]}
-              />
-              <ChannelTab
-                label="About"
-                value={prevPath + tabRoutes[7]}
-                component={Link}
-                to={prevPath + tabRoutes[7]}
-              />
+              {tabRoutes.map((path) => (
+                <ChannelTab
+                  label={path[2]}
+                  value={prevPath + path[0]}
+                  component={Link}
+                  to={prevPath + path[0]}
+                />
+              ))}
             </TabList>
           </TabContainer>
           <ChannelTabPanel>
             <Routes>
-              <Route path="" element={<Home sideExpand={sideExpand} />} />
-              <Route
-                path="/videos"
-                element={<Videos sideExpand={sideExpand} />}
-              />
-              <Route
-                path="/shorts"
-                element={<Shorts sideExpand={sideExpand} />}
-              />
-              <Route
-                path="/live"
-                element={<Videos sideExpand={sideExpand} />}
-              />
-              <Route
-                path="/playlists"
-                element={<Playlists sideExpand={sideExpand} />}
-              />
-              <Route
-                path="/community"
-                element={<Community sideExpand={sideExpand} />}
-              />
-              <Route
-                path="/channels"
-                element={<Channels sideExpand={sideExpand} />}
-              />
-              <Route
-                path="/about"
-                element={<About sideExpand={sideExpand} />}
-              />
+              {tabRoutes.map((path) => (
+                <Route path={path[0]} element={path[1]} />
+              ))}
             </Routes>
           </ChannelTabPanel>
         </TabContext>

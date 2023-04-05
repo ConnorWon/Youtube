@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import { colors } from "../ColorThemes";
 
+// ChannelHeader Styling
+
 export const ChannelHeaderExternal = styled("div")`
   display: flex;
   position: relative;
@@ -146,6 +148,8 @@ export const JoinSubBtn = styled(Button)`
     background-color: #dad9d9;
   }
 `;
+
+// ChannelNavBar Styling
 
 export const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};
