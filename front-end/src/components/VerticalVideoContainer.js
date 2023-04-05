@@ -1,7 +1,7 @@
 import { Avatar, Box, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 import thumbnail from "./youtube-thumbnail.png";
-import { colors } from "../ColorThemes";
+import { colors } from "./ColorThemes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
 
@@ -39,9 +39,10 @@ const DetailBox = styled(Box)`
 `;
 
 const Title = styled(Typography)`
-  margin: 12px 0px 6px 0px;
+  margin: ${({ inChannelHome }) =>
+    inChannelHome ? "8px 0px 8px 0px" : "12px 0px 6px 0px"};
   font-family: Roboto;
-  font-size: 16px;
+  font-size: ${({ inChannelHome }) => (inChannelHome ? "14px" : "16px")};
   line-height: 20px;
   font-weight: 500;
   overflow: hidden;
@@ -63,20 +64,20 @@ const ChannelName = styled(Typography)`
   }
 `;
 
-const ViewsAndDate = styled(Typography)`
-  color: ${colors.textGrey};
-  font-family: Roboto;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  white-space: normal;
-`;
-
 const Verified = styled(Box)`
   width: 20px;
   align-items: center;
   display: flex;
   margin: 0 0 0 4px;
+`;
+
+const ViewsAndDate = styled(Typography)`
+  color: ${colors.textGrey};
+  font-family: Roboto;
+  font-size: ${({ inChannelHome }) => (inChannelHome ? "12px" : "14px")};
+  line-height: ${({ inChannelHome }) => (inChannelHome ? "18px" : "20px")};
+  font-weight: 400;
+  white-space: normal;
 `;
 
 export const VideoContainer = (props) => {
@@ -89,7 +90,7 @@ export const VideoContainer = (props) => {
     }
   };
 
-  const { inChannel } = props;
+  const { inChannel, inChannelHome } = props;
 
   return (
     <Container onClick={() => handleRouting("/watch")}>
@@ -105,7 +106,7 @@ export const VideoContainer = (props) => {
             {/* the data here will come from the back-end */}
             <DetailBox>
               <Stack>
-                <Title>Video Title</Title>{" "}
+                <Title inChannelHome={inChannelHome}>Video Title</Title>{" "}
                 {/* the data here will come from the back-end */}
                 <Box>
                   <Stack>
@@ -126,7 +127,7 @@ export const VideoContainer = (props) => {
                         </Verified>
                       </Stack>
                     )}
-                    <ViewsAndDate>
+                    <ViewsAndDate inChannelHome={inChannelHome}>
                       867K views {"\u2022"} 1 year ago{" "}
                       {/* the data here will come from the back-end */}
                     </ViewsAndDate>

@@ -10,7 +10,7 @@ import {
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
 import { theme } from "../ColorThemes";
-import { VideoContainer } from "./VideoContainer";
+import { VideoContainer } from "../VerticalVideoContainer";
 
 export const Home = (props) => {
   // tracks which video tab user is in

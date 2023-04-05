@@ -1,7 +1,7 @@
 import { Typography, styled, Stack, Box, Avatar } from "@mui/material";
 import React from "react";
 import { colors } from "../ColorThemes";
-import thumbnail from "../Home/youtube-thumbnail.png";
+import thumbnail from "../youtube-thumbnail.png";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 

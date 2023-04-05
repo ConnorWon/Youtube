@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Stack, Grid, styled, Button, Box } from "@mui/material";
-import { VideoContainer } from "../../Home/VideoContainer";
+import { VideoContainer } from "../../VerticalVideoContainer";
 import { MainContainer } from "./Styling";
 
 const text = [

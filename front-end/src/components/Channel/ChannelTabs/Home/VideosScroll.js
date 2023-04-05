@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Stack, styled, Button } from "@mui/material";
 import { colors } from "../../../ColorThemes";
-import { VideoContainer } from "./VideoContainer";
+import { VideoContainer } from "../../../VerticalVideoContainer";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { SectionLabel } from "./SectionLabel";
@@ -136,7 +136,11 @@ export const VideosScroll = (props) => {
           <ScrollVideoInnerContainer id={"scroll" + contLabel}>
             {text.map((t) => (
               <VideoOuterContainer>
-                {type ? <VideoContainer /> : <ChannelContainer />}
+                {type ? (
+                  <VideoContainer inChannel={"true"} inChannelHome={"true"} />
+                ) : (
+                  <ChannelContainer />
+                )}
               </VideoOuterContainer>
             ))}
           </ScrollVideoInnerContainer>
