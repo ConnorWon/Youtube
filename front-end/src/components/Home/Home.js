@@ -4,11 +4,13 @@ import {
   HomeTab,
   HomeTabPanel,
   HomeTabPanelContainer,
+  VideoGrid,
+  VideoOuterContainer,
 } from "./Styling";
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
 import { theme } from "../ColorThemes";
-import { VideoDisplay } from "./VideoDisplay";
+import { VideoContainer } from "./VideoContainer";
 
 export const Home = (props) => {
   // tracks which video tab user is in
@@ -44,6 +46,26 @@ export const Home = (props) => {
 
   var tabCount = 0;
 
+  // dummy data for video display
+  const text = [
+    "Video 1",
+    "Video 2",
+    "Video 3",
+    "Video 4",
+    "Video 5",
+    "Video 6",
+    "Video 7",
+    "Video 8",
+    "Video 1",
+    "Video 2",
+    "Video 3",
+    "Video 4",
+    "Video 5",
+    "Video 6",
+    "Video 7",
+    "Video 8",
+  ];
+
   return (
     <ThemeProvider theme={theme}>
       <Box>
@@ -71,7 +93,13 @@ export const Home = (props) => {
           <HomeTabPanelContainer>
             {tabOptions.map((tab) => (
               <HomeTabPanel value={(tabCount++).toString()}>
-                <VideoDisplay />
+                <VideoGrid container spacing={0}>
+                  {text.map((t) => (
+                    <VideoOuterContainer item>
+                      <VideoContainer />
+                    </VideoOuterContainer>
+                  ))}
+                </VideoGrid>
                 {/* have to pass videos prop into components after performing a http request */}
               </HomeTabPanel>
             ))}

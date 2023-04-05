@@ -1,5 +1,5 @@
 import { TabPanel } from "@mui/lab";
-import { Box, Tab, styled } from "@mui/material";
+import { Box, Tab, styled, Grid } from "@mui/material";
 import { colors } from "../ColorThemes";
 
 export const TabContainer = styled(Box)`
@@ -31,4 +31,22 @@ export const HomeTabPanel = styled(TabPanel)`
   background-color: ${colors.bgColorDark};
   color: white;
   padding: 0px;
+`;
+
+export const VideoGrid = styled(Grid)`
+  margin-left: 16px;
+  padding-right: 16px;
+`;
+
+export const VideoOuterContainer = styled(Grid)`
+  margin: 0px 8px 40px 8px;
+  max-width: calc(100% / 2 - 16px);
+
+  @media only screen and (min-width: 882px) {
+    max-width: calc(100% / 3 - 16px);
+  }
+
+  @media only screen and (min-width: 1144px) {
+    max-width: calc(100% / 4 - 16px);
+  }
 `;
