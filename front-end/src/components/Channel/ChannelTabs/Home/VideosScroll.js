@@ -1,87 +1,36 @@
 import React from "react";
-import { Box, Stack, styled, Button } from "@mui/material";
-import { colors } from "../../../ColorThemes";
+import {
+  VSMainContainer,
+  VSContentContainer,
+  ScrollVideoContainer,
+  VideoOuterContainer,
+  ScrollButtonContainer,
+  ScrollButton,
+  IconHolder,
+  ScrollVideoInnerContainer,
+} from "./Styling";
 import { VideoContainer } from "../../../VerticalVideoContainer";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { SectionLabel } from "./SectionLabel";
 import { ChannelContainer } from "./ChannelContainer";
 
-const ContentContainer = styled(Stack)`
-  margin-top: 24px;
-  display: block;
-  position: relative;
-`;
-
-const ScrollVideoContainer = styled(Box)`
-  display: block;
-  position: relative;
-  max-width: auto;
-  overflow: hidden;
-`;
-
-const VideoOuterContainer = styled(Box)`
-  padding-right: 4px;
-  display: inline-block;
-  vertical-align: top;
-  white-space: normal;
-  width: 210px;
-  position: relative;
-`;
-
-const ScrollButtonContainer = styled(Box)`
-  position: absolute;
-  top: 38px;
-  z-index: 200;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ScrollButton = styled(Button)`
-  width: 40px;
-  height: 40px;
-  border-radius: 24px;
-  background-color: #212121;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 30%), 0 0 4px rgb(0 0 0 /20%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: ${colors.textWhite};
-  flex: 1;
-  flex-basis: 1e-9px;
-  min-width: 0;
-  padding: 8px 8px;
-
-  :hover {
-    background-color: rgba(77, 77, 77, 1);
-  }
-`;
-
-const IconHolder = styled(Box)`
-  width: 24px;
-  height: 24px;
-`;
-
-const ScrollVideoInnerContainer = styled(Box)`
-  margin-bottom: 24px;
-  transition-duration: 0.15s;
-  transition-timing-function: cubic-bezier(0.05, 0, 0, 1);
-  display: inline-block;
-  white-space: nowrap;
-`;
-
 export const VideosScroll = (props) => {
   const { text, divider, section } = props;
+
+  // used to differentiate the ids of different scroll components
   const contLabel = section[0];
+
+  // used to determine if video or channel scroll
   const type = section[1];
 
+  // size of inner scroll container (based on number of videos in inner scroll container)
   const vidListSize = text.length * 214;
 
+  // current shift value of scroll inner scroll container
   var shift = 0;
 
+  // handles scrolling the video scroll container when one of the scroll buttons is pressed
   const handleClick = (direction) => {
     var cont = document.getElementById("scroll" + contLabel);
     var left = document.getElementById("left" + contLabel);
@@ -91,7 +40,7 @@ export const VideosScroll = (props) => {
     var maxSize = vidListSize - adjust;
 
     if (direction === "right") {
-      if (-(shift - adjust) <= maxSize) {
+      if (-(shift - adjust) < maxSize) {
         shift = shift - adjust;
         right.style.visibility = "visible";
         left.style.visibility = "visible";
@@ -100,7 +49,7 @@ export const VideosScroll = (props) => {
         right.style.visibility = "hidden";
       }
     } else {
-      if (shift + adjust <= 0) {
+      if (shift + adjust < 0) {
         shift = shift + adjust;
         right.style.visibility = "visible";
         left.style.visibility = "visible";
@@ -112,15 +61,10 @@ export const VideosScroll = (props) => {
     cont.style.transform = "translateX(" + shift + "px)";
   };
 
-  const MainContainer = styled("div")`
-    border-top: ${({ divider }) =>
-      divider ? "1px solid rgba(255, 255, 255, 0.2)" : "unset"};
-  `;
-
   return (
-    <MainContainer divider={divider}>
+    <VSMainContainer divider={divider}>
       <SectionLabel type={type} />
-      <ContentContainer direction="row">
+      <VSContentContainer direction="row">
         <ScrollButtonContainer
           id={"left" + contLabel}
           sx={{ left: "-21px" }}
@@ -152,7 +96,7 @@ export const VideosScroll = (props) => {
             </IconHolder>
           </ScrollButton>
         </ScrollButtonContainer>
-      </ContentContainer>
-    </MainContainer>
+      </VSContentContainer>
+    </VSMainContainer>
   );
 };

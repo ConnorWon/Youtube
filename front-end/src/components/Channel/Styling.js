@@ -155,7 +155,7 @@ export const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};
   position: sticky;
   top: 56px;
-  z-index: 1;
+  z-index: 2;
 
   @media only screen and (max-width: 686px) {
     padding-right: calc((100% - 428px) / 2);
