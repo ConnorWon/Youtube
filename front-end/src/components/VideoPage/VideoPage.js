@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { styled, Box, Stack } from "@mui/material";
 import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
 import { colors } from "../ColorThemes";
 import { BelowPlayer } from "./VideoPlayer/BelowPlayer/BelowPlayer";
 import { VideoPageSidebar } from "./Sidebar/VideoPageSidebar";
+import { GetWindowDimension } from "../WindowSizeStore";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;
@@ -108,23 +109,47 @@ const SecondaryInner = styled("div")``;
 
 export const VideoPage = (props) => {
   const {
-    handleInVideoPage,
+    setInVideoPage,
     inVideoPage,
-    sideExpand,
+    setSideExpand,
     setModalSideExpand,
     modalSideExpand,
   } = props;
 
-  useEffect(() => {
-    handleInVideoPage(true);
-  }, [sideExpand]);
+  // used for tracking window size
+  const windowSize = GetWindowDimension();
 
+  // signals that inVideoPage on component mount and on dismount signals not in videoPage
+  useEffect(() => {
+    setInVideoPage(true);
+    return () => {
+      setInVideoPage(false);
+    };
+  }, []);
+
+  // tracks whether component is unmounting
+  const componentWillUnMount = useRef(false);
+  // changes unmount ref when component is unmounting
   useEffect(() => {
     return () => {
-      handleInVideoPage(false);
+      componentWillUnMount.current = true;
     };
-  }, [sideExpand, modalSideExpand]);
+  }, []);
 
+  // opens sideExpand if modalSideExpand is true and windowSize > 1312px
+  useEffect(() => {
+    return () => {
+      if (
+        modalSideExpand &&
+        componentWillUnMount.current &&
+        windowSize > 1312
+      ) {
+        setSideExpand(modalSideExpand);
+      }
+    };
+  }, [modalSideExpand, windowSize]);
+
+  // used to close modal sidebar after switching to this page from another
   useEffect(() => {
     setModalSideExpand(false);
   }, []);

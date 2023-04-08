@@ -44,14 +44,6 @@ function App() {
     }
   }, []);
 
-  // deals with case for when switching to videoPage from other YouTube pages
-  const handleInVideoPage = (inPage) => {
-    setInVideoPage(inPage);
-    if (modalSideExpand) {
-      setSideExpand(modalSideExpand);
-    }
-  };
-
   // deals with resizing the main page container
   useEffect(() => {
     const main = document.getElementById("main");
@@ -69,10 +61,10 @@ function App() {
 
   // resets modalSideExpand upon reaching max window size for the modal sidebar
   useEffect(() => {
-    if (windowSize > 1312) {
+    if (windowSize > 1312 && !inVideoPage) {
       setModalSideExpand(false);
     }
-  }, [windowSize, sideExpand]);
+  }, [windowSize, sideExpand, inVideoPage]);
 
   return (
     <div>
@@ -106,9 +98,9 @@ function App() {
             path="/watch"
             element={
               <VideoPage
-                handleInVideoPage={handleInVideoPage}
+                setInVideoPage={setInVideoPage}
                 inVideoPage={inVideoPage}
-                sideExpand={sideExpand}
+                setSideExpand={setSideExpand}
                 setModalSideExpand={setModalSideExpand}
                 modalSideExpand={modalSideExpand}
               />

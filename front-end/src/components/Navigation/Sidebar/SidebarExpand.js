@@ -31,6 +31,8 @@ import { SidebarButton } from "./SidebarButton";
 import { GetWindowDimension } from "../../WindowSizeStore";
 
 export const SidebarExpand = (props) => {
+  const { sideExpand, inVideoPage, modalSideExpand } = props;
+
   // state for hiding and showing elements that are dependent on log in status
   const [loggedStatus, setLoggedStatus] = useState(false);
   // state for turning on or off modal feature
@@ -40,12 +42,12 @@ export const SidebarExpand = (props) => {
 
   // deals with turning on or off the modal sidebar feature
   useEffect(() => {
-    if (windowSize <= 1312) {
+    if (windowSize <= 1312 || inVideoPage) {
       setModalSide(true);
     } else {
       setModalSide(false);
     }
-  }, [windowSize]);
+  }, [windowSize, inVideoPage]);
 
   const mainButtons = [
     ["/", "Home", <HomeOutlinedIcon />],
@@ -69,8 +71,6 @@ export const SidebarExpand = (props) => {
     ["/", "Learning", <LightbulbOutlinedIcon />],
     ["/", "Fashion & Beauty", <DiamondOutlinedIcon />],
   ];
-
-  const { sideExpand, inVideoPage, modalSideExpand } = props;
 
   return (
     <SidebarDrawer
