@@ -7,8 +7,8 @@ import {
   Secondary,
   SecondaryInner,
 } from "./Styling";
-import { VideoPlayer } from "./VideoPlayer/VideoPlayer";
-import { BelowPlayer } from "./VideoPlayer/BelowPlayer/BelowPlayer";
+import { VideoPlayer } from "./Player/VideoPlayer/VideoPlayer";
+import { BelowPlayer } from "./Player/BelowPlayer/BelowPlayer";
 import { VideoPageSidebar } from "./Sidebar/VideoPageSidebar";
 import { GetWindowDimension } from "../WindowSizeStore";
 

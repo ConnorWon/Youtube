@@ -1,132 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stack, Box, styled, LinearProgress } from "@mui/material";
+import {
+  Player,
+  OuterPlayerContainer,
+  PlayerContainer,
+  InnerPlayerContainer,
+  VideoPlayerContainer,
+  VideoPlayerComponent,
+  VideoHolder,
+  VideoMenu,
+  Video,
+  ProgressBarContainer,
+  ProgressBarComponent,
+  Bar,
+  HoverProgress,
+} from "./Styling";
 import { VideoButtons } from "./VideoButtons";
 import movie from "./test.MOV";
-import { colors } from "../../ColorThemes";
-
-const Player = styled(Stack)`
-  position: relative;
-`;
-
-const OuterPlayerContainer = styled(Box)`
-  max-width: var(--max-player-width);
-  min-width: var(--min-player-width);
-`;
-
-const PlayerContainer = styled(Stack)`
-  position: relative;
-  padding-top: calc(var(--height-ratio) / var(--width-ratio) * 100%);
-`;
-
-const InnerPlayerContainer = styled(Stack)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-`;
-
-const VideoPlayerContainer = styled(Stack)`
-  display: block;
-  width: 100%;
-  height: 100%;
-`;
-
-const VideoPlayerComponent = styled(Stack)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-  outline: 0;
-  font-family: Roboto;
-  color: #eee;
-  text-align: left;
-  ${"" /* direction: "row" */}
-  font-size: 11px;
-  line-height: 1.3;
-  -webkit-font-smoothing: antialiased;
-`;
-
-const VideoHolder = styled(Stack)`
-  z-index: 10;
-  position: relative;
-`;
-
-const VideoMenu = styled(Stack)`
-  width: calc(100% - 24px);
-  left: 12px;
-  transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1);
-  height: 48px;
-  z-index: 59;
-  padding-top: 3px;
-  text-align: left;
-  position: absolute;
-  text-shadow: 0 0 2px rgb(0 0 0 / 50%);
-  ${"" /* direction: "row" */}
-  bottom: 0;
-  display: none;
-`;
-
-const Video = styled("video")`
-  object-fit: cover;
-  position: absolute;
-  display: block;
-  width: ${({ fs }) => (fs ? "unset" : "100%")};
-  top: 0;
-  left: 0;
-`;
-
-const ProgressBarContainer = styled(Stack)`
-  cursor: pointer;
-  display: block;
-  position: absolute;
-  width: 100%;
-  bottom: 47px;
-  height: 5px;
-`;
-
-const ProgressBarComponent = styled(Stack)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 31;
-  outline: none;
-  -webkit-user-drag: element;
-  user-select: none;
-`;
-
-const Bar = styled(LinearProgress)`
-  background: ${colors.borderColor};
-  .MuiLinearProgress-bar {
-    transition: transform 0.1s cubic-bezier(0.4, 0, 1, 1);
-  }
-
-  .MuiLinearProgress-bar1Buffer {
-    background-color: ${colors.youtubeRed};
-  }
-  .MuiLinearProgress-bar2Buffer {
-    background-color: rgba(255, 255, 255, 0.4);
-  }
-  .MuiLinearProgress-dashed {
-    background-image: none;
-  }
-`;
-
-const HoverProgress = styled("span")`
-  background: rgba(255, 255, 255, 0.6);
-  background-image: none;
-  position: absolute;
-  transform: opacity 0.25s cubic-bezier(0, 0, 0.2, 1);
-  opacity: 0;
-  animation: none;
-  transform-origin: 0 0;
-  width: 100%;
-  height: calc(100% - 1px);
-  z-index: 0;
-`;
 
 export const VideoPlayer = (props) => {
   const { inVideoPage } = props;
@@ -177,6 +66,7 @@ export const VideoPlayer = (props) => {
   const [visualTime, setVisualTime] = useState("0:00");
   const [visualDuration, setVisualDuration] = useState("0:00");
 
+  // changes position of progress bar accordingly
   const handleTime = (time, duration) => {
     const prog = document.getElementById("progress-bar");
     handleVideoTimer(time, setVisualTime);
@@ -186,6 +76,7 @@ export const VideoPlayer = (props) => {
     setHoverPos((time / duration) * prog.offsetWidth);
   };
 
+  // changes the displayed video time as video plays
   const handleVideoTimer = (time, func) => {
     const hour = Math.floor(time / 3600);
     const min = Math.floor(time / 60);
@@ -197,7 +88,10 @@ export const VideoPlayer = (props) => {
     func(hourStr + minStr + ":" + secStr);
   };
 
+  // tracking where the progress bar's left side is in terms of the window
   const [elLeft, setElLeft] = useState();
+
+  // changes the progress bar to the location where user clicked progress bar
   const handleProgressChange = (el) => {
     const pos = el.clientX - elLeft.left;
     setTime((pos / el.target.offsetWidth) * 100);
@@ -205,7 +99,10 @@ export const VideoPlayer = (props) => {
     video.currentTime = (pos / el.target.offsetWidth) * video.duration;
   };
 
+  // tracks position of where user mouse is hovering (when user not hovering state is where progress bar is)
   const [hoverPos, setHoverPos] = useState(0);
+
+  // moves the hover progress bar according to user's mouse position
   const handleMouseMove = (el) => {
     const hp = document.getElementById("hover-progress");
     const pos = el.clientX - elLeft.left;
@@ -214,18 +111,22 @@ export const VideoPlayer = (props) => {
     hp.style.transform = "scaleX(" + scaleVal + ")";
   };
 
+  // function that turns on/off display of hover progress bar
   const handleMouseEnter = (val) => {
     const hp = document.getElementById("hover-progress");
     hp.style.opacity = val;
   };
 
+  // ref used to hold the resizeObserver that observes the progress bar
   const resizer = useRef(0);
 
+  // changes value of elLeft when the window resizes
   const monitorResize = () => {
     const progressBar = document.getElementById("progress-bar");
     setElLeft(progressBar.getBoundingClientRect());
   };
 
+  // used to initially set elLeft and to init the resizeObserver
   useEffect(() => {
     const progressBar = document.getElementById("progress-bar");
     setElLeft(progressBar.getBoundingClientRect());
@@ -249,7 +150,7 @@ export const VideoPlayer = (props) => {
     }
   };
 
-  // setup custom controls
+  // setup for custom controls
   useEffect(() => {
     const videoControls = document.getElementById("videoControls");
     const video = document.getElementById("video");
