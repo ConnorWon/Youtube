@@ -1,22 +1,13 @@
 import React from "react";
-import { Stack, styled } from "@mui/material";
+import { VPSMainContainer, SidebarContainer, SidebarContents } from "./Styling";
 import { SidebarVideo } from "./SidebarVideo";
 
-const MainContainer = styled(Stack)``;
-
-const SidebarContainer = styled(Stack)``;
-
-const SidebarContents = styled("div")`
-  --item-margin: 8px;
-  --item-width: calc(var(--sidebar-width) / 3);
-  --thumbnail-height: calc(var(--sidebar-width) / 3 / 9 * 16);
-`;
-
+// dummy data for videos
 const videos = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 export const VideoPageSidebar = () => {
   return (
-    <MainContainer>
+    <VPSMainContainer>
       <SidebarContainer>
         <SidebarContents>
           {videos.map(() => (
@@ -24,6 +15,6 @@ export const VideoPageSidebar = () => {
           ))}
         </SidebarContents>
       </SidebarContainer>
-    </MainContainer>
+    </VPSMainContainer>
   );
 };
