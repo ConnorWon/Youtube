@@ -1,14 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
+import { ToggleButtonGroup } from "@mui/material";
 import {
-  Avatar,
-  styled,
-  Typography,
-  Stack,
-  Link,
-  Button,
-  ToggleButtonGroup,
-  ToggleButton,
-} from "@mui/material";
+  ChannelButtonsContainer,
+  ChannelOwnerContainer,
+  ChannelContainer,
+  ChannelIcon,
+  ChannelIconContainer,
+  OwnerInfoContainer,
+  ChannelNameContainer,
+  ChannelName,
+  Verified,
+  SubCount,
+  JoinSubBtn,
+  ActionButtons,
+  ActionInner,
+  BtnMenu,
+  NonFlexButtons,
+  LikeDislikeBtn,
+  ButtonText,
+  MenuButtonContainer,
+  MenuButton,
+  FlexibleButtons,
+} from "./Styling";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -21,233 +34,34 @@ import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { colors } from "../../../ColorThemes";
 
-const ChannelButtonsContainer = styled(Stack)`
-  margin-top: -4px;
-`;
-
-const ChannelOwnerContainer = styled(Stack)`
-  min-width: calc(50% - 6px);
-  align-items: center;
-  box-sizing: border-box;
-  margin-right: 12px;
-  margin-top: 12px;
-`;
-
-const ChannelContainer = styled(Stack)`
-  min-width: 0;
-`;
-
-const ChannelIconContainer = styled("a")`
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-`;
-
-const ChannelIcon = styled(Avatar)`
-  margin-right: 12px;
-  width: 40px;
-  height: 40px;
-`;
-
-const OwnerInfoContainer = styled(Stack)`
-  justify-content: center;
-  flex: 1;
-  flex-basis: 1e-9px;
-  overflow: hidden;
-  margin-right: 24px;
-`;
-
-const ChannelNameContainer = styled(Stack)`
-  z-index: 300;
-  color: inherit;
-  max-width: 100%;
-  font-family: Roboto;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 500;
-`;
-
-const ChannelName = styled(Link)`
-  word-wrap: none;
-  word-break: none;
-  text-decoration: none;
-  color: inherit;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const Verified = styled(Stack)`
-  align-items: center;
-  line-height: 12px;
-  font-weight: 500;
-  font-size: 12px;
-  border-radius: 2px;
-  margin-bottom: 1px;
-  padding-left: 4px;
-  flex: none;
-`;
-
-const SubCount = styled(Typography)`
-  font-family: Roboto;
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: 400;
-  overflow: hidden;
-  max-height: 18px;
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
-  white-space: normal;
-  color: ${colors.textGrey};
-  margin-right: 4px;
-`;
-
-const JoinSubBtn = styled(Button)`
-  border-radius: 20px;
-  background-color: white;
-  color: black;
-  text-transform: none;
-  font-weight: 500;
-  margin-left: 8px;
-  :hover {
-    background-color: #dad9d9;
-  }
-`;
-
-const ActionButtons = styled(Stack)`
-  justify-content: flex-start;
-  min-width: calc(50% - 6px);
-  align-items: center;
-  box-sizing: border-box;
-  margin-top: 12px;
-`;
-
-const ActionInner = styled(Stack)`
-  width: 100%;
-`;
-
-const Menu = styled(Stack)`
-  justify-content: flex-end;
-  width: 100%;
-  overflow-y: hidden;
-  flex-wrap: wrap;
-  max-height: 40px;
-  --yt-button-icon-size: 36px;
-`;
-
-const NonFlexButtons = styled(Stack)``;
-
-const LikeDislikeBtn = styled(ToggleButton)`
-  white-space: nowrap;
-  min-width: 0;
-  text-transform: none;
-  font-family: Roboto;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  outline-width: 0;
-  box-sizing: border-box;
-  background: none;
-  text-decoration: none;
-  flex: 1;
-  flex-basis: 1e-9px;
-  flex-direction: row;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  height: 36px;
-  font-size: 14px;
-  line-height: 36px;
-  border-radius: 18px 0 0 18px;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  :hover {
-    background-color: ${colors.borderColor};
-  }
-
-  .Mui-selected {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-`;
-
-const ButtonText = styled(Typography)`
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: inherit;
-  white-space: nowrap;
-`;
-
-const MenuButtonContainer = styled("div")``;
-
-const MenuButton = styled(Button)`
-  margin-left: 8px;
-  font-size: 14px;
-  line-height: 36px;
-  border-radius: 18px;
-  height: 36px;
-  font-weight: 500;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  text-transform: none;
-  padding: 0 16px;
-  letter-spacing: 0.5px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-
-  :hover {
-    background-color: ${colors.borderColor};
-  }
-`;
-
-const FlexibleButtons = styled("div")``;
-
 export const ChannelButtons = () => {
+  // tracks state of like button
   const [like, setLike] = useState();
-  const [flexBtnShow, setFlexBtnShow] = useState(false);
 
-  // adding responsiveness to buttons
+  // ref that holds the resizeObserver that observes the resizing of this component
   const resizer = useRef(0);
-  var rightSide = null;
+
+  // used to hold the menu component
+  var menu = null;
+
+  // used to hold the outer most parent element
   var main = null;
+
+  // ref for download button
   var download = useRef(null);
+
+  // ref for clip button
   var clip = useRef(null);
+
+  // ref for save button
   var save = useRef(null);
 
-  // const monitorResize = () => {
-  //   // const left = leftSide.getBoundingClientRect();
-  //   const right = rightSide.getBoundingClientRect();
-  //   if (mainSize) {
-  //     if (flexElNum == 0) {
-  //       main.style.display = "block";
-  //       download.current.style.display = "inline-block";
-  //       clip.current.style.display = "inline-block";
-  //       save.current.style.display = "inline-block";
-  //     } else {
-  //       const flexEl = flexibleElements[flexElNum][0];
-  //       flexEl.current.style.display = "none";
-  //       flexElNum--;
-  //     }
-  //   } else {
-  //     if (right.left - left.right > flexibleElements[flexElNum][1]) {
-  //       const flexEl = flexibleElements[flexElNum][0];
-  //       flexEl.current.style.display = "inline-block";
-  //       flexElNum++;
-  //     } else if (main.getBoundingClientRect().width >= 640 && flexElNum == 3) {
-  //       main.style.display = "flex";
-  //     }
-  //   }
-  // };
-
+  // handles hiding/making visible flex buttons
   const handleFlexButtons = () => {
     const mainSize = main.getBoundingClientRect().width;
     if (mainSize >= 641) {
       main.style.display = "flex";
-      rightSide.style.justifyContent = "flex-end";
+      menu.style.justifyContent = "flex-end";
       download.current.style.display = "none";
       clip.current.style.display = "none";
       save.current.style.display = "none";
@@ -262,7 +76,7 @@ export const ChannelButtons = () => {
       }
     } else if (mainSize < 641) {
       main.style.display = "block";
-      rightSide.style.justifyContent = "flex-start";
+      menu.style.justifyContent = "flex-start";
       download.current.style.display = "inline-block";
       clip.current.style.display = "none";
       save.current.style.display = "none";
@@ -275,16 +89,16 @@ export const ChannelButtons = () => {
     }
   };
 
+  // setup to add responsiveness to button menu and flex buttons
   useEffect(() => {
     main = document.getElementById("channelbtncont");
     resizer.current = new ResizeObserver(handleFlexButtons);
     resizer.current.observe(main);
-    rightSide = document.getElementById("right-side");
+    menu = document.getElementById("menu");
     download.current = document.getElementById("download");
     clip.current = document.getElementById("clip");
     save.current = document.getElementById("save");
     handleFlexButtons();
-    // monitorResize();
   }, []);
 
   return (
@@ -314,7 +128,7 @@ export const ChannelButtons = () => {
       </ChannelOwnerContainer>
       <ActionButtons direction="row">
         <ActionInner>
-          <Menu id="right-side" direction="row">
+          <BtnMenu id="menu" direction="row">
             <NonFlexButtons direction="row">
               <ToggleButtonGroup
                 value={like}
@@ -407,7 +221,7 @@ export const ChannelButtons = () => {
                 />
               </MenuButton>
             </MenuButtonContainer>
-          </Menu>
+          </BtnMenu>
         </ActionInner>
       </ActionButtons>
     </ChannelButtonsContainer>

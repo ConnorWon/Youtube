@@ -1,110 +1,28 @@
+import { createTheme, ThemeProvider, Collapse } from "@mui/material";
 import {
-  Typography,
-  Stack,
-  styled,
-  Menu,
-  MenuItem,
-  Avatar,
-  Button,
-  FormControl,
-  Input,
-  createTheme,
-  ThemeProvider,
-  Collapse,
-  IconButton,
-} from "@mui/material";
+  BaseContainer,
+  CSMainContainer,
+  HeaderContainer,
+  CommentCount,
+  SortButton,
+  SortText,
+  SortMenu,
+  SortMenuItem,
+  CommentContainer,
+  UserIcon,
+  CommentBox,
+  CommentFormControl,
+  CommentInput,
+  BelowCommentField,
+  Emojis,
+  Spacer,
+  CommentButton,
+  Contents,
+} from "./Styling";
 import React, { useState } from "react";
-import { colors } from "../../../ColorThemes";
+import { colors } from "../../../../ColorThemes";
 import SortIcon from "@mui/icons-material/Sort";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Comment } from "./Comment";
-
-const BaseContainer = styled("div")``;
-
-const MainContainer = styled(Stack)`
-  margin-top: 24px;
-  margin-bottom: 32px;
-`;
-
-const HeaderContainer = styled(Stack)`
-  margin-bottom: 24px;
-  align-items: center;
-`;
-
-const CommentCount = styled(Typography)`
-  vertical-align: middle;
-  font-family: Roboto;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 400;
-  color: ${colors.textWhite};
-  margin-right: 32px;
-`;
-
-const SortButton = styled(Stack)`
-  cursor: pointer;
-  align-items: center;
-`;
-
-const SortText = styled(Typography)`
-  color: ${colors.textWhite};
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-`;
-
-const SortMenu = styled(Menu)`
-  margin-top: 10px;
-  .MuiMenu-list {
-    background-color: ${colors.dropDownMenu};
-  }
-  .MuiMenu-paper {
-    border-radius: 12px;
-    background-color: ${colors.dropDownMenu};
-  }
-`;
-
-const SortMenuItem = styled(MenuItem)`
-  color: ${colors.textWhite};
-  :hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  font-weight: 300;
-  padding: 12px 16px;
-  font-size: 14px;
-`;
-
-const CommentContainer = styled(Stack)`
-  margin-right: 16px;
-  flex-wrap: wrap;
-  flex-direction: row;
-`;
-
-const UserIcon = styled(Avatar)`
-  width: 40px;
-  height: 40px;
-  margin-right: 16px;
-  border-radius: 50%;
-`;
-
-const CommentBox = styled("div")`
-  flex: 1;
-  flex-basis: 1e-9px;
-  min-width: 0;
-`;
-
-const CommentFormControl = styled(FormControl)`
-  width: 100%;
-`;
-
-const CommentInput = styled(Input)``;
 
 const theme = createTheme({
   components: {
@@ -132,53 +50,30 @@ const theme = createTheme({
   },
 });
 
-const BelowCommentField = styled(Stack)`
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: 10px;
-`;
-
-const Emojis = styled(InsertEmoticonIcon)`
-  color: ${colors.textWhite};
-  cursor: pointer;
-`;
-
-const Spacer = styled(Stack)`
-  flex-grow: 1;
-`;
-
-const CommentButton = styled(Button)`
-  background-color: transparent;
-  min-width: 0;
-  border-radius: 18px;
-  margin-left: 8px;
-  color: ${colors.textWhite};
-  text-transform: none;
-  padding: 0 16px;
-  height: 36px;
-  font-size: 14px;
-  line-height: 36px;
-  font-weight: 500;
-  :hover {
-    background-color: ${colors.borderColor};
-  }
-`;
-
-const Contents = styled("div")``;
-
 export const CommentSection = () => {
+  // anchor element for modal sort menu
   const [anchorEl, setAnchorEl] = useState(null);
+
+  // var that tracks if sort menu is open
   const open = Boolean(anchorEl);
+
+  // handles opening the sort menu
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  // handles closing sort menu
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  // state for opening/closing collapsible menu below comment bar
   const [expand, setExpand] = useState(false);
+
+  // tracks value in comment bar
   const [fieldVal, setFieldVal] = useState("");
 
+  // resets comment bar and collapses menu below it
   const handleCancel = () => {
     setFieldVal("");
     setExpand(false);
@@ -186,7 +81,7 @@ export const CommentSection = () => {
 
   return (
     <BaseContainer>
-      <MainContainer>
+      <CSMainContainer>
         <HeaderContainer direction="row">
           <CommentCount>650 Comments</CommentCount>
           <SortButton direction="row" onClick={handleClick}>
@@ -236,7 +131,7 @@ export const CommentSection = () => {
             </Collapse>
           </CommentBox>
         </CommentContainer>
-      </MainContainer>
+      </CSMainContainer>
       <Contents>
         <Comment />
       </Contents>
