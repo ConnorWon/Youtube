@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   TabContainer,
   HomeTab,
@@ -9,10 +9,11 @@ import {
 } from "./Styling";
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
-import { theme } from "../ColorThemes";
+import { theme } from "../../utils/ColorThemes";
 import { VideoContainer } from "../VerticalVideoContainer";
+import { SidebarContext } from "../../contexts/SidebarContext";
 
-export const Home = (props) => {
+export const Home = () => {
   // tracks which video tab user is in
   const [value, setValue] = useState("0");
   // handles changing of tab
@@ -20,7 +21,7 @@ export const Home = (props) => {
     setValue(newValue);
   };
 
-  const { setModalSideExpand } = props;
+  const { setModalSideExpand } = useContext(SidebarContext);
 
   // used to close modal sidebar after switching to this page from another
   useEffect(() => {
@@ -68,44 +69,42 @@ export const Home = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box>
-        <TabContext value={value}>
-          <TabContainer>
-            <TabList
-              value={value}
-              onChange={handleChange}
-              variant="scrollable"
-              scrollButtons="auto"
-              textColor="secondary"
-              indicatorColor="primary"
-              sx={{
-                "& .MuiTabScrollButton-root": {
-                  color: "#aaaaaa",
-                },
-              }}
-            >
-              {tabOptions.map((tab) => (
-                <HomeTab label={tab} value={(tabCount++).toString()} />
-              ))}
-              {(tabCount = 0)}
-            </TabList>
-          </TabContainer>
-          <HomeTabPanelContainer>
+      <TabContext value={value}>
+        <TabContainer>
+          <TabList
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            textColor="secondary"
+            indicatorColor="primary"
+            sx={{
+              "& .MuiTabScrollButton-root": {
+                color: "#aaaaaa",
+              },
+            }}
+          >
             {tabOptions.map((tab) => (
-              <HomeTabPanel value={(tabCount++).toString()}>
-                <VideoGrid container spacing={0}>
-                  {text.map((t) => (
-                    <VideoOuterContainer item>
-                      <VideoContainer />
-                    </VideoOuterContainer>
-                  ))}
-                </VideoGrid>
-                {/* have to pass videos prop into components after performing a http request */}
-              </HomeTabPanel>
+              <HomeTab label={tab} value={(tabCount++).toString()} />
             ))}
-          </HomeTabPanelContainer>
-        </TabContext>
-      </Box>
+            {(tabCount = 0)}
+          </TabList>
+        </TabContainer>
+        <HomeTabPanelContainer>
+          {tabOptions.map((tab) => (
+            <HomeTabPanel value={(tabCount++).toString()}>
+              <VideoGrid container spacing={0}>
+                {text.map((t) => (
+                  <VideoOuterContainer item>
+                    <VideoContainer />
+                  </VideoOuterContainer>
+                ))}
+              </VideoGrid>
+              {/* have to pass videos prop into components after performing a http request */}
+            </HomeTabPanel>
+          ))}
+        </HomeTabPanelContainer>
+      </TabContext>
     </ThemeProvider>
   );
 };

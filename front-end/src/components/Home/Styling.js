@@ -1,6 +1,6 @@
 import { TabPanel } from "@mui/lab";
 import { Box, Tab, styled, Grid } from "@mui/material";
-import { colors } from "../ColorThemes";
+import { colors } from "../../utils/ColorThemes";
 
 export const TabContainer = styled(Box)`
   background-color: ${colors.bgColorDark};

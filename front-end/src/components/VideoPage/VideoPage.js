@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import {
   CSSValueProvider,
   MainContainer,
@@ -10,16 +10,17 @@ import {
 import { VideoPlayer } from "./Player/VideoPlayer/VideoPlayer";
 import { BelowPlayer } from "./Player/BelowPlayer/BelowPlayer";
 import { VideoPageSidebar } from "./Sidebar/VideoPageSidebar";
-import { GetWindowDimension } from "../WindowSizeStore";
+import { GetWindowDimension } from "../../utils/WindowSizeStore";
+import { SidebarContext } from "../../contexts/SidebarContext";
 
-export const VideoPage = (props) => {
+export const VideoPage = () => {
   const {
     setInVideoPage,
     inVideoPage,
     setSideExpand,
     setModalSideExpand,
     modalSideExpand,
-  } = props;
+  } = useContext(SidebarContext);
 
   // used for tracking window size
   const windowSize = GetWindowDimension();

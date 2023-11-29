@@ -9,7 +9,7 @@ import {
   Slider,
   Switch,
 } from "@mui/material";
-import { colors } from "../../../ColorThemes";
+import { colors } from "../../../../utils/ColorThemes";
 
 // VideoPlayer Styling
 

@@ -3,13 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router } from "react-router-dom";
+import { UserContextProvider } from "./contexts/UserContext";
+import { SidebarContextProvider } from "./contexts/SidebarContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Router>
-    <App />
-  </Router>
+  <UserContextProvider>
+    <SidebarContextProvider>
+      <App />
+    </SidebarContextProvider>
+  </UserContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -8,7 +8,7 @@ import {
   ToggleButton,
   Collapse,
 } from "@mui/material";
-import { colors } from "../../../ColorThemes";
+import { colors } from "../../../../utils/ColorThemes";
 
 // BelowPlayer Styling
 

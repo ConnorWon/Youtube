@@ -20,7 +20,7 @@ import {
   Contents,
 } from "./Styling";
 import React, { useState } from "react";
-import { colors } from "../../../../ColorThemes";
+import { colors } from "../../../../../utils/ColorThemes";
 import SortIcon from "@mui/icons-material/Sort";
 import { Comment } from "./Comment";
 

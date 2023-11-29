@@ -1,5 +1,5 @@
 import { styled, Box, Stack } from "@mui/material";
-import { colors } from "../ColorThemes";
+import { colors } from "../../utils/ColorThemes";
 
 // sidebar-width: 402px;
 // sidebar-min-width: 300px;

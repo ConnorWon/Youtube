@@ -5,6 +5,8 @@ import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined
 import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { SidebarContext } from "../../../contexts/SidebarContext";
 
 const icons = [
   ["/", "Home", <HomeOutlinedIcon />],
@@ -13,10 +15,10 @@ const icons = [
   ["/channel", "Library", <VideoLibraryOutlinedIcon />],
 ];
 
-export const SidebarMini = (props) => {
+export const SidebarMini = () => {
   const navigate = useNavigate();
 
-  const { sideExpand, inVideoPage } = props;
+  const { sideExpand, inVideoPage } = useContext(SidebarContext);
 
   return (
     <SideMenu sideExpand={sideExpand} inVideoPage={inVideoPage}>

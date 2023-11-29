@@ -8,7 +8,7 @@ import {
   Link,
   Grid,
 } from "@mui/material";
-import { colors } from "../../ColorThemes";
+import { colors } from "../../../utils/ColorThemes";
 
 // All Tabs Styling
 

@@ -32,7 +32,7 @@ import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import ContentCutOutlinedIcon from "@mui/icons-material/ContentCutOutlined";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { colors } from "../../../ColorThemes";
+import { colors } from "../../../../utils/ColorThemes";
 
 export const ChannelButtons = () => {
   // tracks state of like button

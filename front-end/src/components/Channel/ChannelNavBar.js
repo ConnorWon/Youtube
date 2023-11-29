@@ -2,7 +2,7 @@ import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
 import React, { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import { theme } from "../ColorThemes";
+import { theme } from "../../utils/ColorThemes";
 import { About } from "./ChannelTabs/About";
 import { Channels } from "./ChannelTabs/Channels";
 import { Community } from "./ChannelTabs/Community";
@@ -18,7 +18,7 @@ export const ChannelNavBar = (props) => {
   // used to ensure tab indicator is underlining correct tab
   var currentURL = window.location.href.split("/");
   const defaultState = () => {
-    if (currentURL.length == 4) {
+    if (currentURL.length === 4) {
       return "/channel";
     } else {
       return "/channel/" + currentURL[currentURL.length - 1];

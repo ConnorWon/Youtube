@@ -15,7 +15,7 @@ import {
   VerfiedContainerInner,
 } from "./Styling";
 import thumbnail from "../../youtube-thumbnail.png";
-import { colors } from "../../ColorThemes";
+import { colors } from "../../../utils/ColorThemes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export const SidebarVideo = () => {

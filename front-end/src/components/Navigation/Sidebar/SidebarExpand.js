@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   SidebarDrawer,
   HeaderSpacer,
@@ -28,10 +28,13 @@ import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 import { SidebarButton } from "./SidebarButton";
-import { GetWindowDimension } from "../../WindowSizeStore";
+import { GetWindowDimension } from "../../../utils/WindowSizeStore";
+import { SidebarContext } from "../../../contexts/SidebarContext";
 
-export const SidebarExpand = (props) => {
-  const { sideExpand, inVideoPage, modalSideExpand } = props;
+export const SidebarExpand = () => {
+  // Sidebar related states
+  const { sideExpand, inVideoPage, modalSideExpand } =
+    useContext(SidebarContext);
 
   // state for hiding and showing elements that are dependent on log in status
   const [loggedStatus, setLoggedStatus] = useState(false);
@@ -108,6 +111,7 @@ export const SidebarExpand = (props) => {
                   variant="outlined"
                   startIcon={<AccountCircleOutlinedIcon />}
                   disableRipple
+                  href="/login"
                 >
                   Sign In
                 </SignInButton>

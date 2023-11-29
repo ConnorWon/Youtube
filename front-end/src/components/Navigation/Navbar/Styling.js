@@ -10,7 +10,7 @@ import {
   FormControl,
   Input,
 } from "@mui/material";
-import { colors } from "../../ColorThemes";
+import { colors } from "../../../utils/ColorThemes";
 
 export const NaviBar = styled(AppBar)`
   position: fixed;
@@ -244,4 +244,12 @@ export const VoiceButton = styled(IconButton)`
   :hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
+`;
+
+export const SignInButton = styled(Button)`
+  border: 1px solid #717171;
+  color: #3ea6ff;
+  border-radius: 18px;
+  text-transform: inherit;
+  font-weight: 500;
 `;

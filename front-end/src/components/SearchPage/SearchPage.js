@@ -17,9 +17,10 @@ import {
   FilterType,
   ContentContainer,
 } from "./Styling";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TuneIcon from "@mui/icons-material/Tune";
 import { HorizontalVideo } from "./HorizontalVideo";
+import { SidebarContext } from "../../contexts/SidebarContext";
 
 // labels and filters used for filter tab
 const filters = [
@@ -51,7 +52,7 @@ const filters = [
 // dummy data to produce videos on page
 const videos = [1, 2, 3, 4, 5];
 
-export const SearchPage = (props) => {
+export const SearchPage = () => {
   // state for opening filter tab
   const [open, setOpen] = useState(false);
 
@@ -60,7 +61,7 @@ export const SearchPage = (props) => {
     setOpen(!open);
   };
 
-  const { setModalSideExpand } = props;
+  const { setModalSideExpand } = useContext(SidebarContext);
 
   // used to close modal sidebar after switching to this page from another
   useEffect(() => {

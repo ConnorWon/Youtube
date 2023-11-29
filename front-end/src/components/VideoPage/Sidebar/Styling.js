@@ -1,5 +1,5 @@
 import { Stack, styled, Typography } from "@mui/material";
-import { colors } from "../../ColorThemes";
+import { colors } from "../../../utils/ColorThemes";
 
 // VideoPageSidebar Styling
 

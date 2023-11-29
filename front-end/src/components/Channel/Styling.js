@@ -7,7 +7,7 @@ import {
   Button,
   Tab,
 } from "@mui/material";
-import { colors } from "../ColorThemes";
+import { colors } from "../../utils/ColorThemes";
 
 // ChannelHeader Styling
 

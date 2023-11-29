@@ -11,7 +11,7 @@ import {
   IconButton,
 } from "@mui/material";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import { colors } from "../../../../ColorThemes";
+import { colors } from "../../../../../utils/ColorThemes";
 
 // CommentSection Styling
 

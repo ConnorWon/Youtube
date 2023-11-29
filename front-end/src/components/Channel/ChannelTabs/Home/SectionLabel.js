@@ -6,7 +6,7 @@ import {
   PlayButton,
 } from "./Styling";
 import { Box, Link } from "@mui/material";
-import { colors } from "../../../ColorThemes";
+import { colors } from "../../../../utils/ColorThemes";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export const SectionLabel = (props) => {

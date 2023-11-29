@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { colors } from "../../ColorThemes";
+import { colors } from "../../../utils/ColorThemes";
 
 // SidebarExpand Styling
 

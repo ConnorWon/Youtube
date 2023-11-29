@@ -7,7 +7,7 @@ import {
   Stack,
   Link,
 } from "@mui/material";
-import { colors } from "../ColorThemes";
+import { colors } from "../../utils/ColorThemes";
 
 // SearchPage Styling
 

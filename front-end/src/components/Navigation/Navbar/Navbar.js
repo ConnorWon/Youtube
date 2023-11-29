@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Tooltip } from "@mui/material";
 import {
   NaviBar,
@@ -21,18 +21,22 @@ import {
   SearchButton,
   MiniScreenSearchButton,
   VoiceButton,
+  SignInButton,
 } from "./Styling";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import MicIcon from "@mui/icons-material/Mic";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import { GetWindowDimension } from "../../WindowSizeStore";
+import { GetWindowDimension } from "../../../utils/WindowSizeStore";
+import { SidebarContext } from "../../../contexts/SidebarContext";
+import { UserContext } from "../../../contexts/UserContext";
 
 export const Navbar = (props) => {
   // Connected to the clear button for search bar
@@ -81,8 +85,26 @@ export const Navbar = (props) => {
     }
   };
 
+  // Sidebar related states
+  const {
+    sideExpand,
+    setSideExpand,
+    modalSideExpand,
+    setModalSideExpand,
+    inVideoPage,
+  } = useContext(SidebarContext);
+
+  // Login related states
+  const { isLoggedIn } = useContext(UserContext);
+
   // Expand sidebar function
-  const { handleSideExpand } = props;
+  const handleSideExpand = (e) => {
+    if (windowSize <= 1312 || inVideoPage) {
+      setModalSideExpand(!modalSideExpand);
+    } else {
+      setSideExpand(!sideExpand);
+    }
+  };
 
   // nav to different routes
   const navigate = useNavigate();
@@ -179,9 +201,20 @@ export const Navbar = (props) => {
               <NotificationsNoneIcon />
             </RightMenuButton>
           </Tooltip>
-          <AvatarButton>
-            <UserAvatar />
-          </AvatarButton>
+          {isLoggedIn ? (
+            <AvatarButton>
+              <UserAvatar />
+            </AvatarButton>
+          ) : (
+            <SignInButton
+              variant="outlined"
+              startIcon={<AccountCircleOutlinedIcon />}
+              disableRipple
+              href="/login"
+            >
+              Sign In
+            </SignInButton>
+          )}
         </RightSideContainer>
       </NavToolBar>
     </NaviBar>

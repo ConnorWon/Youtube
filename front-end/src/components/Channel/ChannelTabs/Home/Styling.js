@@ -7,7 +7,7 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import { colors } from "../../../ColorThemes";
+import { colors } from "../../../../utils/ColorThemes";
 
 // VideosScroll Styling
 
