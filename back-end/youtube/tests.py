@@ -214,6 +214,29 @@ class ChannelViewsTests(TestCase):
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@cow')
 
+    def test_channel_info_has_subscriptions(self):
+        info_url = reverse('info', kwargs={'tag': '@cow'})
+
+        response = self.client.post(self.create_url, {
+            'name': 'Cow',
+            'tag': '@cow',
+            'active_channel': True
+        })
+
+        sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
+        sub_to_channel.save()
+        url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
+        self.client.patch(url)
+
+        response = self.client.get(info_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.json()['data']['name'], 'Cow')
+        self.assertEquals(response.json()['data']['profile_pic'], None)
+        self.assertEquals(response.json()['data']['banner'], None)
+        self.assertEquals(response.json()['sub_data'][0]['tag'], "@sub_to")
+        self.assertEquals(response.json()['data']['sub_count'], 0)
+        self.assertEquals(response.json()['data']['tag'], '@cow')
+
     # test with profile_pic and banner when implemented
 
     def test_channel_index(self):
@@ -279,15 +302,50 @@ class LoggedChannelTests(TestCase):
             'tag': '@cow',
             'active_channel': True
         })
+
+        self.client.cookies.pop('channel', None)
+
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.client.cookies.get('channel').value, 
+                    str(Channel.objects.get(name='Cow').uid))
+        self.assertEquals(response.json()['data']['name'], 'Cow')
+        self.assertEquals(response.json()['data']['profile_pic'], None)
+        self.assertEquals(response.json()['data']['banner'], None)
+        self.assertEquals(len(response.json()['sub_data']), 0)
+        self.assertEquals(response.json()['data']['sub_count'], 0)
+        self.assertEquals(response.json()['data']['tag'], '@cow')
+
+    def test_has_subscriptions_and_has_cookie(self):
+        self.client.post(self.create_url, {
+            'name': 'Cow',
+            'tag': '@cow',
+            'active_channel': True
+        })
+
         self.client.post(self.create_url, {
             'name': 'Pig',
             'tag': '@pig',
             'active_channel': True
         })
 
+        sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
+        sub_to_channel.save()
+        url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
+        self.client.patch(url, {
+            'sub': True
+        })
+        
         response = self.client.get(self.url)
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.json(), str(Channel.objects.get(name='Cow').uid))
+        self.assertEquals(response.client.cookies.get('channel').value, 
+                    str(Channel.objects.get(name='Pig').uid))
+        self.assertEquals(response.json()['data']['name'], 'Pig')
+        self.assertEquals(response.json()['data']['profile_pic'], None)
+        self.assertEquals(response.json()['data']['banner'], None)
+        self.assertEquals(response.json()['sub_data'][0]['tag'], "@sub_to")
+        self.assertEquals(response.json()['data']['sub_count'], 0)
+        self.assertEquals(response.json()['data']['tag'], '@pig')
         
     def test_with_uid(self):
         self.client.post(self.create_url, {
@@ -308,7 +366,14 @@ class LoggedChannelTests(TestCase):
 
         response = self.client.get(reverse('logged_tag', kwargs={'tag': '@pig'}))
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.json(), str(Channel.objects.get(name='Pig').uid))
+        self.assertEquals(response.client.cookies.get('channel').value, 
+                    str(Channel.objects.get(name='Pig').uid))
+        self.assertEquals(response.json()['data']['name'], 'Pig')
+        self.assertEquals(response.json()['data']['profile_pic'], None)
+        self.assertEquals(response.json()['data']['banner'], None)
+        self.assertEquals(len(response.json()['sub_data']), 0)
+        self.assertEquals(response.json()['data']['sub_count'], 0)
+        self.assertEquals(response.json()['data']['tag'], '@pig')
 
     def test_bad_uid(self):
         self.client.post(self.create_url, {
@@ -343,20 +408,47 @@ class SubscriptionViewTests(TestCase):
 
         self.second_user = UserModel.objects.create_user(email='pig@gmail.com', password='12345')
 
-    def test_patch_success(self):
+    def test_patch_sub_success(self):
         sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
         sub_to_channel.save()
         url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
-        response = self.client.patch(url)
+        response = self.client.patch(url, {
+            'sub': True
+        })
 
         self.assertEquals(response.status_code, 204)
         self.assertTrue(self.channel.subscriptions.get(tag='@sub_to'))
         self.assertEquals(Channel.objects.get(tag='@sub_to').sub_count, 1)
 
+    def test_patch_unsub_success(self):
+        sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
+        sub_to_channel.save()
+        url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
+        response = self.client.patch(url, {
+            'sub': True
+        })
+
+        self.assertEquals(Channel.objects.get(tag='@sub_to').sub_count, 1)
+
+        response = self.client.patch(url)
+
+        self.assertEquals(response.status_code, 204)
+        self.assertEquals(Channel.objects.get(tag='@sub_to').sub_count, 0)
+
+    def test_patch_unsub_fail(self):
+        sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
+        sub_to_channel.save()
+        url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
+        response = self.client.patch(url)
+
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(Channel.objects.get(tag='@sub_to').sub_count, 0)
 
     def test_patch_user_channel_sub_to_channel_same(self):
         url = reverse('sub_to', kwargs={'tag': self.channel.tag})
-        response = self.client.patch(url)
+        response = self.client.patch(url, {
+            'sub': True
+        })
 
         self.assertEquals(response.status_code, 400)
         self.assertRaises(Channel.DoesNotExist, self.channel.subscriptions.get, tag='@cow')
@@ -366,16 +458,22 @@ class SubscriptionViewTests(TestCase):
         sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
         sub_to_channel.save()
         url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
-        response = self.client.patch(url)
+        response = self.client.patch(url, {
+            'sub': True
+        })
 
-        response = self.client.patch(url)
+        response = self.client.patch(url, {
+            'sub': True
+        })
 
         self.assertEquals(response.status_code, 400)
         self.assertEquals(Channel.objects.get(tag='@sub_to').sub_count, 1)
     
     def test_patch_bad_sub_to_tag(self):
         url = reverse('sub_to', kwargs={'tag': '@123'})
-        response = self.client.patch(url)
+        response = self.client.patch(url, {
+            'sub': True
+        })
 
         self.assertEquals(response.status_code, 404)
         self.assertRaises(Channel.DoesNotExist, self.channel.subscriptions.get, tag='@123')
@@ -384,7 +482,9 @@ class SubscriptionViewTests(TestCase):
         sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.second_user, active_channel=True)
         sub_to_channel.save()
         url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
-        response = self.client.patch(url)
+        response = self.client.patch(url, {
+            'sub': True
+        })
 
         url = reverse('is_subbed', kwargs={'tag': '@sub_to'})
         response = self.client.get(url)

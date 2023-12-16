@@ -12,6 +12,7 @@ class Channel(models.Model):
     tag = models.CharField(unique=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='channel')
     active_channel = models.BooleanField(default=False)
+    # Add a channel verified field
 
     def __str__(self):
           return self.name

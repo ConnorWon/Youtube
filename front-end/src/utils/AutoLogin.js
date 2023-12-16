@@ -13,13 +13,14 @@ export function AutoLogin() {
   // Hooks
   const { setIsLoggedIn, setUser, setLoggedChannel, setChannels } =
     useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   // Logs a user in if they have a valid session
   const login = async () => {
     const loginResponse = await userIsLogged();
     if (!loginResponse) {
+      setIsLoading(false);
       return;
     }
     setUser(loginResponse.data["id"]);
@@ -32,7 +33,7 @@ export function AutoLogin() {
       console.log(channelResponse.status);
     }
 
-    const channelList = getUserChannels();
+    const channelList = await getUserChannels();
     if (channelList) {
       setChannels(channelList);
     } else {

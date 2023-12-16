@@ -101,7 +101,7 @@ export const VideoContainer = (props) => {
         <Box>
           <Stack direction="row">
             {!inChannel && (
-              <ChannelProfile onClick={() => handleRouting("/channel")} />
+              <ChannelProfile onClick={() => handleRouting("/channel/@car")} />
             )}
             {/* the data here will come from the back-end */}
             <DetailBox>
@@ -112,7 +112,9 @@ export const VideoContainer = (props) => {
                   <Stack>
                     {!inChannel && (
                       <Stack direction="row">
-                        <ChannelName onClick={() => handleRouting("/channel")}>
+                        <ChannelName
+                          onClick={() => handleRouting("/channel/@car")}
+                        >
                           Channel Name
                         </ChannelName>
                         {/* the data here will come from the back-end */}

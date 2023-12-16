@@ -49,7 +49,7 @@ export const Login = () => {
       return;
     }
 
-    const channelList = getUserChannels();
+    const channelList = await getUserChannels();
     if (channelList) {
       setChannels(channelList);
     } else {

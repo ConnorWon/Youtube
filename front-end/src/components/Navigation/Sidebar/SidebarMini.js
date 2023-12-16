@@ -12,7 +12,7 @@ const icons = [
   ["/", "Home", <HomeOutlinedIcon />],
   ["/watch", "Shorts", <SlideshowIcon />],
   ["/results", "Subscriptions", <SubscriptionsOutlinedIcon />],
-  ["/channel", "Library", <VideoLibraryOutlinedIcon />],
+  ["/channel/@car", "Library", <VideoLibraryOutlinedIcon />],
 ];
 
 export const SidebarMini = () => {

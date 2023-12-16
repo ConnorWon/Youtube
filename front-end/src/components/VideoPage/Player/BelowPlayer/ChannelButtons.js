@@ -33,8 +33,11 @@ import ContentCutOutlinedIcon from "@mui/icons-material/ContentCutOutlined";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { colors } from "../../../../utils/ColorThemes";
+import { useNavigate } from "react-router-dom";
 
 export const ChannelButtons = () => {
+  const navigate = useNavigate();
+
   // tracks state of like button
   const [like, setLike] = useState();
 
@@ -105,11 +108,20 @@ export const ChannelButtons = () => {
     <ChannelButtonsContainer id="channelbtncont" direction="row">
       <ChannelOwnerContainer direction="row">
         <ChannelContainer direction="row">
-          <ChannelIconContainer>
+          <ChannelIconContainer
+            onClick={() => {
+              navigate("/channel/@car");
+            }}
+          >
             <ChannelIcon />
           </ChannelIconContainer>
           <OwnerInfoContainer>
-            <ChannelNameContainer direction="row">
+            <ChannelNameContainer
+              direction="row"
+              onClick={() => {
+                navigate("/channel/@car");
+              }}
+            >
               <ChannelName>Ludwig</ChannelName>
               <Verified>
                 <CheckCircleIcon

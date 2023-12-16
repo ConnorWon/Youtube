@@ -30,14 +30,16 @@ import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 import { SidebarButton } from "./SidebarButton";
 import { GetWindowDimension } from "../../../utils/WindowSizeStore";
 import { SidebarContext } from "../../../contexts/SidebarContext";
+import { UserContext } from "../../../contexts/UserContext";
+import { Avatar } from "@mui/material";
 
 export const SidebarExpand = () => {
   // Sidebar related states
   const { sideExpand, inVideoPage, modalSideExpand } =
     useContext(SidebarContext);
 
-  // state for hiding and showing elements that are dependent on log in status
-  const [loggedStatus, setLoggedStatus] = useState(false);
+  const { isLoggedIn, loggedChannel } = useContext(UserContext);
+
   // state for turning on or off modal feature
   const [modalSide, setModalSide] = useState(false);
 
@@ -59,7 +61,7 @@ export const SidebarExpand = () => {
   ];
 
   const secondaryButtons = [
-    ["/channel", "Library", <VideoLibraryOutlinedIcon />],
+    ["/channel/@car", "Library", <VideoLibraryOutlinedIcon />],
     ["/", "History", <HistoryOutlinedIcon />],
   ];
 
@@ -88,19 +90,38 @@ export const SidebarExpand = () => {
         <InnerSidebarContainer>
           <OuterButtonContainer>
             {mainButtons.map((icon) => {
-              return <SidebarButton icon={icon} />;
+              return (
+                <SidebarButton link={icon[0]} label={icon[1]} icon={icon[2]} />
+              );
             })}
             <SecondaryButtonsContainer>
               {/* TODO login will add buttons associated with account, most likely include a local storage or cookie that determines if user is logged in */}
               {secondaryButtons.map((icon) => {
-                return <SidebarButton icon={icon} />;
+                return (
+                  <SidebarButton
+                    link={icon[0]}
+                    label={icon[1]}
+                    icon={icon[2]}
+                  />
+                );
               })}
             </SecondaryButtonsContainer>
           </OuterButtonContainer>
-          {loggedStatus ? (
-            <OuterButtonContainer>
-              {/* sub tabs goes here */}
-            </OuterButtonContainer>
+          {isLoggedIn ? (
+            loggedChannel.sub_data.length !== 0 && (
+              <OuterButtonContainer>
+                <SectionLabel>Subscriptions</SectionLabel>
+                {loggedChannel.sub_data.map((ch) => {
+                  return (
+                    <SidebarButton
+                      link={"/channel/" + ch.tag}
+                      label={ch.name}
+                      icon={<Avatar sx={{ width: "24px", height: "24px" }} />}
+                    />
+                  );
+                })}
+              </OuterButtonContainer>
+            )
           ) : (
             <NotLoggedSubContainer>
               <NotLoggedMsg>
@@ -121,7 +142,9 @@ export const SidebarExpand = () => {
           <OuterButtonContainer>
             <SectionLabel>Explore</SectionLabel>
             {exploreButtons.map((icon) => {
-              return <SidebarButton icon={icon} />;
+              return (
+                <SidebarButton link={icon[0]} label={icon[1]} icon={icon[2]} />
+              );
             })}
           </OuterButtonContainer>
         </InnerSidebarContainer>

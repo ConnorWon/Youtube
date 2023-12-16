@@ -97,6 +97,7 @@ export const ChannelName = styled(Link)`
   color: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 `;
 
 export const Verified = styled(Stack)`

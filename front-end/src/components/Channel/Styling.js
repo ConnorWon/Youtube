@@ -139,13 +139,14 @@ export const BtnContainer = styled(Stack)`
 
 export const JoinSubBtn = styled(Button)`
   border-radius: 20px;
-  background-color: white;
-  color: black;
+  background-color: ${({ isSubbed }) =>
+    isSubbed ? colors.btnColorGrey : "white"};
+  color: ${({ isSubbed }) => (isSubbed ? "white" : "black")};
   text-transform: none;
   font-weight: 500;
   margin-left: 8px;
   :hover {
-    background-color: #dad9d9;
+    background-color: ${colors.borderColor};
   }
 `;
 

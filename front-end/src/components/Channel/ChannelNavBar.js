@@ -1,6 +1,6 @@
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { theme } from "../../utils/ColorThemes";
 import { About } from "./ChannelTabs/About";
@@ -13,19 +13,23 @@ import { TabContainer, ChannelTab, ChannelTabPanel } from "./Styling";
 import { Playlists } from "./ChannelTabs/Playlists";
 
 export const ChannelNavBar = (props) => {
-  const { sideExpand } = props;
+  const { sideExpand, tag } = props;
+
+  var currentURL = window.location.href.split("/");
+  const prevPath = "/channel/" + tag;
+
+  useEffect(() => {
+    setValue(defaultState());
+  }, [tag]);
 
   // used to ensure tab indicator is underlining correct tab
-  var currentURL = window.location.href.split("/");
   const defaultState = () => {
-    if (currentURL.length === 4) {
-      return "/channel";
+    if (currentURL.length === 5) {
+      return prevPath;
     } else {
-      return "/channel/" + currentURL[currentURL.length - 1];
+      return prevPath + "/" + currentURL[currentURL.length - 1];
     }
   };
-
-  const prevPath = "/channel";
 
   // data for routing and tab display
   const tabRoutes = [

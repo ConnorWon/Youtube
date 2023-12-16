@@ -9,6 +9,10 @@ import {
   styled,
   FormControl,
   Input,
+  Menu,
+  MenuItem,
+  Typography,
+  Link,
 } from "@mui/material";
 import { colors } from "../../../utils/ColorThemes";
 
@@ -252,4 +256,67 @@ export const SignInButton = styled(Button)`
   border-radius: 18px;
   text-transform: inherit;
   font-weight: 500;
+`;
+
+export const ProfileDropDownMenu = styled(Menu)`
+  margin-top: 10px;
+  .MuiMenu-list {
+    background-color: ${colors.dropDownMenu};
+  }
+  .MuiMenu-paper {
+    border-radius: 12px;
+    width: 10%;
+    background-color: ${colors.dropDownMenu};
+  }
+`;
+
+export const ProfileMenuItem = styled(MenuItem)`
+  color: ${colors.textWhite};
+  justify-content: space-between;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  font-weight: 700;
+  padding: 12px 16px;
+  font-size: 14px;
+`;
+
+export const ProfileMenuHeader = styled(Stack)`
+  color: ${colors.textWhite};
+  margin-bottom: 8px;
+  padding: 8px 12px 8px 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const ProfileIconButton = styled(IconButton)`
+  color: inherit;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+export const ProfileHeaderText = styled(Typography)`
+  color: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+`;
+
+export const ChannelListItem = styled(Link)`
+  cursor: pointer;
+  color: white;
+`;
+
+export const ProfileHeaderSubtext = styled(Typography)`
+  color: inherit;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
 `;

@@ -6,6 +6,7 @@ import {
   Box,
   Paper,
   Typography,
+  Link,
 } from "@mui/material";
 import { colors } from "../../../utils/ColorThemes";
 
@@ -128,7 +129,7 @@ export const OuterButtonShell = styled(Stack)`
   postion: relative;
 `;
 
-export const ButtonAnchor = styled("a")`
+export const ButtonAnchor = styled(Link)`
   min-height: 40px;
   cursor: pointer;
   outline: 0;
@@ -137,6 +138,7 @@ export const ButtonAnchor = styled("a")`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
 `;
 
 export const ButtonHighlight = styled(Paper)`

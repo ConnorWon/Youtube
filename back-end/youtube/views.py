@@ -79,18 +79,31 @@ class LoggedChannel(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	authentication_classes = [SessionAuthentication]
 
+	def get_channel_info(self, channel):
+		serializer = ChannelInfoSerializer(channel)
+		channel_subscriptions = []
+		for ch in channel.subscriptions.all():
+			channel_subscriptions.append({'name': ch.name, 'tag': ch.tag})
+		response = Response({'data': serializer.data, 'sub_data': channel_subscriptions}, status=status.HTTP_200_OK)
+		response.set_cookie('channel', channel.uid)
+		return response
+
 	def default_channel(self, request):
 		try:
-			channels = request.user.channel.all()
-			channel = channels[0]
-			return Response(channel.uid, status=status.HTTP_200_OK)
+			stored_channel_uid = request.COOKIES.get('channel', None)
+			if stored_channel_uid is not None:
+				channel = request.user.channel.get(uid=stored_channel_uid)
+			else:
+				channels = request.user.channel.all()
+				channel = channels[0]
+			return self.get_channel_info(channel)
 		except:
 			return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR);
 
 	def specfied_channel(self, request, channel_tag):
 		try:
 			channel = request.user.channel.get(tag=channel_tag)
-			return Response(channel.uid, status=status.HTTP_200_OK)
+			return self.get_channel_info(channel)
 		except:
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -101,23 +114,53 @@ class LoggedChannel(APIView):
 		else:
 			return self.specfied_channel(request=request, channel_tag=channel_tag)
 		
+class UpdateSubscriptionDataView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	authentication_classes = [SessionAuthentication]
+
+	def get(self, request):
+		stored_channel_uid = request.COOKIES.get('channel', None)
+		if stored_channel_uid is not None:
+			channel = request.user.channel.get(uid=stored_channel_uid)
+			channel_subscriptions = []
+			for ch in channel.subscriptions.all():
+				channel_subscriptions.append({'name': ch.name, 'tag': ch.tag})
+			return Response(channel_subscriptions, status=status.HTTP_200_OK)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+
+		
 class SubscriptionView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	authentication_classes = [SessionAuthentication]
+
+	def subbing(self, user_channel, sub_to_channel, is_subbed):
+		if user_channel != sub_to_channel and not is_subbed:
+			user_channel.subscriptions.add(sub_to_channel)
+			serializer = ChannelInfoSerializer(sub_to_channel)
+			serializer.newSub(sub_to_channel, 1)
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+	
+	def unsub(self, user_channel, unsub_to_channel, is_subbed):
+		if user_channel != unsub_to_channel and is_subbed:
+			user_channel.subscriptions.remove(unsub_to_channel)
+			serializer = ChannelInfoSerializer(unsub_to_channel)
+			serializer.newSub(unsub_to_channel, -1)
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 	# sub to a channel
 	def patch(self, request, **kwargs):
 		tag = kwargs.get('tag', None)
 		user_channel_uid = request.COOKIES['channel']
 		user_channel = get_object_or_404(Channel, uid=user_channel_uid)
-		subscribe_to_channel = get_object_or_404(Channel, tag=tag)
-		already_subbed = user_channel.subscriptions.filter(tag=subscribe_to_channel.tag)
-		if user_channel != subscribe_to_channel and not already_subbed:
-			user_channel.subscriptions.add(subscribe_to_channel)
-			serializer = ChannelInfoSerializer(subscribe_to_channel)
-			serializer.newSub(subscribe_to_channel)
-			return Response(status=status.HTTP_204_NO_CONTENT)
-		return Response(status=status.HTTP_400_BAD_REQUEST)
+		viewed_channel = get_object_or_404(Channel, tag=tag)
+		is_subbed = user_channel.subscriptions.filter(tag=viewed_channel.tag)
+		call_subbing = request.data.get('sub', None)
+		if (call_subbing):
+			return self.subbing(user_channel=user_channel, sub_to_channel=viewed_channel, is_subbed=is_subbed)
+		else:
+			return self.unsub(user_channel=user_channel, unsub_to_channel=viewed_channel, is_subbed=is_subbed)
 	
 	# checking if user's channel is subbed to channel
 	def get(self, request, **kwargs):

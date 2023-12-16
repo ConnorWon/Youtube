@@ -9,15 +9,15 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export const SidebarButton = (props) => {
-  const { icon } = props;
+  const { link, label, icon } = props;
   const navigate = useNavigate();
 
   return (
-    <OuterButtonShell onClick={() => navigate(icon[0])}>
+    <OuterButtonShell onClick={() => navigate(link)}>
       <ButtonAnchor>
         <ButtonHighlight elevation={0}>
-          <IconHolder>{icon[2]}</IconHolder>
-          <SideBarLabel>{icon[1]}</SideBarLabel>
+          <IconHolder>{icon}</IconHolder>
+          <SideBarLabel>{label}</SideBarLabel>
         </ButtonHighlight>
       </ButtonAnchor>
     </OuterButtonShell>

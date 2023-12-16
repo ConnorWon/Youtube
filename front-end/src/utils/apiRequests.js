@@ -3,6 +3,7 @@ import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 
 const client = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -31,9 +32,9 @@ export const getUserChannels = async () => {
   try {
     const response = await client.get("/channel/userindex/");
     var channels = [];
-    response.data.map((ch) => {
-      return channels.push(ch);
-    });
+    for (var i = 0; i < response.data.length; i++) {
+      channels.push(response.data[i]);
+    }
     return channels;
   } catch (err) {
     console.log(err.message);
@@ -61,9 +62,9 @@ export const logout = async () => {
  *
  * @param {string} tag - tag of channel user wants to switch to
  *
- * @return {Promise<Response>} response from API (relevant response data: status_code)
+ * @return {Promise<Response>} response from API (relevant response data: status_code, pass data)
  */
-export const changeCurrentAccount = async (tag) => {
+export const changeCurrentChannel = async (tag) => {
   try {
     const response = await client.get("/channel/logged/" + tag);
     return response;
@@ -272,6 +273,24 @@ export const isSubbedTo = async (tag) => {
  * @returns {Promise<Response>} response from API (relevant response data: status_code)
  */
 export const subToChannel = async (tag) => {
+  try {
+    const response = await client.patch("/channel/subscribe/" + tag, {
+      sub: true,
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+/**
+ * Unsubcribes user from channel
+ *
+ * @param {string} tag - tag of channel that user is unsubbing from
+ *
+ * @returns {Promise<Response>} response from API (relevant response data: status_code)
+ */
+export const unsubFromChannel = async (tag) => {
   try {
     const response = await client.patch("/channel/subscribe/" + tag);
     return response;

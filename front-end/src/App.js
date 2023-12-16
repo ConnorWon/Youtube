@@ -1,4 +1,3 @@
-import { Channel } from "./components/Channel/Channel";
 import { SearchPage } from "./components/SearchPage/SearchPage";
 import {
   Route,
@@ -16,6 +15,7 @@ import { AutoLogin } from "./utils/AutoLogin";
 import ContentContainer from "./components/ContentContainer";
 import { Login } from "./components/Auth/Login/Login";
 import { SignUp } from "./components/Auth/SignUp/SignUp";
+import { PrepChannelData } from "./components/Channel/PrepChannelData";
 
 function App() {
   // Sidebar related states
@@ -48,7 +48,7 @@ function App() {
         <Route element={<Navigation />}>
           <Route element={<ContentContainer />}>
             <Route path="/" element={<Home />} />
-            <Route path="/channel/*" element={<Channel />} />
+            <Route path="/channel/:tag/*" element={<PrepChannelData />} />
             <Route path="/results" element={<SearchPage />} />
             <Route path="/watch" element={<VideoPage />} />
           </Route>
