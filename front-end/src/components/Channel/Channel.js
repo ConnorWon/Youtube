@@ -31,7 +31,9 @@ export const Channel = () => {
     const isSubbedToResponse = await isSubbedTo(tag);
     if (isSubbedToResponse.status === 200) {
       setIsSubbed(isSubbedToResponse.data);
-    } else if (isSubbedToResponse.status !== 400) {
+    } else if (isSubbedToResponse.status === 400) {
+      setIsSubbed(null);
+    } else {
       console.log(
         "An error occured while checking to see if your subbed to this channel"
       );

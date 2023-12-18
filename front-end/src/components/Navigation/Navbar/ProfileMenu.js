@@ -9,6 +9,7 @@ import {
   ProfileIconButton,
   ProfileHeaderText,
   ProfileHeaderSubtext,
+  ProfileHeaderLink,
 } from "./Styling";
 import CheckIcon from "@mui/icons-material/Check";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -116,6 +117,22 @@ export const ProfileMenu = () => {
                   <ProfileHeaderSubtext>
                     {loggedChannel.data.tag}
                   </ProfileHeaderSubtext>
+                  {loggedChannel.data.active_channel ? (
+                    <ProfileHeaderLink
+                      onClick={() =>
+                        navigate("/channel/" + loggedChannel.data.tag)
+                      }
+                    >
+                      View Channel
+                    </ProfileHeaderLink>
+                  ) : (
+                    // change href used to whatever I decide to use for the channel list dashboard
+                    <ProfileHeaderLink
+                      onClick={() => navigate("/account/dashboard")}
+                    >
+                      Create a Channel
+                    </ProfileHeaderLink>
+                  )}
                 </ProfileMenuHeader>
                 <ProfileMenuItem onClick={switchToChannelList}>
                   <span>Channels</span>

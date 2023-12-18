@@ -319,4 +319,12 @@ export const ProfileHeaderSubtext = styled(Typography)`
   white-space: nowrap;
   width: 100%;
   text-align: center;
+  font-weight: 500;
+`;
+
+export const ProfileHeaderLink = styled(Link)`
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
 `;

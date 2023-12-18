@@ -24,7 +24,7 @@ class ChannelSerializer(serializers.ModelSerializer):
 class ChannelInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
-        exclude = ['uid', 'owner', 'active_channel']
+        exclude = ['uid', 'owner']
 
     def newSub(self, instance, inc_val):
         self.update(instance, {'sub_count': instance.sub_count + inc_val})
