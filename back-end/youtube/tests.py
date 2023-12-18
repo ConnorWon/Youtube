@@ -513,3 +513,38 @@ class SubscriptionViewTests(TestCase):
         response = self.client.get(url)
         
         self.assertEquals(response.status_code, 400)
+
+class UpdateSubscriptionTests(TestCase):
+        
+    def setUp(self):
+        self.client = APIClient()
+        self.create_url = reverse('create')
+        self.user = UserModel.objects.create_user(email='cow@gmail.com', password='12345')
+        self.client.login(username='cow@gmail.com', password='12345')
+
+        self.client.post(self.create_url, {
+            'name': 'Cow',
+            'tag': '@cow',
+            'active_channel': True
+        })
+
+        self.channel = Channel.objects.get(tag='@cow')
+        self.url = reverse('update_sub_list')
+
+    def test_get_no_subs(self):
+        response = self.client.get(self.url)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse(response.json())
+
+    def test_get_has_subs(self):
+        sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
+        sub_to_channel.save()
+        self.channel.subscriptions.add(sub_to_channel)
+
+        response = self.client.get(self.url)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(len(response.json()), 1)
+        self.assertEquals(response.json()[0]['name'], "sub_to")
+        self.assertEquals(response.json()[0]['tag'], "@sub_to")

@@ -168,7 +168,6 @@ class SubscriptionView(APIView):
 		user_channel_uid = request.COOKIES['channel']
 		user_channel = get_object_or_404(Channel, uid=user_channel_uid)
 		get_object_or_404(Channel, tag=tag)
-		print(request.user.channel.filter(tag=tag))
 		if tag == user_channel.tag or request.user.channel.filter(tag=tag):
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 		try:

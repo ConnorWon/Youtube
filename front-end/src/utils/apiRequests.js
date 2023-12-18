@@ -298,3 +298,17 @@ export const unsubFromChannel = async (tag) => {
     return error.response;
   }
 };
+
+/**
+ * Updates the subscription data related to the user's current logged channel
+ *
+ * @returns {Promise<Response>} response from API (relevant data: status code, pass data)
+ */
+export const updateSubscriptionData = async () => {
+  try {
+    const response = await client.get("/channel/update_sub_list/");
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};

@@ -15,11 +15,17 @@ import {
 } from "./Styling";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { ViewedChannelContext } from "../../contexts/ViewedChannelContext";
-import { subToChannel, unsubFromChannel } from "../../utils/apiRequests";
+import {
+  subToChannel,
+  unsubFromChannel,
+  updateSubscriptionData,
+} from "../../utils/apiRequests";
+import { UserContext } from "../../contexts/UserContext";
 
 export const ChannelHeader = (props) => {
   const { sideExpand, isSubbed, setIsSubbed, tag } = props;
   const { viewedChannel } = useContext(ViewedChannelContext);
+  const { setLoggedChannel } = useContext(UserContext);
 
   const handleSubToChannel = async () => {
     let subToResponse;
@@ -31,10 +37,24 @@ export const ChannelHeader = (props) => {
 
     if (subToResponse.status === 204) {
       setIsSubbed(!isSubbed);
-      // TODO: change this to calling an api endpoint that updates loggedChannel subscriptions
-      window.location.reload();
+      await updateLoggedChannelSubbedList();
     } else {
       console.log("An error occured while trying to sub you to this channel");
+    }
+  };
+
+  const updateLoggedChannelSubbedList = async () => {
+    const response = await updateSubscriptionData();
+
+    if (response.status === 200) {
+      setLoggedChannel((prevState) => ({
+        ...prevState,
+        sub_data: response.data,
+      }));
+    } else {
+      console.log(
+        "An error occured while trying to update your subscription list"
+      );
     }
   };
 
