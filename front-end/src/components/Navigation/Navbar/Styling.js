@@ -265,7 +265,7 @@ export const ProfileDropDownMenu = styled(Menu)`
   }
   .MuiMenu-paper {
     border-radius: 12px;
-    width: 10%;
+    width: 200px;
     background-color: ${colors.dropDownMenu};
   }
 `;
@@ -283,7 +283,6 @@ export const ProfileMenuItem = styled(MenuItem)`
 
 export const ProfileMenuHeader = styled(Stack)`
   color: ${colors.textWhite};
-  margin-bottom: 8px;
   padding: 8px 12px 8px 2px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   gap: 8px;

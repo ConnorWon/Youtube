@@ -19,6 +19,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContext";
 import { changeCurrentChannel, logout } from "../../../utils/apiRequests";
+import { Stack } from "@mui/material";
 
 export const ProfileMenu = () => {
   const {
@@ -105,6 +106,20 @@ export const ProfileMenu = () => {
                     </ProfileMenuItem>
                   );
                 })}
+                <Stack
+                  sx={{
+                    height: "8px",
+                    borderTop: "1px solid rgba(255, 255, 255, 0.2)",
+                  }}
+                />
+                <ProfileMenuItem
+                  onClick={() => {
+                    handleCloseProfileMenu();
+                    navigate("/dashboard");
+                  }}
+                >
+                  View all channels
+                </ProfileMenuItem>
               </span>
             ) : (
               <span>

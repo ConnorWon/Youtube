@@ -200,7 +200,7 @@ export const SideMenu = styled(Stack)`
   }
 
   @media (max-width: 1313px) {
-    visibility: visible;
+    visibility: ${({ inVideoPage }) => (inVideoPage ? "hidden" : "visible")};
   }
 `;
 

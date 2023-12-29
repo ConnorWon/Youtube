@@ -16,6 +16,7 @@ import ContentContainer from "./components/ContentContainer";
 import { Login } from "./components/Auth/Login/Login";
 import { SignUp } from "./components/Auth/SignUp/SignUp";
 import { PrepChannelData } from "./components/Channel/PrepChannelData";
+import { ChannelDashboard } from "./components/UserDashboard/ChannelDashboard";
 
 function App() {
   // Sidebar related states
@@ -51,6 +52,7 @@ function App() {
             <Route path="/channel/:tag/*" element={<PrepChannelData />} />
             <Route path="/results" element={<SearchPage />} />
             <Route path="/watch" element={<VideoPage />} />
+            <Route path="/dashboard" element={<ChannelDashboard />} />
           </Route>
         </Route>
       </Route>
