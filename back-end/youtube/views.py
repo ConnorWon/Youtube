@@ -71,7 +71,8 @@ class AssociatedChannels(APIView):
 		channels = request.user.channel.all()
 		response_data = []
 		for channel in channels:
-			response_data.append({'name': channel.name, 'tag': channel.tag})
+			serializer = ChannelInfoSerializer(channel)
+			response_data.append(serializer.data)
 		return Response(response_data, status=status.HTTP_200_OK)
 	
 

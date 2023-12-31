@@ -58,7 +58,7 @@ export const ProfileMenu = () => {
       window.location.reload();
     } else {
       console.log(response.status);
-      console.log("There was an issue with switching channel is use");
+      console.log("There was an issue with switching channel in use");
     }
   };
 
@@ -143,9 +143,12 @@ export const ProfileMenu = () => {
                   ) : (
                     // change href used to whatever I decide to use for the channel list dashboard
                     <ProfileHeaderLink
-                      onClick={() => navigate("/account/dashboard")}
+                      onClick={() => {
+                        handleCloseProfileMenu();
+                        navigate("/dashboard");
+                      }}
                     >
-                      Create a Channel
+                      Activate Channel
                     </ProfileHeaderLink>
                   )}
                 </ProfileMenuHeader>

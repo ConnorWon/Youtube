@@ -9,10 +9,12 @@ import {
   login,
   signUp,
   getUserChannels,
+  setDefaultChannel,
 } from "../../../utils/apiRequests";
 
 export const SignUp = () => {
-  const { setIsLoggedIn, setUser, setChannels } = useContext(UserContext);
+  const { setIsLoggedIn, setUser, setChannels, setLoggedChannel } =
+    useContext(UserContext);
 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -21,7 +23,7 @@ export const SignUp = () => {
   const [error, setError] = useState([]);
 
   const handleSignUp = async () => {
-    if (confirm != password) {
+    if (confirm !== password) {
       setError("Passwords don't match");
       return;
     }
@@ -45,6 +47,13 @@ export const SignUp = () => {
     if (createChannelResponse.status !== 201) {
       setError(createChannelResponse.data);
       return;
+    }
+
+    const channelResponse = await setDefaultChannel();
+    if (channelResponse.status === 200) {
+      setLoggedChannel(channelResponse.data);
+    } else {
+      console.log(channelResponse.status);
     }
 
     const channelList = getUserChannels();

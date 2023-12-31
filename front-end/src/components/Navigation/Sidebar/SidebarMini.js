@@ -18,10 +18,10 @@ const icons = [
 export const SidebarMini = () => {
   const navigate = useNavigate();
 
-  const { sideExpand, inVideoPage } = useContext(SidebarContext);
+  const { sideExpand, noMiniSideBar } = useContext(SidebarContext);
 
   return (
-    <SideMenu sideExpand={sideExpand} inVideoPage={inVideoPage}>
+    <SideMenu sideExpand={sideExpand} noMiniSideBar={noMiniSideBar}>
       {icons.map((icon) => {
         return (
           <SideMiniButton onClick={() => navigate(icon[0])}>

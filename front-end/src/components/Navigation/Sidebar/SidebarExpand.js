@@ -35,7 +35,7 @@ import { Avatar } from "@mui/material";
 
 export const SidebarExpand = () => {
   // Sidebar related states
-  const { sideExpand, inVideoPage, modalSideExpand } =
+  const { sideExpand, noMiniSideBar, modalSideExpand } =
     useContext(SidebarContext);
 
   const { isLoggedIn, loggedChannel } = useContext(UserContext);
@@ -47,12 +47,12 @@ export const SidebarExpand = () => {
 
   // deals with turning on or off the modal sidebar feature
   useEffect(() => {
-    if (windowSize <= 1312 || inVideoPage) {
+    if (windowSize <= 1312 || noMiniSideBar) {
       setModalSide(true);
     } else {
       setModalSide(false);
     }
-  }, [windowSize, inVideoPage]);
+  }, [windowSize, noMiniSideBar]);
 
   const mainButtons = [
     ["/", "Home", <HomeOutlinedIcon />],
@@ -79,7 +79,7 @@ export const SidebarExpand = () => {
 
   return (
     <SidebarDrawer
-      variant={inVideoPage || modalSide ? "temporary" : "permanent"}
+      variant={noMiniSideBar || modalSide ? "temporary" : "permanent"}
       anchor="left"
       open={modalSideExpand}
       sideExpand={sideExpand}

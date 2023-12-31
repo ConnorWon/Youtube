@@ -18,7 +18,7 @@ import { VideoButtons } from "./VideoButtons";
 import movie from "./test.MOV";
 
 export const VideoPlayer = (props) => {
-  const { inVideoPage } = props;
+  const { noMiniSideBar } = props;
 
   // play/pause controls
   const [play, setPlay] = useState(false);
@@ -132,7 +132,7 @@ export const VideoPlayer = (props) => {
     setElLeft(progressBar.getBoundingClientRect());
     resizer.current = new ResizeObserver(monitorResize);
     resizer.current.observe(progressBar);
-  }, [inVideoPage]);
+  }, [noMiniSideBar]);
 
   // fullscreen controls
   const [fs, setFs] = useState(false);

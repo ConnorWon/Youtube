@@ -19,12 +19,12 @@ export default function ContentContainer() {
   const windowSize = GetWindowDimension();
 
   // Sidebar related states
-  const { sideExpand, inVideoPage } = useContext(SidebarContext);
+  const { sideExpand, noMiniSideBar } = useContext(SidebarContext);
 
   // deals with resizing the main page container
   useEffect(() => {
     const main = document.getElementById("main");
-    if (inVideoPage || windowSize < 791) {
+    if (noMiniSideBar || windowSize < 791) {
       main.style.width = "100%";
       main.style.marginLeft = "0";
     } else if (windowSize > 791 && (!sideExpand || windowSize <= 1312)) {
@@ -34,7 +34,7 @@ export default function ContentContainer() {
       main.style.width = "calc(100% - 240px)";
       main.style.marginLeft = "240px";
     }
-  }, [windowSize, sideExpand, inVideoPage]);
+  }, [windowSize, sideExpand, noMiniSideBar]);
 
   return (
     <Container id="main">

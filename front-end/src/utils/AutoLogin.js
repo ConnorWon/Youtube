@@ -40,6 +40,8 @@ export function AutoLogin() {
       console.log(channelList.message);
     }
 
+    // If user going to login url and they already have login credentials,
+    // will redirect user to home page
     if (window.location.href.includes("login")) {
       navigate("/");
     }

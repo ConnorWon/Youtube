@@ -17,10 +17,11 @@ import { Login } from "./components/Auth/Login/Login";
 import { SignUp } from "./components/Auth/SignUp/SignUp";
 import { PrepChannelData } from "./components/Channel/PrepChannelData";
 import { ChannelDashboard } from "./components/UserDashboard/ChannelDashboard";
+import { ChannelCreation } from "./components/Auth/ChannelCreation/ChannelCreation";
 
 function App() {
   // Sidebar related states
-  const { sideExpand, inVideoPage, setInVideoPage, setModalSideExpand } =
+  const { sideExpand, noMiniSideBar, setNoMiniSideBar, setModalSideExpand } =
     useContext(SidebarContext);
 
   // used for tracking window size
@@ -30,22 +31,23 @@ function App() {
   var currentURL = window.location.href.split("/");
   useLayoutEffect(() => {
     if (currentURL[3] === "watch") {
-      setInVideoPage(true);
+      setNoMiniSideBar(true);
     }
   }, []);
 
   // resets modalSideExpand upon reaching max window size for the modal sidebar
   useEffect(() => {
-    if (windowSize > 1312 && !inVideoPage) {
+    if (windowSize > 1312 && !noMiniSideBar) {
       setModalSideExpand(false);
     }
-  }, [windowSize, sideExpand, inVideoPage]);
+  }, [windowSize, sideExpand, noMiniSideBar]);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<AutoLogin />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/create_channel" element={<ChannelCreation />} />
         <Route element={<Navigation />}>
           <Route element={<ContentContainer />}>
             <Route path="/" element={<Home />} />

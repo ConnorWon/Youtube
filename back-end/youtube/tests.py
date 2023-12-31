@@ -177,6 +177,7 @@ class ChannelViewsTests(TestCase):
         self.assertEquals(len(response.json()['sub_data']), 0)
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@cow')
+        self.assertEquals(response.json()['data']['active_channel'], True)
 
     def test_channel_info_get_bad_tag(self):
         info_url = reverse('info', kwargs={'tag': '@123'})
@@ -213,6 +214,7 @@ class ChannelViewsTests(TestCase):
         self.assertEquals(len(response.json()['sub_data']), 0)
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@cow')
+        self.assertEquals(response.json()['data']['active_channel'], True)
 
     def test_channel_info_has_subscriptions(self):
         info_url = reverse('info', kwargs={'tag': '@cow'})
@@ -226,7 +228,9 @@ class ChannelViewsTests(TestCase):
         sub_to_channel = Channel(name='sub_to', tag='@sub_to', owner=self.user, active_channel=True)
         sub_to_channel.save()
         url = reverse('sub_to', kwargs={'tag': sub_to_channel.tag})
-        self.client.patch(url)
+        self.client.patch(url, {
+            'sub': True
+        })
 
         response = self.client.get(info_url)
         self.assertEquals(response.status_code, 200)
@@ -236,6 +240,7 @@ class ChannelViewsTests(TestCase):
         self.assertEquals(response.json()['sub_data'][0]['tag'], "@sub_to")
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@cow')
+        self.assertEquals(response.json()['data']['active_channel'], True)
 
     # test with profile_pic and banner when implemented
 
@@ -272,7 +277,7 @@ class ChannelViewsTests(TestCase):
         self.client.post(self.create_url, {
             'name': 'Cow',
             'tag': '@cow',
-            'active_channel': True
+            'active_channel': False
         })
         self.client.post(self.create_url, {
             'name': 'Pig',
@@ -284,8 +289,12 @@ class ChannelViewsTests(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.json()[0]['name'], 'Cow')
         self.assertEquals(response.json()[0]['tag'], '@cow')
+        self.assertEquals(response.json()[0]['active_channel'], False)
+        self.assertEquals(response.json()[0]['sub_count'], 0)
         self.assertEquals(response.json()[1]['name'], 'Pig')
         self.assertEquals(response.json()[1]['tag'], '@pig')
+        self.assertEquals(response.json()[1]['active_channel'], True)
+        self.assertEquals(response.json()[1]['sub_count'], 0)
 
 class LoggedChannelTests(TestCase):
 
@@ -315,6 +324,7 @@ class LoggedChannelTests(TestCase):
         self.assertEquals(len(response.json()['sub_data']), 0)
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@cow')
+        self.assertEquals(response.json()['data']['active_channel'], True)
 
     def test_has_subscriptions_and_has_cookie(self):
         self.client.post(self.create_url, {
@@ -346,6 +356,7 @@ class LoggedChannelTests(TestCase):
         self.assertEquals(response.json()['sub_data'][0]['tag'], "@sub_to")
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@pig')
+        self.assertEquals(response.json()['data']['active_channel'], True)
         
     def test_with_uid(self):
         self.client.post(self.create_url, {
@@ -374,6 +385,7 @@ class LoggedChannelTests(TestCase):
         self.assertEquals(len(response.json()['sub_data']), 0)
         self.assertEquals(response.json()['data']['sub_count'], 0)
         self.assertEquals(response.json()['data']['tag'], '@pig')
+        self.assertEquals(response.json()['data']['active_channel'], True)
 
     def test_bad_uid(self):
         self.client.post(self.create_url, {

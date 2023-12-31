@@ -87,12 +87,12 @@ export const Navbar = () => {
     setSideExpand,
     modalSideExpand,
     setModalSideExpand,
-    inVideoPage,
+    noMiniSideBar,
   } = useContext(SidebarContext);
 
   // Expand sidebar function
   const handleSideExpand = (e) => {
-    if (windowSize <= 1312 || inVideoPage) {
+    if (windowSize <= 1312 || noMiniSideBar) {
       setModalSideExpand(!modalSideExpand);
     } else {
       setSideExpand(!sideExpand);

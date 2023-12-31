@@ -192,15 +192,16 @@ export const SideMenu = styled(Stack)`
   background-color: ${colors.bgColorDark};
   overflow-x: hidden;
   margin-top: 56px;
-  visibility: ${({ sideExpand, inVideoPage }) =>
-    sideExpand || inVideoPage ? "hidden" : "visible"};
+  visibility: ${({ sideExpand, noMiniSideBar }) =>
+    sideExpand || noMiniSideBar ? "hidden" : "visible"};
 
   @media only screen and (max-width: 791px) {
     visibility: hidden;
   }
 
   @media (max-width: 1313px) {
-    visibility: ${({ inVideoPage }) => (inVideoPage ? "hidden" : "visible")};
+    visibility: ${({ noMiniSideBar }) =>
+      noMiniSideBar ? "hidden" : "visible"};
   }
 `;
 

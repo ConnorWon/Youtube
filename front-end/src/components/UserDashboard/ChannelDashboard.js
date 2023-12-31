@@ -17,6 +17,8 @@ import { UserContext } from "../../contexts/UserContext";
 import { colors } from "../../utils/ColorThemes";
 import { SidebarContext } from "../../contexts/SidebarContext";
 import { GetWindowDimension } from "../../utils/WindowSizeStore";
+import { changeCurrentChannel } from "../../utils/apiRequests";
+import { useNavigate } from "react-router-dom";
 
 const MainContainer = styled(Stack)`
   align-items: center;
@@ -42,8 +44,8 @@ const GridItem = styled(Grid)`
   cursor: pointer;
 
   :hover {
-    background-color: ${({ isCreateBtn }) =>
-      isCreateBtn ? "" : "rgba(255, 255, 255, 0.2)"};
+    background-color: ${({ isCreateBtn, hoverOn }) =>
+      isCreateBtn || hoverOn ? "" : "rgba(255, 255, 255, 0.2)"};
   }
 `;
 
@@ -58,7 +60,7 @@ const CreateButton = styled(Button)`
 
 const MoreButton = styled(IconButton)`
   :hover {
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.2);
   }
 `;
 
@@ -92,17 +94,23 @@ const MoreMenuItem = styled(MenuItem)`
 
 export const ChannelDashboard = () => {
   const { loggedChannel, setLoggedChannel, channels } = useContext(UserContext);
-  const { setInVideoPage, setSideExpand, setModalSideExpand, modalSideExpand } =
-    useContext(SidebarContext);
+  const {
+    setNoMiniSideBar,
+    setSideExpand,
+    setModalSideExpand,
+    modalSideExpand,
+  } = useContext(SidebarContext);
+
+  const navigate = useNavigate();
 
   // used for tracking window size
   const windowSize = GetWindowDimension();
 
-  // signals that inVideoPage on component mount and on dismount signals not in videoPage
+  // signals that noMiniSideBar on component mount and on dismount signals not in videoPage
   useEffect(() => {
-    setInVideoPage(true);
+    setNoMiniSideBar(true);
     return () => {
-      setInVideoPage(false);
+      setNoMiniSideBar(false);
     };
   }, []);
 
@@ -136,8 +144,30 @@ export const ChannelDashboard = () => {
   const [menuAnchor, setMenuAnchor] = useState(false);
   const menuOpen = Boolean(menuAnchor);
 
-  const closeMenu = () => {
+  const closeMenu = (e) => {
     setMenuAnchor(null);
+    e.stopPropagation();
+  };
+
+  const [hoverGridItemEffect, setHoverGridItemEffect] = useState(false);
+
+  const handleGridItemHover = (bool) => {
+    setHoverGridItemEffect(bool);
+  };
+
+  const switchChannels = async (tag) => {
+    const response = await changeCurrentChannel(tag);
+    if (response.status === 200) {
+      setLoggedChannel(response.data);
+      window.location.reload();
+    } else {
+      console.log(response.status);
+      console.log("There was an issue with switching channel in use");
+    }
+  };
+
+  const goToCreateChannelPage = () => {
+    navigate("/create_channel");
   };
 
   return (
@@ -152,14 +182,22 @@ export const ChannelDashboard = () => {
               variant="contained"
               startIcon={<AddIcon />}
               disableElevation
+              onClick={goToCreateChannelPage}
             >
               <span>Create Channel</span>
             </CreateButton>
           </GridItem>
           {channels.map((channel, index) => {
             return (
-              // onClick switch channel logged
-              <GridItem xs={4} key={index} hasBorder={(index + 2) % 3 === 0}>
+              <GridItem
+                xs={4}
+                key={index}
+                hasBorder={(index + 2) % 3 === 0}
+                onClick={() => {
+                  switchChannels(channel.tag);
+                }}
+                hoverOn={hoverGridItemEffect}
+              >
                 <Stack direction="row" spacing={2}>
                   <Avatar />
                   <Stack>
@@ -183,6 +221,13 @@ export const ChannelDashboard = () => {
                   <MoreButton
                     onClick={(e) => {
                       setMenuAnchor(e.currentTarget);
+                      e.stopPropagation();
+                    }}
+                    onMouseOver={() => {
+                      handleGridItemHover(true);
+                    }}
+                    onMouseLeave={() => {
+                      handleGridItemHover(false);
                     }}
                   >
                     <MoreVertIcon sx={{ color: "white" }} />

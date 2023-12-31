@@ -15,8 +15,8 @@ import { SidebarContext } from "../../contexts/SidebarContext";
 
 export const VideoPage = () => {
   const {
-    setInVideoPage,
-    inVideoPage,
+    setNoMiniSideBar,
+    noMiniSideBar,
     setSideExpand,
     setModalSideExpand,
     modalSideExpand,
@@ -25,11 +25,11 @@ export const VideoPage = () => {
   // used for tracking window size
   const windowSize = GetWindowDimension();
 
-  // signals that inVideoPage on component mount and on dismount signals not in videoPage
+  // signals that noMiniSideBar on component mount and on dismount signals not in videoPage
   useEffect(() => {
-    setInVideoPage(true);
+    setNoMiniSideBar(true);
     return () => {
-      setInVideoPage(false);
+      setNoMiniSideBar(false);
     };
   }, []);
 
@@ -65,7 +65,7 @@ export const VideoPage = () => {
       <MainContainer>
         <Primary>
           <PrimaryInner>
-            <VideoPlayer inVideoPage={inVideoPage} />
+            <VideoPlayer noMiniSideBar={noMiniSideBar} />
             <BelowPlayer />
           </PrimaryInner>
         </Primary>
