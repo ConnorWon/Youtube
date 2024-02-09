@@ -1,22 +1,10 @@
-import {
-  Avatar,
-  Stack,
-  Typography,
-  Button,
-  styled,
-  IconButton,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { Avatar, Stack, Typography, Button, styled } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { colors } from "../../utils/ColorThemes";
-import { SidebarContext } from "../../contexts/SidebarContext";
-import { GetWindowDimension } from "../../utils/WindowSizeStore";
 import { changeCurrentChannel } from "../../utils/apiRequests";
 import { useNavigate } from "react-router-dom";
 
@@ -44,8 +32,8 @@ const GridItem = styled(Grid)`
   cursor: pointer;
 
   :hover {
-    background-color: ${({ isCreateBtn, hoverOn }) =>
-      isCreateBtn || hoverOn ? "" : "rgba(255, 255, 255, 0.2)"};
+    background-color: ${({ isCreateBtn }) =>
+      isCreateBtn ? "" : "rgba(255, 255, 255, 0.2)"};
   }
 `;
 
@@ -53,12 +41,6 @@ const CreateButton = styled(Button)`
   border-radius: 18px;
   background-color: ${colors.btnColorGrey};
   min-width: max-content;
-  :hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-`;
-
-const MoreButton = styled(IconButton)`
   :hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
@@ -74,86 +56,10 @@ const ChannelSubText = styled(Typography)`
   font-size: 12px;
 `;
 
-const MoreMenu = styled(Menu)`
-  .MuiMenu-list {
-    background-color: ${colors.dropDownMenu};
-  }
-  .MuiMenu-paper {
-    border-radius: 12px;
-    background-color: ${colors.dropDownMenu};
-  }
-`;
-
-const MoreMenuItem = styled(MenuItem)`
-  color: ${colors.textWhite};
-  font-size: 14px;
-  :hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-`;
-
-export const ChannelDashboard = () => {
+export const AllChannelsDashboard = () => {
   const { loggedChannel, setLoggedChannel, channels } = useContext(UserContext);
-  const {
-    setNoMiniSideBar,
-    setSideExpand,
-    setModalSideExpand,
-    modalSideExpand,
-  } = useContext(SidebarContext);
 
   const navigate = useNavigate();
-
-  // used for tracking window size
-  const windowSize = GetWindowDimension();
-
-  // signals that noMiniSideBar on component mount and on dismount signals not in videoPage
-  useEffect(() => {
-    setNoMiniSideBar(true);
-    return () => {
-      setNoMiniSideBar(false);
-    };
-  }, []);
-
-  // tracks whether component is unmounting
-  const componentWillUnMount = useRef(false);
-  // changes unmount ref when component is unmounting
-  useEffect(() => {
-    return () => {
-      componentWillUnMount.current = true;
-    };
-  }, []);
-
-  // opens sideExpand if modalSideExpand is true and windowSize > 1312px
-  useEffect(() => {
-    return () => {
-      if (
-        modalSideExpand &&
-        componentWillUnMount.current &&
-        windowSize > 1312
-      ) {
-        setSideExpand(modalSideExpand);
-      }
-    };
-  }, [modalSideExpand, windowSize]);
-
-  // used to close modal sidebar after switching to this page from another
-  useEffect(() => {
-    setModalSideExpand(false);
-  }, []);
-
-  const [menuAnchor, setMenuAnchor] = useState(false);
-  const menuOpen = Boolean(menuAnchor);
-
-  const closeMenu = (e) => {
-    setMenuAnchor(null);
-    e.stopPropagation();
-  };
-
-  const [hoverGridItemEffect, setHoverGridItemEffect] = useState(false);
-
-  const handleGridItemHover = (bool) => {
-    setHoverGridItemEffect(bool);
-  };
 
   const switchChannels = async (tag) => {
     const response = await changeCurrentChannel(tag);
@@ -196,9 +102,8 @@ export const ChannelDashboard = () => {
                 onClick={() => {
                   switchChannels(channel.tag);
                 }}
-                hoverOn={hoverGridItemEffect}
               >
-                <Stack direction="row" spacing={2}>
+                <Stack direction="row" spacing={2} alignItems="center">
                   <Avatar />
                   <Stack>
                     <ChannelNameText>{channel.name}</ChannelNameText>
@@ -218,27 +123,6 @@ export const ChannelDashboard = () => {
                   {loggedChannel.data.name === channel.name && (
                     <CheckIcon sx={{ color: "white" }} />
                   )}
-                  <MoreButton
-                    onClick={(e) => {
-                      setMenuAnchor(e.currentTarget);
-                      e.stopPropagation();
-                    }}
-                    onMouseOver={() => {
-                      handleGridItemHover(true);
-                    }}
-                    onMouseLeave={() => {
-                      handleGridItemHover(false);
-                    }}
-                  >
-                    <MoreVertIcon sx={{ color: "white" }} />
-                  </MoreButton>
-                  <MoreMenu
-                    anchorEl={menuAnchor}
-                    open={menuOpen}
-                    onClose={closeMenu}
-                  >
-                    <MoreMenuItem>Update Channel</MoreMenuItem>
-                  </MoreMenu>
                 </Stack>
               </GridItem>
             );

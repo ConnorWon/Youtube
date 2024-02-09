@@ -5,7 +5,7 @@ import { ChannelNavBar } from "./ChannelNavBar";
 import { SidebarContext } from "../../contexts/SidebarContext";
 import { ViewedChannelContext } from "../../contexts/ViewedChannelContext";
 import { getChannelInfo, isSubbedTo } from "../../utils/apiRequests";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
 export const Channel = () => {
@@ -16,6 +16,8 @@ export const Channel = () => {
   const [isSubbed, setIsSubbed] = useState(null);
   const [tag, setTag] = useState(window.location.href.split("/")[4]);
 
+  const navigate = useNavigate();
+
   const getChannelData = async () => {
     const channelDataResponse = await getChannelInfo(tag);
     if (channelDataResponse.status === 200) {
@@ -23,6 +25,7 @@ export const Channel = () => {
     } else {
       // TODO: convert to some sort of component that shows this better
       alert("Channel does not exist");
+      navigate("/");
     }
     setIsLoading(false);
   };

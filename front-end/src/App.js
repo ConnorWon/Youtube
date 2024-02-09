@@ -16,8 +16,9 @@ import ContentContainer from "./components/ContentContainer";
 import { Login } from "./components/Auth/Login/Login";
 import { SignUp } from "./components/Auth/SignUp/SignUp";
 import { PrepChannelData } from "./components/Channel/PrepChannelData";
-import { ChannelDashboard } from "./components/UserDashboard/ChannelDashboard";
+import { UserInfoDashboardManager } from "./components/UserInfoManager/UserInfoDashboardManager";
 import { ChannelCreation } from "./components/Auth/ChannelCreation/ChannelCreation";
+import { ChannelManagerIndex } from "./components/ChannelManger/ChannelManagerIndex";
 
 function App() {
   // Sidebar related states
@@ -48,13 +49,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/create_channel" element={<ChannelCreation />} />
+        <Route path="/channel_dashboard/*" element={<ChannelManagerIndex />} />
         <Route element={<Navigation />}>
           <Route element={<ContentContainer />}>
             <Route path="/" element={<Home />} />
             <Route path="/channel/:tag/*" element={<PrepChannelData />} />
             <Route path="/results" element={<SearchPage />} />
             <Route path="/watch" element={<VideoPage />} />
-            <Route path="/dashboard" element={<ChannelDashboard />} />
+            <Route path="/account/*" element={<UserInfoDashboardManager />} />
           </Route>
         </Route>
       </Route>

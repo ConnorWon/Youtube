@@ -51,7 +51,7 @@ export const ChannelCreation = () => {
       <FormField label="Channel Name" handleValue={setName} value={name} />
       <FormField label="Tag" value={tag} handleValue={setTag} />
       <Stack direction="row" spacing={1}>
-        <AuthButton variant="contained" fullWidth href={"/dashboard"}>
+        <AuthButton variant="contained" fullWidth href={"/account"}>
           Back
         </AuthButton>
         <AuthButton

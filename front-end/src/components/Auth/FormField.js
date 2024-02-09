@@ -27,16 +27,17 @@ const InputField = styled(OutlinedInput)`
 `;
 
 export const FormField = (props) => {
-  const { label, isPassword, handleValue, value } = props;
+  const { label, isPassword, handleValue, value, placeholder } = props;
 
   return (
     <FormControl>
-      <PlaceholderLabel>{label}</PlaceholderLabel>
+      {label && <PlaceholderLabel>{label}</PlaceholderLabel>}
       <InputField
         label={label}
         value={value}
         type={isPassword ? "password" : "text"}
         onChange={(e) => handleValue(e.target.value)}
+        placeholder={placeholder}
       />
     </FormControl>
   );

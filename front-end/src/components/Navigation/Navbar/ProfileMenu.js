@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContext";
 import { changeCurrentChannel, logout } from "../../../utils/apiRequests";
 import { Stack } from "@mui/material";
+import { UpdateChannelDialog } from "./ChannelActivationDialog";
 
 export const ProfileMenu = () => {
   const {
@@ -71,6 +72,19 @@ export const ProfileMenu = () => {
     }
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState(null);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedChannel(null);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+    handleCloseProfileMenu();
+  };
+
   return (
     <>
       {isLoggedIn ? (
@@ -115,7 +129,7 @@ export const ProfileMenu = () => {
                 <ProfileMenuItem
                   onClick={() => {
                     handleCloseProfileMenu();
-                    navigate("/dashboard");
+                    navigate("/account");
                   }}
                 >
                   View all channels
@@ -134,9 +148,10 @@ export const ProfileMenu = () => {
                   </ProfileHeaderSubtext>
                   {loggedChannel.data.active_channel ? (
                     <ProfileHeaderLink
-                      onClick={() =>
-                        navigate("/channel/" + loggedChannel.data.tag)
-                      }
+                      onClick={() => {
+                        handleCloseProfileMenu();
+                        navigate("/channel/" + loggedChannel.data.tag);
+                      }}
                     >
                       View Channel
                     </ProfileHeaderLink>
@@ -145,13 +160,16 @@ export const ProfileMenu = () => {
                     <ProfileHeaderLink
                       onClick={() => {
                         handleCloseProfileMenu();
-                        navigate("/dashboard");
+                        handleOpenDialog();
                       }}
                     >
                       Activate Channel
                     </ProfileHeaderLink>
                   )}
                 </ProfileMenuHeader>
+                <ProfileMenuItem onClick={() => navigate("/channel_dashboard")}>
+                  Manage Channel
+                </ProfileMenuItem>
                 <ProfileMenuItem onClick={switchToChannelList}>
                   <span>Channels</span>
                   <KeyboardArrowRightIcon />
@@ -170,6 +188,12 @@ export const ProfileMenu = () => {
         >
           Sign In
         </SignInButton>
+      )}
+      {openDialog && (
+        <UpdateChannelDialog
+          open={openDialog}
+          handleClose={handleCloseDialog}
+        />
       )}
     </>
   );
