@@ -6,7 +6,7 @@ import {
   FilterButton,
   ContentContainer,
 } from "./Styling";
-import { VideoContainer } from "../../VerticalVideoContainer";
+import { VideoContainer } from "../../../components/VerticalVideoContainer";
 
 // dummy videos
 const text = [

@@ -15,7 +15,7 @@ import {
   Verified,
 } from "./Styling";
 import React from "react";
-import thumbnail from "../youtube-thumbnail.png";
+import thumbnail from "../../staticfiles/youtube-thumbnail.png";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 

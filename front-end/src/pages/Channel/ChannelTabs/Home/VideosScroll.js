@@ -9,7 +9,7 @@ import {
   IconHolder,
   ScrollVideoInnerContainer,
 } from "./Styling";
-import { VideoContainer } from "../../../VerticalVideoContainer";
+import { VideoContainer } from "../../../../components/VerticalVideoContainer";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { SectionLabel } from "./SectionLabel";

@@ -1,0 +1,22 @@
+.FormFieldContainer {
+
+  .MuiInputBase-root {
+    height: 48px;
+  }
+
+  input {
+    height: 24px;
+    padding: 12px;
+  }
+
+}
+
+.tag-form-field{
+  .MuiOutlinedInput-input {
+    padding-left: 0;
+    color: white;
+  }
+  .MuiInputBase-adornedStart {
+    color: rgba(256,256,256,0.3);
+  }
+}

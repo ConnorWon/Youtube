@@ -14,7 +14,7 @@ import {
   VerfiedContainer,
   VerfiedContainerInner,
 } from "./Styling";
-import thumbnail from "../../youtube-thumbnail.png";
+import thumbnail from "../../../staticfiles/youtube-thumbnail.png";
 import { colors } from "../../../utils/ColorThemes";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 

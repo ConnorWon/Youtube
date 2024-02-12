@@ -10,7 +10,7 @@ import {
 import { TabContext, TabList } from "@mui/lab";
 import { Box, ThemeProvider } from "@mui/material";
 import { theme } from "../../utils/ColorThemes";
-import { VideoContainer } from "../VerticalVideoContainer";
+import { VideoContainer } from "../../components/VerticalVideoContainer";
 import { SidebarContext } from "../../contexts/SidebarContext";
 
 export const Home = () => {

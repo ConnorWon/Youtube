@@ -1,24 +1,24 @@
-import { SearchPage } from "./components/SearchPage/SearchPage";
+import { SearchPage } from "./pages/SearchPage/SearchPage";
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import { Home } from "./components/Home/Home";
+import { Home } from "./pages/Home/Home";
 import { useLayoutEffect, useEffect, useContext } from "react";
-import { VideoPage } from "./components/VideoPage/VideoPage";
+import { VideoPage } from "./pages/VideoPage/VideoPage";
 import { GetWindowDimension } from "./utils/WindowSizeStore";
 import { SidebarContext } from "./contexts/SidebarContext";
-import Navigation from "./components/Navigation";
+import Navigation from "./pages/Navigation";
 import { AutoLogin } from "./utils/AutoLogin";
 import ContentContainer from "./components/ContentContainer";
-import { Login } from "./components/Auth/Login/Login";
-import { SignUp } from "./components/Auth/SignUp/SignUp";
-import { PrepChannelData } from "./components/Channel/PrepChannelData";
-import { UserInfoDashboardManager } from "./components/UserInfoManager/UserInfoDashboardManager";
-import { ChannelCreation } from "./components/Auth/ChannelCreation/ChannelCreation";
-import { ChannelManagerIndex } from "./components/ChannelManger/ChannelManagerIndex";
+import { Login } from "./pages/Auth/Login/Login";
+import { SignUp } from "./pages/Auth/SignUp/SignUp";
+import { PrepChannelData } from "./pages/Channel/PrepChannelData";
+import { UserInfoDashboardManager } from "./pages/UserInfoManager/UserInfoDashboardManager";
+import { ChannelCreation } from "./pages/Auth/ChannelCreation/ChannelCreation";
+import { ChannelManagerIndex } from "./pages/ChannelManger/ChannelManagerIndex";
 
 function App() {
   // Sidebar related states
