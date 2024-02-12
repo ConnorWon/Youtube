@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FormField } from "../FormField";
+import { FormField } from "../../../components/FormField";
 import { AuthButton, AuthContainer, AuthTitle } from "../Styling";
 import { UserContext } from "../../../contexts/UserContext";
 import {

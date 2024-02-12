@@ -1,32 +1,13 @@
 import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ChannelDashboard } from "./ChannelDashboard";
-import { Stack, styled } from "@mui/material";
+import { Stack } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { colors } from "../../utils/ColorThemes";
-
-const MainContainer = styled(Stack)`
-  flex-direction: row;
-`;
-
-const BackLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  color: #42a5f5;
-  width: max-content;
-  gap: 8px;
-`;
-
-const NavContainer = styled(Stack)`
-  height: 100vh;
-  padding: 32px;
-  box-sizing: border-box;
-  border-right: solid 1px ${colors.borderColor};
-`;
+import { BackLink, NavContainer } from "./Styling";
 
 export const ChannelManagerIndex = () => {
   return (
-    <MainContainer direction="row">
+    <Stack direction="row">
       <NavContainer>
         <BackLink to={"/"}>
           <ArrowBackIcon />
@@ -36,6 +17,6 @@ export const ChannelManagerIndex = () => {
       <Routes>
         <Route path="" element={<ChannelDashboard />} />
       </Routes>
-    </MainContainer>
+    </Stack>
   );
 };

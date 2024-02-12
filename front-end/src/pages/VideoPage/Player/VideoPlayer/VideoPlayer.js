@@ -15,7 +15,7 @@ import {
   HoverProgress,
 } from "./Styling";
 import { VideoButtons } from "./VideoButtons";
-import movie from "./test.MOV";
+import movie from "../../../../staticfiles/test.MOV";
 
 export const VideoPlayer = (props) => {
   const { noMiniSideBar } = props;

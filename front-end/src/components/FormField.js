@@ -1,5 +1,5 @@
 import { OutlinedInput, FormControl, InputLabel, styled } from "@mui/material";
-import { colors } from "../../utils/ColorThemes";
+import { colors } from "../utils/ColorThemes";
 
 const PlaceholderLabel = styled(InputLabel)`
   color: white;

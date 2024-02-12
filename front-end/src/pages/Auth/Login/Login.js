@@ -8,7 +8,7 @@ import {
 } from "../../../utils/apiRequests";
 import { UserContext } from "../../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
-import { FormField } from "../FormField";
+import { FormField } from "../../../components/FormField";
 import { AuthButton, AuthContainer, AuthTitle } from "../Styling";
 
 const CreateAccountLink = styled(Link)`

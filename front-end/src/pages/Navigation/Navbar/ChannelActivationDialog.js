@@ -7,7 +7,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { FormField } from "../../Auth/FormField";
+import { FormField } from "../../../components/FormField";
 import { colors } from "../../../utils/ColorThemes";
 import { updateChannel } from "../../../utils/apiRequests";
 import { UserContext } from "../../../contexts/UserContext";

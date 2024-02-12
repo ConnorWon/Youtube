@@ -4,57 +4,17 @@ import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import { colors } from "../../utils/ColorThemes";
 import { changeCurrentChannel } from "../../utils/apiRequests";
 import { useNavigate } from "react-router-dom";
-
-const MainContainer = styled(Stack)`
-  align-items: center;
-`;
-
-const HeaderContainer = styled(Stack)`
-  flex-direction: start;
-`;
-
-const HeaderText = styled(Typography)`
-  font-size: 30px;
-  color: white;
-  font-weight: 500;
-`;
-
-const GridItem = styled(Grid)`
-  border-right: ${({ hasBorder }) =>
-    hasBorder ? "0px" : "1px solid rgba(255, 255, 255, 0.2)"};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-
-  :hover {
-    background-color: ${({ isCreateBtn }) =>
-      isCreateBtn ? "" : "rgba(255, 255, 255, 0.2)"};
-  }
-`;
-
-const CreateButton = styled(Button)`
-  border-radius: 18px;
-  background-color: ${colors.btnColorGrey};
-  min-width: max-content;
-  :hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-`;
-
-const ChannelNameText = styled(Typography)`
-  color: white;
-  font-size: 14px;
-`;
-
-const ChannelSubText = styled(Typography)`
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 12px;
-`;
+import {
+  MainContainer,
+  HeaderContainer,
+  HeaderText,
+  GridItem,
+  CreateButton,
+  ChannelNameText,
+  ChannelSubText,
+} from "./Styling";
 
 export const AllChannelsDashboard = () => {
   const { loggedChannel, setLoggedChannel, channels } = useContext(UserContext);
