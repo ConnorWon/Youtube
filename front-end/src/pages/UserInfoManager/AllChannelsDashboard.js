@@ -1,4 +1,4 @@
-import { Avatar, Stack, Typography, Button, styled } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
@@ -15,6 +15,7 @@ import {
   ChannelNameText,
   ChannelSubText,
 } from "./Styling";
+import {backendBaseURL} from "../../utils/Constants";
 
 export const AllChannelsDashboard = () => {
   const { loggedChannel, setLoggedChannel, channels } = useContext(UserContext);
@@ -64,7 +65,7 @@ export const AllChannelsDashboard = () => {
                 }}
               >
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <Avatar />
+                  <Avatar src={backendBaseURL + channel.profile_pic}/>
                   <Stack>
                     <ChannelNameText>{channel.name}</ChannelNameText>
                     {channel.active_channel ? (

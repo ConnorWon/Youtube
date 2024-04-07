@@ -1,4 +1,5 @@
 .FormFieldContainer {
+  width: 100%;
 
   .MuiInputBase-root {
     height: 48px;
@@ -11,12 +12,18 @@
 
 }
 
-.tag-form-field{
+.tag-form-field {
   .MuiOutlinedInput-input {
     padding-left: 0;
     color: white;
   }
+
   .MuiInputBase-adornedStart {
-    color: rgba(256,256,256,0.3);
+    color: rgba(256, 256, 256, 0.3);
   }
+}
+
+.image-upload-input {
+  color: white;
+  cursor: pointer;
 }

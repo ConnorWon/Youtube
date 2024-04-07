@@ -192,11 +192,15 @@ export const updateChannel = async (name, tag) => {
  *
  * @param {FormData} imgFormData - form data with image data
  *
- * @return {Promise<Response>} response from API (relevant response data: status_code)
+ * @return {Promise<Response>} response from API (relevant response data: data, status_code)
  */
 export const uploadImageForChannel = async (imgFormData) => {
   try {
-    const response = client.post("/channel/image_upload/", imgFormData);
+    const response = client.patch("/channel/image_upload/", imgFormData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response;
   } catch (error) {
     return error.response;

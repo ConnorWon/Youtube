@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Stack, Typography, styled, Link } from "@mui/material";
+import { Stack, Typography, styled, Link } from "@mui/material";
 import {
   getUserChannels,
   login,
@@ -13,6 +13,7 @@ import { AuthButton, AuthContainer, AuthTitle } from "../Styling";
 
 const CreateAccountLink = styled(Link)`
   cursor: pointer;
+  width: fit-content;
 `;
 
 export const Login = () => {
@@ -33,8 +34,11 @@ export const Login = () => {
     if (loginResponse.status === 200) {
       setIsLoggedIn(true);
       setUser(loginResponse.data["id"]);
-    } else {
+    } else if (loginResponse.status === 400) {
       setError(loginResponse.data);
+      return;
+    } else {
+      setError("Something went wrong during login. Please try again.");
       return;
     }
 

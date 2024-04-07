@@ -21,6 +21,7 @@ import {
   updateSubscriptionData,
 } from "../../utils/apiRequests";
 import { UserContext } from "../../contexts/UserContext";
+import {backendBaseURL} from "../../utils/Constants";
 
 export const ChannelHeader = (props) => {
   const { sideExpand, isSubbed, setIsSubbed, tag } = props;
@@ -62,7 +63,7 @@ export const ChannelHeader = (props) => {
     <ChannelHeaderExternal>
       <ChannelHeaderMiddle sideExpand={sideExpand}>
         <ChannelHeaderInner direction="row">
-          <ChannelIcon />
+          <ChannelIcon src={backendBaseURL + viewedChannel.data.profile_pic}/>
           <InnerContainer direction="row">
             <InfoContainer>
               <NameContainer direction="row">

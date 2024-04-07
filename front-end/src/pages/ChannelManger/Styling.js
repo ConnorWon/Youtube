@@ -1,6 +1,6 @@
 import { colors } from "../../utils/ColorThemes";
 import { Link } from "react-router-dom";
-import { Stack, styled, Typography, Button } from "@mui/material";
+import { Stack, styled, Typography, Button, IconButton } from "@mui/material";
 
 export const BackLink = styled(Link)`
   display: flex;
@@ -39,6 +39,7 @@ export const FieldsContainer = styled(Stack)`
   box-sizing: border-box;
   width: 100%;
   max-width: 876px;
+  align-items: flex-start;
 `;
 
 export const ButtonsContainer = styled(Stack)`
@@ -67,4 +68,43 @@ export const AuthButton = styled(Button)`
     color: white;
     background-color: ${colors.youtubeRed};
   }
+`;
+
+export const ImageUploadContainer = styled(Stack)`
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const InnerImageUploadContainer = styled(Stack)`
+  flex-direction: row;
+  margin-top: 3px;
+  gap: 8px;
+  align-items: center;
+`;
+
+export const ImageUploadButton = styled(Button)`
+  padding: 5px 8px;
+  line-height: 1;
+  background-color: #616161;
+
+  :hover {
+    background-color: #616161;
+  }
+`;
+
+export const FileContentContainer = styled(Stack)`
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+`;
+
+export const FileNameText = styled(Typography)`
+  color: white;
+  font-size: 12px;
+  font-family: Roboto;
+`;
+
+export const ImageClearButton = styled(IconButton)`
+  padding: 0;
 `;

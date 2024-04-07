@@ -11,6 +11,7 @@ export const UserContext = createContext({
   channels: [],
   setChannels: () => {},
   resetContext: () => {},
+  setLoggedChannelExcludingSubData: () => {},
 });
 
 // UserContextProvider component
@@ -29,6 +30,13 @@ export function UserContextProvider(props) {
     setChannels([]);
   };
 
+  const setLoggedChannelExcludingSubData = (data) => {
+      setLoggedChannel(prevState => ({
+          ...prevState,
+          data: data,
+      }))
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -41,6 +49,7 @@ export function UserContextProvider(props) {
         channels,
         setChannels,
         resetContext,
+        setLoggedChannelExcludingSubData,
       }}
     >
       {props.children}

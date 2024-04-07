@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.conf import settings
 
+
 class Channel(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=60)
@@ -23,8 +24,6 @@ class Channel(models.Model):
             self.uid = uid
             self.tag = '@' + str(uid)
         super(Channel, self).save(*args, **kwargs)
-
-
 
 
 # Channel

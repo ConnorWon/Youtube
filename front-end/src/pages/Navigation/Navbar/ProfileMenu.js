@@ -21,6 +21,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import { changeCurrentChannel, logout } from "../../../utils/apiRequests";
 import { Stack } from "@mui/material";
 import { UpdateChannelDialog } from "./ChannelActivationDialog";
+import {backendBaseURL} from "../../../utils/Constants";
 
 export const ProfileMenu = () => {
   const {
@@ -73,11 +74,9 @@ export const ProfileMenu = () => {
   };
 
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedChannel, setSelectedChannel] = useState(null);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setSelectedChannel(null);
   };
 
   const handleOpenDialog = () => {
@@ -90,7 +89,7 @@ export const ProfileMenu = () => {
       {isLoggedIn ? (
         <>
           <AvatarButton onClick={handleOpenProfileMenu}>
-            <UserAvatar />
+            <UserAvatar src={backendBaseURL + loggedChannel.data.profile_pic}/>
           </AvatarButton>
           <ProfileDropDownMenu
             anchorEl={profileAnchorEl}

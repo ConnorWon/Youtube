@@ -152,8 +152,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT = Path(__file__).resolve().parent.parent.parent / 'youtube-file-storage/'
-MEDIA_URL = ''
+MEDIA_ROOT = BASE_DIR.parent / 'youtube-file-storage/'
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

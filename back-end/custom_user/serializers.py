@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 
 UserModel = get_user_model()
 
+
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
@@ -12,7 +13,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def create (self, clean_data):
         user = UserModel.objects.create_user(email=clean_data['email'], password=clean_data['password'])
         return user
-    
+
+
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
@@ -20,8 +22,9 @@ class UserLoginSerializer(serializers.Serializer):
     def check_user(self, clean_data):
         user = authenticate(username=clean_data['email'], password=clean_data['password'])
         if not user:
-            raise ValidationError('user not found')
+            raise ValidationError('Authentication failed. Username or password is incorrect.')
         return user
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

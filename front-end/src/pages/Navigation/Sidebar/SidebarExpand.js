@@ -32,6 +32,7 @@ import { GetWindowDimension } from "../../../utils/WindowSizeStore";
 import { SidebarContext } from "../../../contexts/SidebarContext";
 import { UserContext } from "../../../contexts/UserContext";
 import { Avatar } from "@mui/material";
+import {backendBaseURL} from "../../../utils/Constants";
 
 export const SidebarExpand = () => {
   // Sidebar related states
@@ -116,7 +117,12 @@ export const SidebarExpand = () => {
                     <SidebarButton
                       link={"/channel/" + ch.tag}
                       label={ch.name}
-                      icon={<Avatar sx={{ width: "24px", height: "24px" }} />}
+                      icon={
+                        <Avatar
+                            src={backendBaseURL + ch.profile_pic}
+                            sx={{ width: "24px", height: "24px" }}
+                        />
+                      }
                     />
                   );
                 })}

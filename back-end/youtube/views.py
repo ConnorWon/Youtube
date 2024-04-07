@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework.authentication import SessionAuthentication
@@ -5,6 +6,8 @@ from .serializers import ChannelSerializer, ChannelInfoSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import Channel
+from django.core.files.storage import FileSystemStorage
+
 
 class ChannelCreate(APIView):
 	permission_classes = [permissions.IsAuthenticated]
@@ -25,8 +28,9 @@ class ChannelCreate(APIView):
 		channel = get_object_or_404(Channel, uid=cookie)
 		serializer = ChannelSerializer(channel, data=request.data)
 		if serializer.is_valid(raise_exception=True):
-			serializer.save()
-			return Response(status=status.HTTP_202_ACCEPTED)
+			updated_channel = serializer.save()
+			serializer = ChannelInfoSerializer(updated_channel)
+			return Response(serializer.data, status=status.HTTP_200_OK)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 		
 	def post(self, request):
@@ -47,7 +51,11 @@ class ChannelInfo(APIView):
 			serializer = ChannelInfoSerializer(channel)
 			channel_subscriptions = []
 			for channel in channel.subscriptions.all():
-				channel_subscriptions.append({'name': channel.name, 'tag': channel.tag})
+				if channel.profile_pic:
+					profile_pic = settings.MEDIA_URL + str(channel.profile_pic)
+					channel_subscriptions.append({'name': channel.name, 'tag': channel.tag, 'profile_pic': profile_pic})
+				else:
+					channel_subscriptions.append({'name': channel.name, 'tag': channel.tag, 'profile_pic': None})
 			return Response({'data': serializer.data, 'sub_data': channel_subscriptions}, status=status.HTTP_200_OK)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -84,7 +92,11 @@ class LoggedChannel(APIView):
 		serializer = ChannelInfoSerializer(channel)
 		channel_subscriptions = []
 		for ch in channel.subscriptions.all():
-			channel_subscriptions.append({'name': ch.name, 'tag': ch.tag})
+			if ch.profile_pic:
+				profile_pic = settings.MEDIA_URL + str(ch.profile_pic)
+				channel_subscriptions.append({'name': ch.name, 'tag': ch.tag, 'profile_pic': profile_pic})
+			else:
+				channel_subscriptions.append({'name': ch.name, 'tag': ch.tag, 'profile_pic': None})
 		response = Response({'data': serializer.data, 'sub_data': channel_subscriptions}, status=status.HTTP_200_OK)
 		response.set_cookie('channel', channel.uid)
 		return response
@@ -99,7 +111,7 @@ class LoggedChannel(APIView):
 				channel = channels[0]
 			return self.get_channel_info(channel)
 		except:
-			return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR);
+			return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 	def specfied_channel(self, request, channel_tag):
 		try:
@@ -114,7 +126,8 @@ class LoggedChannel(APIView):
 			return self.default_channel(request)
 		else:
 			return self.specfied_channel(request=request, channel_tag=channel_tag)
-		
+
+
 class UpdateSubscriptionDataView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	authentication_classes = [SessionAuthentication]
@@ -141,7 +154,7 @@ class SubscriptionView(APIView):
 			serializer.newSub(sub_to_channel, 1)
 			return Response(status=status.HTTP_204_NO_CONTENT)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
-	
+
 	def unsub(self, user_channel, unsub_to_channel, is_subbed):
 		if user_channel != unsub_to_channel and is_subbed:
 			user_channel.subscriptions.remove(unsub_to_channel)
@@ -174,7 +187,7 @@ class SubscriptionView(APIView):
 		try:
 			user_channel.subscriptions.get(tag=tag)
 			return Response(True, status=status.HTTP_200_OK)
-		except:
+		except Channel.DoesNotExist:
 			return Response(False, status=status.HTTP_200_OK)
 		
 
@@ -182,30 +195,22 @@ class ChannelImagesManager(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	authentication_classes = [SessionAuthentication]
 
+	@staticmethod
+	def delete_old_media_file(instance, req_data):
+		fs = FileSystemStorage()
+		if req_data.get('profile_pic') is not None and instance.profile_pic is not None:
+			fs.delete(str(instance.profile_pic))
+		if req_data.get('banner') is not None and instance.banner is not None:
+			fs.delete(instance.banner)
+
 	# uploading images to channel either update or create
-	def post(self, request):
+	def patch(self, request):
 		cookie = request.COOKIES['channel']
 		channel = get_object_or_404(Channel, uid=cookie)
 		serializer = ChannelSerializer(channel, data=request.data, partial=True)
 		if serializer.is_valid(raise_exception=True):
-			serializer.save()
-			return Response(status=status.HTTP_202_ACCEPTED)
+			self.delete_old_media_file(channel, request.data)
+			updated_channel = serializer.save()
+			response_data = ChannelInfoSerializer(updated_channel)
+			return Response(response_data.data, status=status.HTTP_200_OK)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-# import dropbox
-# from django.conf import settings
-
-# class TestImageUploadView(APIView):
-# 	permission_classes = [permissions.IsAuthenticated]
-# 	authentication_classes = [SessionAuthentication]
-
-# 	def upload_image(self, image):
-# 		dbx = dropbox.Dropbox(oauth2_refresh_token=settings.DROPBOX_OAUTH2_REFRESH_TOKEN, app_key=settings.DROPBOX_APP_KEY)
-
-
-# 	def post(self, request):
-# 		# call upload image to cloud function
-# 		image_link = None
-# 		channel = Channel(name='test', owner=request.user, profile_pic=image_link)
-# 		return Response(status=status.HTTP_200_OK)
