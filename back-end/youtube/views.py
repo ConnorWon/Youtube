@@ -198,10 +198,10 @@ class ChannelImagesManager(APIView):
 	@staticmethod
 	def delete_old_media_file(instance, req_data):
 		fs = FileSystemStorage()
-		if req_data.get('profile_pic') is not None and instance.profile_pic is not None:
+		if req_data.get('profile_pic') and instance.profile_pic:
 			fs.delete(str(instance.profile_pic))
-		if req_data.get('banner') is not None and instance.banner is not None:
-			fs.delete(instance.banner)
+		if req_data.get('banner') and instance.banner:
+			fs.delete(str(instance.banner))
 
 	# uploading images to channel either update or create
 	def patch(self, request):

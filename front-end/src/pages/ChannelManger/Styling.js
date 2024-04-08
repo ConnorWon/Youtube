@@ -108,3 +108,8 @@ export const FileNameText = styled(Typography)`
 export const ImageClearButton = styled(IconButton)`
   padding: 0;
 `;
+
+export const BannerImage = styled("img")`
+    height: calc(16.1290322581vw - 1px);
+    object-fit: cover;
+`

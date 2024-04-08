@@ -5,7 +5,7 @@ from .models import Channel
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
-        exclude = ['owner', 'subscriptions', 'sub_count', 'banner']
+        exclude = ['owner', 'subscriptions', 'sub_count']
     
     def create(self, clean_data):
         clean_data['owner'] = self.context['request'].user

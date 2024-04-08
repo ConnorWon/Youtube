@@ -1,12 +1,13 @@
-import { Box, styled } from "@mui/material";
+import { styled } from "@mui/material";
+import {backendBaseURL} from "../../utils/Constants";
 
 export const ChannelBanner = (props) => {
   const { banner, sideExpand } = props;
 
-  const BannerHolder = styled(Box)`
-    background-image: url(${banner});
+  const BannerHolder = styled("img")`
     height: calc(16.1290322581vw - 1px);
-    background-position: center;
+    width: 100%;
+    object-fit: cover;
 
     @media only screen and (min-width: 1313px) {
       height: ${({ sideExpand }) =>
@@ -16,5 +17,5 @@ export const ChannelBanner = (props) => {
     }
   `;
 
-  return <BannerHolder sideExpand={sideExpand} />;
+  return <BannerHolder sideExpand={sideExpand} src={backendBaseURL + banner}/>;
 };
