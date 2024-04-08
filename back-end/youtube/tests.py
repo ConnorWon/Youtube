@@ -1,10 +1,11 @@
-import uuid
+import os
+
+from django.core.files.storage import FileSystemStorage
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from .models import Channel
 from rest_framework.test import APIClient
-from PIL import Image
 from pathlib import Path
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -18,7 +19,7 @@ class ChannelModelTests(TestCase):
     def test_create_channel_with_profile_pic(self):
         channel = Channel(name='test', owner=self.user)
         channel.profile_pic = SimpleUploadedFile(name='test_image.jpg', 
-                                                 content=open(Path(__file__).resolve().parent / 'test_photos/youtube-thumbnail.png', 'rb').read(), 
+                                                 content=open(Path(__file__).resolve().parent / 'test_photos/test-image.png', 'rb').read(),
                                                  content_type='image/jpeg')
         channel.save()
         channel = Channel.objects.get(name='test')
@@ -37,13 +38,57 @@ class ChannelImagesTests(TestCase):
             'tag': '@cow',
             'active_channel': True
         })
+        self.imageUploaded = ""
 
-    def test_image_upload(self):
-        img = open(Path(__file__).resolve().parent / 'test_photos/youtube-thumbnail.png', 'rb')
-        response = self.client.post(self.upload_url, {'profile_pic': img})
-        self.assertEqual(response.status_code, 202)
+    def tearDown(self):
+        fs = FileSystemStorage()
+        if self.imageUploaded:
+            fs.delete(self.imageUploaded)
+
+    def test_upload_profile_pic(self):
+        img = open(Path(__file__).resolve().parent / 'test_photos/test-image.png', 'rb')
+        response = self.client.patch(self.upload_url, {'profile_pic': img})
+        self.assertEqual(response.status_code, 200)
         ch = Channel.objects.get(name='Cow')
-        print(ch.profile_pic.url)
+        self.imageUploaded = str(ch.profile_pic)
+        self.assertEqual(self.imageUploaded, "profile-pic/test-image.png")
+
+    def test_upload_banner(self):
+        img = open(Path(__file__).resolve().parent / 'test_photos/test-banner.png', 'rb')
+        response = self.client.patch(self.upload_url, {'banner': img})
+        self.assertEqual(response.status_code, 200)
+        ch = Channel.objects.get(name='Cow')
+        self.imageUploaded = str(ch.banner)
+        self.assertEqual(self.imageUploaded, "channel-banner/test-banner.png")
+
+    def test_upload_banner_when_one_already_exists(self):
+        img = open(Path(__file__).resolve().parent / 'test_photos/test-image.png', 'rb')
+        response = self.client.patch(self.upload_url, {'banner': img})
+
+        img = open(Path(__file__).resolve().parent / 'test_photos/test-banner.png', 'rb')
+        response = self.client.patch(self.upload_url, {'banner': img})
+        self.assertEqual(response.status_code, 200)
+        ch = Channel.objects.get(name='Cow')
+        self.imageUploaded = str(ch.banner)
+        self.assertEqual(self.imageUploaded, "channel-banner/test-banner.png")
+        self.assertFalse(os.path.exists("../../youtube-file-storage/test-image.png"))
+
+    def test_upload_profile_pic_when_one_already_exists(self):
+        img = open(Path(__file__).resolve().parent / 'test_photos/test-banner.png', 'rb')
+        response = self.client.patch(self.upload_url, {'profile_pic': img})
+
+        img = open(Path(__file__).resolve().parent / 'test_photos/test-image.png', 'rb')
+        response = self.client.patch(self.upload_url, {'profile_pic': img})
+        self.assertEqual(response.status_code, 200)
+        ch = Channel.objects.get(name='Cow')
+        self.imageUploaded = str(ch.profile_pic)
+        self.assertEqual(self.imageUploaded, "profile-pic/test-image.png")
+        self.assertFalse(os.path.exists("../../youtube-file-storage/test-banner.png"))
+
+    def test_sent_invalid_data(self):
+        response = self.client.patch(self.upload_url, {'profile_pic': "Apple"})
+        self.assertEqual(response.status_code, 400)
+
 
 class ChannelViewsTests(TestCase):
     
@@ -53,7 +98,6 @@ class ChannelViewsTests(TestCase):
         self.update_url = reverse('update')
         self.user = UserModel.objects.create_user(email='cow@gmail.com', password='12345')
         self.client.login(username='cow@gmail.com', password='12345')
-
 
     def test_channel_create_most_basic(self):
         response = self.client.post(self.create_url, {
