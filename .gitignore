@@ -1,4 +1,23 @@
-front-end/src/staticfiles/test.mov
-youtube-file-storage/
+# FRONT-END
+front-end/node_modules
+front-end/.pnp
+front-end/.pnp.js
+
+# testing
+front-end/coverage
+
+# production
+front-end/build
+
+# misc
+front-end/npm-debug.log*
+front-end/yarn-debug.log*
+front-end/yarn-error.log*
+
+# back-end
+
+# other
+.DS_Store
 .env
-.DS_STORE
+.idea
+youtube-file-storage/
