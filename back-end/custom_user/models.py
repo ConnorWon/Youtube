@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         user = self.model(email=self.normalize_email(email))
@@ -16,6 +17,7 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save()
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

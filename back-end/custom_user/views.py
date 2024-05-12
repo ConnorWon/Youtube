@@ -4,7 +4,6 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 
 UserModel = get_user_model()
@@ -19,7 +18,7 @@ class UserRegister(APIView):
             user = serializer.create(request.data)
             if user:
                 return Response(status=status.HTTP_201_CREATED)
-        return Response("There was an issue with creating user", status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLogin(APIView):
@@ -33,7 +32,7 @@ class UserLogin(APIView):
             try:
                 user = serializer.check_user(data)
                 login(request, user)
-                return Response({'id': user.uid}, status=status.HTTP_200_OK)
+                return Response(status=status.HTTP_200_OK)
             except ValidationError as e:
                 return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
         return Response("Data sent was invalid", status=status.HTTP_400_BAD_REQUEST)
@@ -54,12 +53,10 @@ class UserInfo(APIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [SessionAuthentication]
 
-    def get(self, request, **kwargs):
+    def get(self, request):
         serializer = UserSerializer(request.user)
-        uid = kwargs.get('uid', None)
-        if get_object_or_404(UserModel, uid=uid):
-            if serializer.check_user(uid):
-                return Response({'email': serializer.data['email']}, status=status.HTTP_200_OK)
+        if serializer.is_valid(raise_exception=True):
+            return Response({'email': serializer.data['email']}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -68,8 +65,7 @@ class UserLogged(APIView):
     authentication_classes = [SessionAuthentication]
 
     def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response({'id': serializer.data['uid']}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
     
     
 

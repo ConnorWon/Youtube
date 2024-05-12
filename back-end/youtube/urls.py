@@ -12,5 +12,5 @@ urlpatterns = [
     path('subscribe/<str:tag>', views.SubscriptionView.as_view(), name='sub_to'),
     path('is_subbed/<str:tag>', views.SubscriptionView.as_view(), name='is_subbed'),
     path('image_upload/', views.ChannelImagesManager.as_view(), name='img_upload'),
-    path('update_sub_list/', views.UpdateSubscriptionDataView.as_view(), name='update_sub_list'),
+    path('update_sub_list/', views.ChannelSubscriptionDataView.as_view(), name='update_sub_list'),
 ]
