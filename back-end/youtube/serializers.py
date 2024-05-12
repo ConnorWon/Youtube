@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Channel
 
 
-class ChannelSerializer(serializers.ModelSerializer):
+class ChannelCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
         exclude = ['owner', 'subscriptions', 'sub_count']
@@ -11,21 +11,32 @@ class ChannelSerializer(serializers.ModelSerializer):
         clean_data['owner'] = self.context['request'].user
         channel = Channel.objects.create(**clean_data)
         return channel
-    
-    # def update(self, instance, clean_data):
-    #     instance.name = clean_data.get('name', instance.name)
-    #     instance.profile_pic = clean_data.get('profile_pic', instance.profile_pic)
-    #     instance.banner = clean_data.get('banner', instance.banner)
-    #     instance.tag = clean_data.get('tag', instance.tag)
-    #     instance.active_channel = clean_data.get('active_channel', instance.active_channel)
-    #     instance.save()
-    #     return instance
+
+
+class ChannelInfoCondensedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Channel
+        fields = ['name', 'profile_pic', 'sub_count', 'tag', 'active_channel']
 
 
 class ChannelInfoSerializer(serializers.ModelSerializer):
+    subscriptions = ChannelInfoCondensedSerializer(many=True, read_only=True)
+
     class Meta:
         model = Channel
-        exclude = ['uid', 'owner']
+        fields = ['name', 'profile_pic', 'banner', 'subscriptions', 'sub_count', 'tag', 'active_channel']
 
-    def newSub(self, instance, inc_val):
+
+class SubscriptionsUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Channel
+        fields = ['sub_count']
+
+    def new_sub(self, instance, inc_val):
         self.update(instance, {'sub_count': instance.sub_count + inc_val})
+
+
+class ChannelImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Channel
+        fields = ['profile_pic', 'banner']
